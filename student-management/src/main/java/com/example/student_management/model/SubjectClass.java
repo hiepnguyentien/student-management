@@ -1,23 +1,44 @@
 package com.example.student_management.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Table(name = "subject_class")
 @Entity(name = "subject_class")
 public class SubjectClass {
+    @Id
+    @SequenceGenerator(name = "subjectClass_sequence", sequenceName = "subjectClass_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "subjectClass_sequence")
+    @Column(name = "subject_class_id")
     private Long subjectClassId;
-    private Long subjectId;
-    private Long lecturerId;
+    @ManyToOne
+    @JoinColumn(name = "subject_id")
+    private Subject subject;
+    @ManyToOne
+    @JoinColumn(name = "lecturer_id")
+    private Lecturer lecturer;
+    @OneToMany(mappedBy = "subjectClass")
+    private Set<Score> scores = new HashSet<>();
 
     public SubjectClass() {
     }
 
-    public SubjectClass(Long subjectClassId, Long subjectId, Long lecturerId) {
+    public SubjectClass(Long subjectClassId, Subject subject, Lecturer lecturer) {
         this.subjectClassId = subjectClassId;
-        this.subjectId = subjectId;
-        this.lecturerId = lecturerId;
+        this.subject = subject;
+        this.lecturer = lecturer;
     }
 
     public Long getSubjectClassId() {
@@ -28,20 +49,20 @@ public class SubjectClass {
         this.subjectClassId = subjectClassId;
     }
 
-    public Long getSubjectId() {
-        return this.subjectId;
+    public Subject getSubject() {
+        return this.subject;
     }
 
-    public void setSubjectId(Long subjectId) {
-        this.subjectId = subjectId;
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
 
-    public Long getLecturerId() {
-        return this.lecturerId;
+    public Lecturer getLecturer() {
+        return this.lecturer;
     }
 
-    public void setLecturerId(Long lecturerId) {
-        this.lecturerId = lecturerId;
+    public void setLecturer(Lecturer lecturer) {
+        this.lecturer = lecturer;
     }
 
     public SubjectClass subjectClassId(Long subjectClassId) {
@@ -49,13 +70,13 @@ public class SubjectClass {
         return this;
     }
 
-    public SubjectClass subjectId(Long subjectId) {
-        setSubjectId(subjectId);
+    public SubjectClass subject(Subject subject) {
+        setSubject(subject);
         return this;
     }
 
-    public SubjectClass lecturerId(Long lecturerId) {
-        setLecturerId(lecturerId);
+    public SubjectClass lecturer(Lecturer lecturer) {
+        setLecturer(lecturer);
         return this;
     }
 
@@ -67,21 +88,21 @@ public class SubjectClass {
             return false;
         }
         SubjectClass subjectClass = (SubjectClass) o;
-        return Objects.equals(subjectClassId, subjectClass.subjectClassId) && Objects.equals(subjectId, subjectClass.subjectId) && Objects.equals(lecturerId, subjectClass.lecturerId);
+        return Objects.equals(subjectClassId, subjectClass.subjectClassId) && Objects.equals(subject, subjectClass.subject) && Objects.equals(lecturer, subjectClass.lecturer);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(subjectClassId, subjectId, lecturerId);
+        return Objects.hash(subjectClassId, subject, lecturer);
     }
 
     @Override
     public String toString() {
         return "{" +
             " subjectClassId='" + getSubjectClassId() + "'" +
-            ", subjectId='" + getSubjectId() + "'" +
-            ", lecturerId='" + getLecturerId() + "'" +
+            ", subject='" + getSubject() + "'" +
+            ", lecturer='" + getLecturer() + "'" +
             "}";
     }
-    
+
 }

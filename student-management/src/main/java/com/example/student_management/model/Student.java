@@ -2,37 +2,69 @@ package com.example.student_management.model;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
+import org.hibernate.annotations.ManyToAny;
+
+@Table(name = "student")
 @Entity(name = "Student")
-@Table(
-    name = "student",
-    uniqueConstraints = {
-        @UniqueConstraint(
-            name = "student_email_unique",
-            columnNames = "email"
-        )
-    }    
-)
 public class Student extends Person {
     @Id
     @SequenceGenerator(name = "student_sequence", sequenceName = "student_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_sequence")
+    @Column(name = "student_id")
     private Long studentId;
     private LocalDate EnrollDate;
+    @ManyToOne
+    @JoinColumn(
+        name = "management_class_id"
+    )
     private String managementClass;
     private String faculty;
     private Long classId;
     private Long facultyId;
     private Integer Batch;
+    @OneToMany(mappedBy = "student")
+    private Set<Score> scores = new HashSet<>();
+
+    public Student(Long studentId, LocalDate EnrollDate, String managementClass, String faculty, Long classId, Long facultyId, Integer Batch, Set<Score> scores) {
+        this.studentId = studentId;
+        this.EnrollDate = EnrollDate;
+        this.managementClass = managementClass;
+        this.faculty = faculty;
+        this.classId = classId;
+        this.facultyId = facultyId;
+        this.Batch = Batch;
+        this.scores = scores;
+    }
+
+    public Set<Score> getScores() {
+        return this.scores;
+    }
+
+    public void setScores(Set<Score> scores) {
+        this.scores = scores;
+    }
+
+    public Student scores(Set<Score> scores) {
+        setScores(scores);
+        return this;
+    }
+
 
     public Student() {
     }

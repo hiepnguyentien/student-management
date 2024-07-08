@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
@@ -20,6 +21,7 @@ public class Subject {
     @Id
     @SequenceGenerator(name = "subject_sequence", sequenceName = "subject_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "subject_sequence")
+    @Column(name = "subject_id")
     private Long subjectId;
     @Column(nullable = false)
     private String name;
@@ -28,6 +30,8 @@ public class Subject {
     private Integer credit;
     @ManyToMany(mappedBy = "subjects")
     private Set<Faculty> faculties = new HashSet<>();
+    @OneToMany(mappedBy = "subject")
+    private Set<SubjectClass> subjectClasses = new HashSet<>();
 
 
     public Subject() {

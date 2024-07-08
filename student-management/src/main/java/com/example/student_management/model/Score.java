@@ -1,40 +1,66 @@
 package com.example.student_management.model;
 import java.util.Objects;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
 @Table(name = "score")
 @Entity(name = "score")
 public class Score {
-    private Long studentId;
+    @Id
+    @SequenceGenerator(name = "score_sequence", sequenceName = "score_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "score_sequence")
+    @Column(name = "score_id")
+    private Long scoreId;
+    @ManyToOne
+    @JoinColumn(name = "student_id")
+    private Student student;
     private Long subjectId;
     private Float attendanceScore;
     private Float midTermScore;
     private Float endTermScore;
-    private Long subjectClassId;
+    @ManyToOne
+    @JoinColumn(name = "subject_class_id")
+    private SubjectClass subjectClass;
     private Integer semester;
 
 
     public Score() {
     }
 
-    public Score(Long studentId, Long subjectId, Float attendanceScore, Float midTermScore, Float endTermScore, Long subjectClassId, Integer semester) {
-        this.studentId = studentId;
+    public Score(Long scoreId, Student student, Long subjectId, Float attendanceScore, Float midTermScore, Float endTermScore, SubjectClass subjectClass, Integer semester) {
+        this.scoreId = scoreId;
+        this.student = student;
         this.subjectId = subjectId;
         this.attendanceScore = attendanceScore;
         this.midTermScore = midTermScore;
         this.endTermScore = endTermScore;
-        this.subjectClassId = subjectClassId;
+        this.subjectClass = subjectClass;
         this.semester = semester;
     }
 
-    public Long getStudentId() {
-        return this.studentId;
+    public Long getScoreId() {
+        return this.scoreId;
     }
 
-    public void setStudentId(Long studentId) {
-        this.studentId = studentId;
+    public void setScoreId(Long scoreId) {
+        this.scoreId = scoreId;
+    }
+
+    public Student getStudent() {
+        return this.student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
     public Long getSubjectId() {
@@ -69,12 +95,12 @@ public class Score {
         this.endTermScore = endTermScore;
     }
 
-    public Long getSubjectClassId() {
-        return this.subjectClassId;
+    public SubjectClass getSubjectClass() {
+        return this.subjectClass;
     }
 
-    public void setSubjectClassId(Long subjectClassId) {
-        this.subjectClassId = subjectClassId;
+    public void setSubjectClass(SubjectClass subjectClass) {
+        this.subjectClass = subjectClass;
     }
 
     public Integer getSemester() {
@@ -85,36 +111,13 @@ public class Score {
         this.semester = semester;
     }
 
-    public Float getProcessScore() {
-        return (attendanceScore + midTermScore) / 2;
+    public Score scoreId(Long scoreId) {
+        setScoreId(scoreId);
+        return this;
     }
 
-    public Float getFinalScore() {
-        return getProcessScore() * 0.3f + endTermScore * 0.7f;
-    }
-
-    public Float getDiemHe4() {
-        float finalScore = getFinalScore();
-        if (finalScore >= 8.5f)
-            return 4f;
-        else if (finalScore >= 8.0f)
-            return 3.5f;
-        else if (finalScore >= 7.0f)
-            return 3.0f;
-        else if (finalScore >= 6.5f)
-            return 2.5f;
-        else if (finalScore >= 5.5f)
-            return 2.0f;
-        else if (finalScore >= 5.0f)
-            return 1.5f;
-        else if (finalScore >= 4.0f)
-            return 1.0f;
-        else
-            return 0f;
-    }
-
-    public Score studentId(Long studentId) {
-        setStudentId(studentId);
+    public Score student(Student student) {
+        setStudent(student);
         return this;
     }
 
@@ -138,8 +141,8 @@ public class Score {
         return this;
     }
 
-    public Score subjectClassId(Long subjectClassId) {
-        setSubjectClassId(subjectClassId);
+    public Score subjectClass(SubjectClass subjectClass) {
+        setSubjectClass(subjectClass);
         return this;
     }
 
@@ -156,23 +159,24 @@ public class Score {
             return false;
         }
         Score score = (Score) o;
-        return Objects.equals(studentId, score.studentId) && Objects.equals(subjectId, score.subjectId) && Objects.equals(attendanceScore, score.attendanceScore) && Objects.equals(midTermScore, score.midTermScore) && Objects.equals(endTermScore, score.endTermScore) && Objects.equals(subjectClassId, score.subjectClassId) && Objects.equals(semester, score.semester);
+        return Objects.equals(scoreId, score.scoreId) && Objects.equals(student, score.student) && Objects.equals(subjectId, score.subjectId) && Objects.equals(attendanceScore, score.attendanceScore) && Objects.equals(midTermScore, score.midTermScore) && Objects.equals(endTermScore, score.endTermScore) && Objects.equals(subjectClass, score.subjectClass) && Objects.equals(semester, score.semester);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(studentId, subjectId, attendanceScore, midTermScore, endTermScore, subjectClassId, semester);
+        return Objects.hash(scoreId, student, subjectId, attendanceScore, midTermScore, endTermScore, subjectClass, semester);
     }
 
     @Override
     public String toString() {
         return "{" +
-            " student='" + getStudentId() + "'" +
+            " scoreId='" + getScoreId() + "'" +
+            ", student='" + getStudent() + "'" +
             ", subjectId='" + getSubjectId() + "'" +
             ", attendanceScore='" + getAttendanceScore() + "'" +
             ", midTermScore='" + getMidTermScore() + "'" +
             ", endTermScore='" + getEndTermScore() + "'" +
-            ", subjectClass='" + getSubjectClassId() + "'" +
+            ", subjectClass='" + getSubjectClass() + "'" +
             ", semester='" + getSemester() + "'" +
             "}";
     }

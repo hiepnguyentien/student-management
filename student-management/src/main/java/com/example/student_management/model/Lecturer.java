@@ -1,23 +1,36 @@
 package com.example.student_management.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
-import java.util.Objects;
+import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+
+@Table(name = "lecturer")
+@Entity(name = "lecturer")
 public class Lecturer extends Person{
     @Id
+    @SequenceGenerator(name = "lecturer_sequence", sequenceName = "lecturer_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "lecturer_sequence")
+    @Column(name = "lecturer_id")
     private Long lecturerId;
     @Column(nullable = false)
     private Long facultyId;
-    private Long managementClassId;
+//    @OneToOne(mappedBy = "lecturer")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "management_class_id", referencedColumnName = "managementClassId")
+    private ManagementClass managementClass;
+    @OneToMany(mappedBy = "lecturer")
+    private Set<SubjectClass> subjectClasses = new HashSet<>();
 
     public Lecturer() {
     }
 
-    public Lecturer(Long lecturerId, Long facultyId, Long managementClassId) {
+    public Lecturer(Long lecturerId, Long facultyId, ManagementClass managementClass, Set<SubjectClass> subjectClasses) {
         this.lecturerId = lecturerId;
         this.facultyId = facultyId;
-        this.managementClassId = managementClassId;
+        this.managementClass = managementClass;
+        this.subjectClasses = subjectClasses;
     }
 
     public Long getLecturerId() {
@@ -36,12 +49,20 @@ public class Lecturer extends Person{
         this.facultyId = facultyId;
     }
 
-    public Long getManagementClassId() {
-        return this.managementClassId;
+    public ManagementClass getManagementClass() {
+        return this.managementClass;
     }
 
-    public void setManagementClassId(Long managementClassId) {
-        this.managementClassId = managementClassId;
+    public void setManagementClass(ManagementClass managementClass) {
+        this.managementClass = managementClass;
+    }
+
+    public Set<SubjectClass> getSubjectClasses() {
+        return this.subjectClasses;
+    }
+
+    public void setSubjectClasses(Set<SubjectClass> subjectClasses) {
+        this.subjectClasses = subjectClasses;
     }
 
     public Lecturer lecturerId(Long lecturerId) {
@@ -54,8 +75,13 @@ public class Lecturer extends Person{
         return this;
     }
 
-    public Lecturer managementClassId(Long managementClassId) {
-        setManagementClassId(managementClassId);
+    public Lecturer managementClass(ManagementClass managementClass) {
+        setManagementClass(managementClass);
+        return this;
+    }
+
+    public Lecturer subjectClasses(Set<SubjectClass> subjectClasses) {
+        setSubjectClasses(subjectClasses);
         return this;
     }
 
@@ -67,12 +93,12 @@ public class Lecturer extends Person{
             return false;
         }
         Lecturer lecturer = (Lecturer) o;
-        return Objects.equals(lecturerId, lecturer.lecturerId) && Objects.equals(facultyId, lecturer.facultyId) && Objects.equals(managementClassId, lecturer.managementClassId);
+        return Objects.equals(lecturerId, lecturer.lecturerId) && Objects.equals(facultyId, lecturer.facultyId) && Objects.equals(managementClass, lecturer.managementClass) && Objects.equals(subjectClasses, lecturer.subjectClasses);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(lecturerId, facultyId, managementClassId);
+        return Objects.hash(lecturerId, facultyId, managementClass, subjectClasses);
     }
 
     @Override
@@ -80,8 +106,9 @@ public class Lecturer extends Person{
         return "{" +
             " lecturerId='" + getLecturerId() + "'" +
             ", facultyId='" + getFacultyId() + "'" +
-            ", managementClassId='" + getManagementClassId() + "'" +
+            ", managementClass='" + getManagementClass() + "'" +
+            ", subjectClasses='" + getSubjectClasses() + "'" +
             "}";
     }
-    
+
 }
