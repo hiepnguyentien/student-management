@@ -4,18 +4,15 @@ import java.util.Objects;
 
 import java.util.Set;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.*;
 
+@Table(name = "faculty")
+@Entity(name = "faculty")
 public class Faculty {
     @Id
     @SequenceGenerator(name = "faculty_sequence", sequenceName = "faculty_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "faculty_sequence")    
+    @Column(name = "faculty_id")
     private String facultyId;
     private String facultyName;
     @ManyToMany
@@ -25,6 +22,42 @@ public class Faculty {
         inverseJoinColumns = @JoinColumn(name = "subject_id")
     )
     private Set<Subject> subjects = new HashSet<>();
+    @OneToMany(mappedBy = "faculty")
+    private Set<ManagementClass> managementClasses = new HashSet<>();
+
+
+    public Faculty(String facultyId, String facultyName, Set<Subject> subjects, Set<ManagementClass> managementClasses) {
+        this.facultyId = facultyId;
+        this.facultyName = facultyName;
+        this.subjects = subjects;
+        this.managementClasses = managementClasses;
+    }
+
+    public Set<Subject> getSubjects() {
+        return this.subjects;
+    }
+
+    public void setSubjects(Set<Subject> subjects) {
+        this.subjects = subjects;
+    }
+
+    public Set<ManagementClass> getManagementClasses() {
+        return this.managementClasses;
+    }
+
+    public void setManagementClasses(Set<ManagementClass> managementClasses) {
+        this.managementClasses = managementClasses;
+    }
+
+    public Faculty subjects(Set<Subject> subjects) {
+        setSubjects(subjects);
+        return this;
+    }
+
+    public Faculty managementClasses(Set<ManagementClass> managementClasses) {
+        setManagementClasses(managementClasses);
+        return this;
+    }
 
     public Faculty() {
     }
