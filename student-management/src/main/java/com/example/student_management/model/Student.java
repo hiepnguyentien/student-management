@@ -15,6 +15,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -33,51 +34,21 @@ public class Student extends Person {
     @JoinColumn(
         name = "management_class_id"
     )
-    private String managementClass;
-    private String faculty;
-    private Long classId;
-    private Long facultyId;
+    private ManagementClass managementClass;
     private Integer Batch;
     @OneToMany(mappedBy = "student")
-    private Set<Score> scores = new HashSet<>();
-
-    public Student(Long studentId, LocalDate EnrollDate, String managementClass, String faculty, Long classId, Long facultyId, Integer Batch, Set<Score> scores) {
-        this.studentId = studentId;
-        this.EnrollDate = EnrollDate;
-        this.managementClass = managementClass;
-        this.faculty = faculty;
-        this.classId = classId;
-        this.facultyId = facultyId;
-        this.Batch = Batch;
-        this.scores = scores;
-    }
-
-    public Set<Score> getScores() {
-        return this.scores;
-    }
-
-    public void setScores(Set<Score> scores) {
-        this.scores = scores;
-    }
-
-    public Student scores(Set<Score> scores) {
-        setScores(scores);
-        return this;
-    }
+    private List<Score> scores;
 
 
     public Student() {
     }
 
-    public Student(Long studentId, LocalDate EnrollDate, String managementClass, String faculty, Long classId,
-            Long facultyId, Integer Batch) {
+    public Student(Long studentId, LocalDate EnrollDate, ManagementClass managementClass, Integer Batch, List<Score> scores) {
         this.studentId = studentId;
         this.EnrollDate = EnrollDate;
         this.managementClass = managementClass;
-        this.faculty = faculty;
-        this.classId = classId;
-        this.facultyId = facultyId;
         this.Batch = Batch;
+        this.scores = scores;
     }
 
     public Long getStudentId() {
@@ -96,47 +67,28 @@ public class Student extends Person {
         this.EnrollDate = EnrollDate;
     }
 
-    public String getManagementClass() {
+    public ManagementClass getManagementClass() {
         return this.managementClass;
     }
 
-    public void setManagementClass(String managementClass) {
+    public void setManagementClass(ManagementClass managementClass) {
         this.managementClass = managementClass;
     }
 
-    public String getFaculty() {
-        return this.faculty;
-    }
-
-    public void setFaculty(String faculty) {
-        this.faculty = faculty;
-    }
-
-    public Long getClassId() {
-        return this.classId;
-    }
-
-    public void setClassId(Long classId) {
-        this.classId = classId;
-    }
-
-    public Long getFacultyId() {
-        return this.facultyId;
-    }
-
-    public void setFacultyId(Long facultyId) {
-        this.facultyId = facultyId;
-    }
-
     public Integer getBatch() {
-        if (getEnrollDate() == null) {
-            return 0;
-        }
-        return getEnrollDate().getYear() - 1966 + 1;
+        return this.Batch;
     }
 
     public void setBatch(Integer Batch) {
         this.Batch = Batch;
+    }
+
+    public List<Score> getScores() {
+        return this.scores;
+    }
+
+    public void setScores(List<Score> scores) {
+        this.scores = scores;
     }
 
     public Student studentId(Long studentId) {
@@ -149,28 +101,18 @@ public class Student extends Person {
         return this;
     }
 
-    public Student managementClass(String managementClass) {
+    public Student managementClass(ManagementClass managementClass) {
         setManagementClass(managementClass);
-        return this;
-    }
-
-    public Student faculty(String faculty) {
-        setFaculty(faculty);
-        return this;
-    }
-
-    public Student classId(Long classId) {
-        setClassId(classId);
-        return this;
-    }
-
-    public Student facultyId(Long facultyId) {
-        setFacultyId(facultyId);
         return this;
     }
 
     public Student Batch(Integer Batch) {
         setBatch(Batch);
+        return this;
+    }
+
+    public Student scores(List<Score> scores) {
+        setScores(scores);
         return this;
     }
 
@@ -182,28 +124,23 @@ public class Student extends Person {
             return false;
         }
         Student student = (Student) o;
-        return Objects.equals(studentId, student.studentId) && Objects.equals(EnrollDate, student.EnrollDate)
-                && Objects.equals(managementClass, student.managementClass) && Objects.equals(faculty, student.faculty)
-                && Objects.equals(classId, student.classId) && Objects.equals(facultyId, student.facultyId)
-                && Objects.equals(Batch, student.Batch);
+        return Objects.equals(studentId, student.studentId) && Objects.equals(EnrollDate, student.EnrollDate) && Objects.equals(managementClass, student.managementClass) && Objects.equals(Batch, student.Batch) && Objects.equals(scores, student.scores);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(studentId, EnrollDate, managementClass, faculty, classId, facultyId, Batch);
+        return Objects.hash(studentId, EnrollDate, managementClass, Batch, scores);
     }
 
     @Override
     public String toString() {
         return "{" +
-                " studentId='" + getStudentId() + "'" +
-                ", EnrollDate='" + getEnrollDate() + "'" +
-                ", managementClass='" + getManagementClass() + "'" +
-                ", faculty='" + getFaculty() + "'" +
-                ", classId='" + getClassId() + "'" +
-                ", facultyId='" + getFacultyId() + "'" +
-                ", Batch='" + getBatch() + "'" +
-                "}";
+            " studentId='" + getStudentId() + "'" +
+            ", EnrollDate='" + getEnrollDate() + "'" +
+            ", managementClass='" + getManagementClass() + "'" +
+            ", Batch='" + getBatch() + "'" +
+            ", scores='" + getScores() + "'" +
+            "}";
     }
-
+    
 }

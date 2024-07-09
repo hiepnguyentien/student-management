@@ -12,6 +12,7 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -19,8 +20,8 @@ import java.util.Set;
 @Entity(name = "subject_class")
 public class SubjectClass {
     @Id
-    @SequenceGenerator(name = "subjectClass_sequence", sequenceName = "subjectClass_sequence", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "subjectClass_sequence")
+    @SequenceGenerator(name = "subject_class_sequence", sequenceName = "subject_class_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "subject_class_sequence")
     @Column(name = "subject_class_id")
     private Long subjectClassId;
     @ManyToOne
@@ -30,7 +31,7 @@ public class SubjectClass {
     @JoinColumn(name = "lecturer_id")
     private Lecturer lecturer;
     @OneToMany(mappedBy = "subjectClass")
-    private Set<Score> scores = new HashSet<>();
+    private List<Score> scores;
 
     public SubjectClass() {
     }

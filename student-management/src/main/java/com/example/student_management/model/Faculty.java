@@ -1,6 +1,7 @@
 package com.example.student_management.model;
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.List;
 
 import java.util.Set;
 
@@ -13,7 +14,8 @@ public class Faculty {
     @SequenceGenerator(name = "faculty_sequence", sequenceName = "faculty_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "faculty_sequence")    
     @Column(name = "faculty_id")
-    private String facultyId;
+    private Long facultyId;
+    @Column(name = "faculty_name", nullable = false)
     private String facultyName;
     @ManyToMany
     @JoinTable(
@@ -21,57 +23,26 @@ public class Faculty {
         joinColumns = @JoinColumn(name = "faculty_id"),
         inverseJoinColumns = @JoinColumn(name = "subject_id")
     )
-    private Set<Subject> subjects = new HashSet<>();
+    private List<Subject> subjects;
     @OneToMany(mappedBy = "faculty")
-    private Set<ManagementClass> managementClasses = new HashSet<>();
+    private List<ManagementClass> managementClasses;
 
-
-    public Faculty(String facultyId, String facultyName, Set<Subject> subjects, Set<ManagementClass> managementClasses) {
-        this.facultyId = facultyId;
-        this.facultyName = facultyName;
-        this.subjects = subjects;
-        this.managementClasses = managementClasses;
-    }
-
-    public Set<Subject> getSubjects() {
-        return this.subjects;
-    }
-
-    public void setSubjects(Set<Subject> subjects) {
-        this.subjects = subjects;
-    }
-
-    public Set<ManagementClass> getManagementClasses() {
-        return this.managementClasses;
-    }
-
-    public void setManagementClasses(Set<ManagementClass> managementClasses) {
-        this.managementClasses = managementClasses;
-    }
-
-    public Faculty subjects(Set<Subject> subjects) {
-        setSubjects(subjects);
-        return this;
-    }
-
-    public Faculty managementClasses(Set<ManagementClass> managementClasses) {
-        setManagementClasses(managementClasses);
-        return this;
-    }
 
     public Faculty() {
     }
 
-    public Faculty(String facultyId, String facultyName) {
+    public Faculty(Long facultyId, String facultyName, List<Subject> subjects, List<ManagementClass> managementClasses) {
         this.facultyId = facultyId;
         this.facultyName = facultyName;
+        this.subjects = subjects;
+        this.managementClasses = managementClasses;
     }
 
-    public String getFacultyId() {
+    public Long getFacultyId() {
         return this.facultyId;
     }
 
-    public void setFacultyId(String facultyId) {
+    public void setFacultyId(Long facultyId) {
         this.facultyId = facultyId;
     }
 
@@ -83,13 +54,39 @@ public class Faculty {
         this.facultyName = facultyName;
     }
 
-    public Faculty facultyId(String facultyId) {
+    public List<Subject> getSubjects() {
+        return this.subjects;
+    }
+
+    public void setSubjects(List<Subject> subjects) {
+        this.subjects = subjects;
+    }
+
+    public List<ManagementClass> getManagementClasses() {
+        return this.managementClasses;
+    }
+
+    public void setManagementClasses(List<ManagementClass> managementClasses) {
+        this.managementClasses = managementClasses;
+    }
+
+    public Faculty facultyId(Long facultyId) {
         setFacultyId(facultyId);
         return this;
     }
 
     public Faculty facultyName(String facultyName) {
         setFacultyName(facultyName);
+        return this;
+    }
+
+    public Faculty subjects(List<Subject> subjects) {
+        setSubjects(subjects);
+        return this;
+    }
+
+    public Faculty managementClasses(List<ManagementClass> managementClasses) {
+        setManagementClasses(managementClasses);
         return this;
     }
 
@@ -101,12 +98,12 @@ public class Faculty {
             return false;
         }
         Faculty faculty = (Faculty) o;
-        return Objects.equals(facultyId, faculty.facultyId) && Objects.equals(facultyName, faculty.facultyName);
+        return Objects.equals(facultyId, faculty.facultyId) && Objects.equals(facultyName, faculty.facultyName) && Objects.equals(subjects, faculty.subjects) && Objects.equals(managementClasses, faculty.managementClasses);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(facultyId, facultyName);
+        return Objects.hash(facultyId, facultyName, subjects, managementClasses);
     }
 
     @Override
@@ -114,7 +111,9 @@ public class Faculty {
         return "{" +
             " facultyId='" + getFacultyId() + "'" +
             ", facultyName='" + getFacultyName() + "'" +
+            ", subjects='" + getSubjects() + "'" +
+            ", managementClasses='" + getManagementClasses() + "'" +
             "}";
     }
-    
+
 }

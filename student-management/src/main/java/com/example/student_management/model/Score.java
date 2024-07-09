@@ -23,7 +23,6 @@ public class Score {
     @ManyToOne
     @JoinColumn(name = "student_id")
     private Student student;
-    private Long subjectId;
     private Float attendanceScore;
     private Float midTermScore;
     private Float endTermScore;
@@ -36,10 +35,9 @@ public class Score {
     public Score() {
     }
 
-    public Score(Long scoreId, Student student, Long subjectId, Float attendanceScore, Float midTermScore, Float endTermScore, SubjectClass subjectClass, Integer semester) {
+    public Score(Long scoreId, Student student, Float attendanceScore, Float midTermScore, Float endTermScore, SubjectClass subjectClass, Integer semester) {
         this.scoreId = scoreId;
         this.student = student;
-        this.subjectId = subjectId;
         this.attendanceScore = attendanceScore;
         this.midTermScore = midTermScore;
         this.endTermScore = endTermScore;
@@ -61,14 +59,6 @@ public class Score {
 
     public void setStudent(Student student) {
         this.student = student;
-    }
-
-    public Long getSubjectId() {
-        return this.subjectId;
-    }
-
-    public void setSubjectId(Long subjectId) {
-        this.subjectId = subjectId;
     }
 
     public Float getAttendanceScore() {
@@ -121,11 +111,6 @@ public class Score {
         return this;
     }
 
-    public Score subjectId(Long subjectId) {
-        setSubjectId(subjectId);
-        return this;
-    }
-
     public Score attendanceScore(Float attendanceScore) {
         setAttendanceScore(attendanceScore);
         return this;
@@ -159,12 +144,12 @@ public class Score {
             return false;
         }
         Score score = (Score) o;
-        return Objects.equals(scoreId, score.scoreId) && Objects.equals(student, score.student) && Objects.equals(subjectId, score.subjectId) && Objects.equals(attendanceScore, score.attendanceScore) && Objects.equals(midTermScore, score.midTermScore) && Objects.equals(endTermScore, score.endTermScore) && Objects.equals(subjectClass, score.subjectClass) && Objects.equals(semester, score.semester);
+        return Objects.equals(scoreId, score.scoreId) && Objects.equals(student, score.student) && Objects.equals(attendanceScore, score.attendanceScore) && Objects.equals(midTermScore, score.midTermScore) && Objects.equals(endTermScore, score.endTermScore) && Objects.equals(subjectClass, score.subjectClass) && Objects.equals(semester, score.semester);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(scoreId, student, subjectId, attendanceScore, midTermScore, endTermScore, subjectClass, semester);
+        return Objects.hash(scoreId, student, attendanceScore, midTermScore, endTermScore, subjectClass, semester);
     }
 
     @Override
@@ -172,7 +157,6 @@ public class Score {
         return "{" +
             " scoreId='" + getScoreId() + "'" +
             ", student='" + getStudent() + "'" +
-            ", subjectId='" + getSubjectId() + "'" +
             ", attendanceScore='" + getAttendanceScore() + "'" +
             ", midTermScore='" + getMidTermScore() + "'" +
             ", endTermScore='" + getEndTermScore() + "'" +

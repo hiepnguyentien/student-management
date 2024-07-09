@@ -13,6 +13,7 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 
 @Table(name = "subject")
@@ -31,7 +32,7 @@ public class Subject {
     @ManyToMany(mappedBy = "subjects")
     private Set<Faculty> faculties = new HashSet<>();
     @OneToMany(mappedBy = "subject")
-    private Set<SubjectClass> subjectClasses = new HashSet<>();
+    private List<SubjectClass> subjectClasses;
 
 
     public Subject() {

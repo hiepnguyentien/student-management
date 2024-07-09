@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 //import org.springframework.data.annotation.Id;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -20,19 +21,19 @@ public class ManagementClass {
     @ManyToOne
     @JoinColumn(name = "faculty_id")
     private Faculty faculty;
-    @Column(nullable = false)
-    // @OneToOne(cascade = CascadeType.ALL)
-    // @PrimaryKeyJoinColumn
-    @OneToOne(mappedBy = "managementClass")
+//    @Column(nullable = false)
+     @OneToOne(cascade = CascadeType.ALL)
+     @JoinColumn(name = "Lecturer_id", referencedColumnName = "lecturer_id")
+//    @OneToOne(mappedBy = "managementClass")
     private Lecturer lecturer;
     @OneToMany(mappedBy = "managementClass", cascade = CascadeType.ALL)
-    private Set<Student> students = new HashSet<>();
+    private List<Student> students;
+
 
     public ManagementClass() {
     }
 
-    public ManagementClass(Long managementClassId, String name, Faculty faculty, Lecturer lecturer,
-            Set<Student> students) {
+    public ManagementClass(Long managementClassId, String name, Faculty faculty, Lecturer lecturer, List<Student> students) {
         this.managementClassId = managementClassId;
         this.name = name;
         this.faculty = faculty;
@@ -72,11 +73,11 @@ public class ManagementClass {
         this.lecturer = lecturer;
     }
 
-    public Set<Student> getStudents() {
+    public List<Student> getStudents() {
         return this.students;
     }
 
-    public void setStudents(Set<Student> students) {
+    public void setStudents(List<Student> students) {
         this.students = students;
     }
 
@@ -100,7 +101,7 @@ public class ManagementClass {
         return this;
     }
 
-    public ManagementClass students(Set<Student> students) {
+    public ManagementClass students(List<Student> students) {
         setStudents(students);
         return this;
     }
@@ -113,10 +114,7 @@ public class ManagementClass {
             return false;
         }
         ManagementClass managementClass = (ManagementClass) o;
-        return Objects.equals(managementClassId, managementClass.managementClassId)
-                && Objects.equals(name, managementClass.name) && Objects.equals(faculty, managementClass.faculty)
-                && Objects.equals(lecturer, managementClass.lecturer)
-                && Objects.equals(students, managementClass.students);
+        return Objects.equals(managementClassId, managementClass.managementClassId) && Objects.equals(name, managementClass.name) && Objects.equals(faculty, managementClass.faculty) && Objects.equals(lecturer, managementClass.lecturer) && Objects.equals(students, managementClass.students);
     }
 
     @Override
@@ -127,12 +125,12 @@ public class ManagementClass {
     @Override
     public String toString() {
         return "{" +
-                " managementClassId='" + getManagementClassId() + "'" +
-                ", name='" + getName() + "'" +
-                ", faculty='" + getFaculty() + "'" +
-                ", lecturer='" + getLecturer() + "'" +
-                ", students='" + getStudents() + "'" +
-                "}";
+            " managementClassId='" + getManagementClassId() + "'" +
+            ", name='" + getName() + "'" +
+            ", faculty='" + getFaculty() + "'" +
+            ", lecturer='" + getLecturer() + "'" +
+            ", students='" + getStudents() + "'" +
+            "}";
     }
-
+    
 }
