@@ -3,11 +3,13 @@ package com.example.student_management.controller;
 import com.example.student_management.dto.ApiResponse;
 import com.example.student_management.dto.student.AddStudentDTO;
 import com.example.student_management.dto.student.StudentDTO;
+import com.example.student_management.dto.student.UpdateStudentDTO;
 import com.example.student_management.model.Student;
 import com.example.student_management.service.StudentService;
+
 import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,8 +32,8 @@ public class StudentController {
 
     @GetMapping("id/{id}")
     public StudentDTO findById(@PathVariable Long id){
-        StudentDTO student = studentService.findStudentById(id);
-        return student;
+        return studentService.findStudentById(id);
+
     }
 
     @GetMapping("name/{name}")
@@ -54,10 +56,33 @@ public class StudentController {
         return studentService.findStudentById2(id);
     }
 
+    //apiResponse https://www.youtube.com/watch?v=a9wMrj-JHV4&t=109s 9:05
     @PostMapping
-    public ApiResponse<StudentDTO> addNewStudent(@RequestBody @Valid AddStudentDTO student){
-        ApiResponse<StudentDTO> apiResponse = new ApiResponse<>();
+    public ApiResponse<AddStudentDTO> addNewStudent(@RequestBody @Valid AddStudentDTO student){
+        ApiResponse<AddStudentDTO> apiResponse = new ApiResponse<>();
+
         apiResponse.setResult(studentService.addNewStudent(student));
+
         return apiResponse;
     }
+
+    @PutMapping
+    public ApiResponse<UpdateStudentDTO> updateStudent(@RequestBody @Valid UpdateStudentDTO student){
+        ApiResponse<UpdateStudentDTO> apiResponse = new ApiResponse<>();
+
+        apiResponse.setResult(studentService.updateStudent(student));
+
+        return apiResponse;
+    }
+
+    @DeleteMapping("{id}")
+    public void deleteStudent(@PathVariable Long id){
+        studentService.deleteStudent(id);
+    }
+
+//    @PostMapping
+//    public AddStudentDTO addNewStudent(@RequestBody @Valid AddStudentDTO student){
+//        studentService.addNewStudent(student);
+//        return student;
+//    }
 }

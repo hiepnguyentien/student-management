@@ -1,24 +1,33 @@
 package com.example.student_management.dto.student;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDate;
 import java.util.Objects;
 
 public class UpdateStudentDTO {
     public Long id;
+    @NotNull(message = "Tên không được để trống")
     public String firstName;
+    @NotNull(message = "Tên không được để trống")
     public String lastName;
+    @Email(message = "email không hợp lệ")
     public String email;
+    @Size(min = 10, message = "INVALID_PHONE_NUMBER")
+    @Size(max = 10, message = "INVALID_PHONE_NUMBER")
     public String phoneNumber;
     public String address;
     public String gender;
     public LocalDate dateOfBirth;
-    public String managementClassId;
+    public Long managementClassId;
 
 
     public UpdateStudentDTO() {
     }
 
-    public UpdateStudentDTO(Long id, String firstName, String lastName, String email, String phoneNumber, String address, String gender, LocalDate dateOfBirth, String managementClassId) {
+    public UpdateStudentDTO(Long id, String firstName, String lastName, String email, String phoneNumber, String address, String gender, LocalDate dateOfBirth, Long managementClassId) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -94,11 +103,11 @@ public class UpdateStudentDTO {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public String getManagementClassId() {
+    public Long getManagementClassId() {
         return this.managementClassId;
     }
 
-    public void setManagementClassId(String managementClassId) {
+    public void setManagementClassId(Long managementClassId) {
         this.managementClassId = managementClassId;
     }
 
@@ -142,7 +151,7 @@ public class UpdateStudentDTO {
         return this;
     }
 
-    public UpdateStudentDTO managementClassId(String managementClassId) {
+    public UpdateStudentDTO managementClassId(Long managementClassId) {
         setManagementClassId(managementClassId);
         return this;
     }
