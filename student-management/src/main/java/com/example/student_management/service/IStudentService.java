@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IStudentService {
-    Student addNewStudent(AddStudentDTO student);
+    AddStudentDTO addNewStudent(AddStudentDTO student);
 
     List<StudentDTO> findStudentByName(String name);
 
@@ -19,7 +19,7 @@ public interface IStudentService {
 
     List<StudentDTO> findStudentByManagementClassId(Long id);
 
-    void updateStudent(UpdateStudentDTO student);
+    UpdateStudentDTO updateStudent(UpdateStudentDTO student);
 
     void deleteStudent(Long id);
 

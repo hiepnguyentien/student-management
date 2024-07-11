@@ -3,6 +3,8 @@ package com.example.student_management.service;
 import com.example.student_management.dto.student.AddStudentDTO;
 import com.example.student_management.dto.student.StudentDTO;
 import com.example.student_management.dto.student.UpdateStudentDTO;
+import com.example.student_management.exception.AppException;
+import com.example.student_management.exception.ErrorCode;
 import com.example.student_management.model.ManagementClass;
 import com.example.student_management.model.Student;
 import com.example.student_management.repository.StudentRepository;
@@ -42,9 +44,16 @@ public class StudentService implements IStudentService {
                 student.getManagementClass().getName());
     }
 
-    public Student addNewStudent(AddStudentDTO addStudentDTO) {
+    public AddStudentDTO addNewStudent(AddStudentDTO addStudentDTO) {
+        if (studentRepository.existsByEmail(addStudentDTO.getEmail())) {
+            throw new AppException(ErrorCode.EMAIL_EXISTED);
+        }
+        if (studentRepository.existsByPhoneNumber(addStudentDTO.getPhoneNumber())) {
+            throw new AppException(ErrorCode.PHONE_NUMBER_EXISTED);
+        }
         Student student = convertToEntity(addStudentDTO);
-        return studentRepository.save(student);
+        studentRepository.save(student);
+        return addStudentDTO;
     }
 
     private Student convertToEntity(AddStudentDTO addStudentDTO) {
@@ -73,7 +82,9 @@ public class StudentService implements IStudentService {
 
     @Override
     public StudentDTO findStudentById(Long id) {
-        return studentRepository.findById(id).map(this::convertToDTO).orElseThrow(() -> new RuntimeException("Sinh viên này không tồn tại"));
+        return studentRepository.findById(id)
+                .map(this::convertToDTO)
+                .orElseThrow(() -> new AppException(ErrorCode.STUDENT_NOTFOUND));
     }
 
 
@@ -100,12 +111,33 @@ public class StudentService implements IStudentService {
     }
 
     @Override
-    public void updateStudent(UpdateStudentDTO input) {
+    public UpdateStudentDTO updateStudent(UpdateStudentDTO input) {
+        Student student = studentRepository.findById(input.getId())
+        .orElseThrow(() -> new AppException(ErrorCode.STUDENT_NOTFOUND));
+ 
+        student.setFirstName(input.getFirstName());
+        student.setLastName(input.getLastName());
+        student.setEmail(input.getEmail());
+        student.setPhoneNumber(input.getPhoneNumber());
+        student.setAddress(input.getAddress());
+        student.setGender(input.getGender());
+        student.setDateOfBirth(input.getDateOfBirth());
 
+        ManagementClass managementClass = managementClassService
+        .findManagementClassByIdForService(input.getManagementClassId())
+        .orElseThrow(() -> new AppException(ErrorCode.MANAGEMENT_CLASS_NOTFOUND));
+        
+        student.setManagementClass(managementClass);
+        studentRepository.save(student);
+        return input;
     }
 
     @Override
     public void deleteStudent(Long id) {
-
+        Optional<Student> student = studentRepository.findById(id);
+        if (student.isEmpty()) {
+            throw new AppException(ErrorCode.STUDENT_NOTFOUND);
+        }
+        studentRepository.deleteById(id);
     }
 }

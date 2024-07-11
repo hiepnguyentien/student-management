@@ -12,11 +12,12 @@ import java.util.Optional;
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
     @Query("SELECT s FROM Student s WHERE s.email = ?1")
-    Optional<StudentDTO> findStudentByEmail(String email);
+    StudentDTO findStudentByEmail(String email);
 
     @Query("SELECT s FROM Student s WHERE s.firstName = ?1 OR s.lastName = ?1")
     List<StudentDTO> findStudentByName(String name);
 
-//    @Query("SELECT s FROM Student s Join ManagementClass mc ON s.managementClass.id = mc.id WHERE mc.name = ?1")
-//    Optional<StudentDTO> findManagementClassByName(String managementClassName);
+    boolean existsByEmail(String email);
+
+    boolean existsByPhoneNumber(String phoneNumber);
 }
