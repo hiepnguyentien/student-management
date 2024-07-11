@@ -1,24 +1,24 @@
-package com.example.student_management.DTO;
+package com.example.student_management.dto.student;
 import java.time.LocalDate;
 import java.util.Objects;
 
-import com.example.student_management.model.ManagementClass;
-
 public class StudentDTO {
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String phoneNumber;
-    private String address;
-    private String gender;
-    private LocalDate dateOfBirth;
-    private ManagementClass managementClass;
+    public Long id;
+    public String firstName;
+    public String lastName;
+    public String email;
+    public String phoneNumber;
+    public String address;
+    public String gender;
+    public LocalDate dateOfBirth;
+    public String managementClassName;
 
 
     public StudentDTO() {
     }
 
-    public StudentDTO(String firstName, String lastName, String email, String phoneNumber, String address, String gender, LocalDate dateOfBirth, ManagementClass managementClass) {
+    public StudentDTO(Long id, String firstName, String lastName, String email, String phoneNumber, String address, String gender, LocalDate dateOfBirth, String managementClassName) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -26,7 +26,15 @@ public class StudentDTO {
         this.address = address;
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
-        this.managementClass = managementClass;
+        this.managementClassName = managementClassName;
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -85,12 +93,17 @@ public class StudentDTO {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public ManagementClass getManagementClass() {
-        return this.managementClass;
+    public String getManagementClassName() {
+        return this.managementClassName;
     }
 
-    public void setManagementClass(ManagementClass managementClass) {
-        this.managementClass = managementClass;
+    public void setManagementClassName(String managementClassName) {
+        this.managementClassName = managementClassName;
+    }
+
+    public StudentDTO id(Long id) {
+        setId(id);
+        return this;
     }
 
     public StudentDTO firstName(String firstName) {
@@ -128,8 +141,8 @@ public class StudentDTO {
         return this;
     }
 
-    public StudentDTO managementClass(ManagementClass managementClass) {
-        setManagementClass(managementClass);
+    public StudentDTO managementClassName(String managementClassName) {
+        setManagementClassName(managementClassName);
         return this;
     }
 
@@ -141,25 +154,26 @@ public class StudentDTO {
             return false;
         }
         StudentDTO studentDTO = (StudentDTO) o;
-        return Objects.equals(firstName, studentDTO.firstName) && Objects.equals(lastName, studentDTO.lastName) && Objects.equals(email, studentDTO.email) && Objects.equals(phoneNumber, studentDTO.phoneNumber) && Objects.equals(address, studentDTO.address) && Objects.equals(gender, studentDTO.gender) && Objects.equals(dateOfBirth, studentDTO.dateOfBirth) && Objects.equals(managementClass, studentDTO.managementClass);
+        return Objects.equals(id, studentDTO.id) && Objects.equals(firstName, studentDTO.firstName) && Objects.equals(lastName, studentDTO.lastName) && Objects.equals(email, studentDTO.email) && Objects.equals(phoneNumber, studentDTO.phoneNumber) && Objects.equals(address, studentDTO.address) && Objects.equals(gender, studentDTO.gender) && Objects.equals(dateOfBirth, studentDTO.dateOfBirth) && Objects.equals(managementClassName, studentDTO.managementClassName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstName, lastName, email, phoneNumber, address, gender, dateOfBirth, managementClass);
+        return Objects.hash(id, firstName, lastName, email, phoneNumber, address, gender, dateOfBirth, managementClassName);
     }
 
     @Override
     public String toString() {
         return "{" +
-            " firstName='" + getFirstName() + "'" +
+            " id='" + getId() + "'" +
+            ", firstName='" + getFirstName() + "'" +
             ", lastName='" + getLastName() + "'" +
             ", email='" + getEmail() + "'" +
             ", phoneNumber='" + getPhoneNumber() + "'" +
             ", address='" + getAddress() + "'" +
             ", gender='" + getGender() + "'" +
             ", dateOfBirth='" + getDateOfBirth() + "'" +
-            ", managementClass='" + getManagementClass() + "'" +
+            ", managementClassName='" + getManagementClassName() + "'" +
             "}";
     }
 

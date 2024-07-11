@@ -33,13 +33,15 @@ public class SubjectClass {
     @OneToMany(mappedBy = "subjectClass")
     private List<Score> scores;
 
+
     public SubjectClass() {
     }
 
-    public SubjectClass(Long subjectClassId, Subject subject, Lecturer lecturer) {
+    public SubjectClass(Long subjectClassId, Subject subject, Lecturer lecturer, List<Score> scores) {
         this.subjectClassId = subjectClassId;
         this.subject = subject;
         this.lecturer = lecturer;
+        this.scores = scores;
     }
 
     public Long getSubjectClassId() {
@@ -66,6 +68,14 @@ public class SubjectClass {
         this.lecturer = lecturer;
     }
 
+    public List<Score> getScores() {
+        return this.scores;
+    }
+
+    public void setScores(List<Score> scores) {
+        this.scores = scores;
+    }
+
     public SubjectClass subjectClassId(Long subjectClassId) {
         setSubjectClassId(subjectClassId);
         return this;
@@ -81,6 +91,11 @@ public class SubjectClass {
         return this;
     }
 
+    public SubjectClass scores(List<Score> scores) {
+        setScores(scores);
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == this)
@@ -89,12 +104,12 @@ public class SubjectClass {
             return false;
         }
         SubjectClass subjectClass = (SubjectClass) o;
-        return Objects.equals(subjectClassId, subjectClass.subjectClassId) && Objects.equals(subject, subjectClass.subject) && Objects.equals(lecturer, subjectClass.lecturer);
+        return Objects.equals(subjectClassId, subjectClass.subjectClassId) && Objects.equals(subject, subjectClass.subject) && Objects.equals(lecturer, subjectClass.lecturer) && Objects.equals(scores, subjectClass.scores);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(subjectClassId, subject, lecturer);
+        return Objects.hash(subjectClassId, subject, lecturer, scores);
     }
 
     @Override
@@ -103,7 +118,8 @@ public class SubjectClass {
             " subjectClassId='" + getSubjectClassId() + "'" +
             ", subject='" + getSubject() + "'" +
             ", lecturer='" + getLecturer() + "'" +
+            ", scores='" + getScores() + "'" +
             "}";
     }
-
+    
 }

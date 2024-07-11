@@ -1,54 +1,111 @@
 package com.example.student_management.service;
 
-import com.example.student_management.DTO.StudentDTO;
+import com.example.student_management.dto.student.AddStudentDTO;
+import com.example.student_management.dto.student.StudentDTO;
+import com.example.student_management.dto.student.UpdateStudentDTO;
+import com.example.student_management.model.ManagementClass;
 import com.example.student_management.model.Student;
 import com.example.student_management.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
-public class StudentService {
+public class StudentService implements IStudentService {
 
     private final StudentRepository studentRepository;
+    private final ManagementClassService managementClassService;
 
     @Autowired
-    public StudentService(StudentRepository studentRepository) {
+    public StudentService(StudentRepository studentRepository, ManagementClassService managementClassService) {
         this.studentRepository = studentRepository;
+        this.managementClassService = managementClassService;
     }
 
-    public List<StudentDTO> getAllStudent() {
-        List<Student> students = studentRepository.findAll();
-        List<StudentDTO> studentDTOs = new ArrayList<>();
-        for (Student student : students) {
-            StudentDTO studentDTO = convertToDTO(student);
-            studentDTOs.add(studentDTO);
-        }
-        return studentDTOs;
+    public List<StudentDTO> findAll() {
+        return studentRepository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
     }
-    
+
     private StudentDTO convertToDTO(Student student) {
-        StudentDTO studentDTO = new StudentDTO();
-        studentDTO.setFirstName(student.getFirstName());
-        studentDTO.setLastName(student.getLastName());
-        studentDTO.setEmail(student.getEmail());
-        studentDTO.setPhoneNumber(student.getPhoneNumber());
-        studentDTO.setAddress(student.getAddress());
-        studentDTO.setGender(student.getGender());
-        studentDTO.setDateOfBirth(student.getDateOfBirth());
-        studentDTO.setManagementClass(student.getManagementClass());
-        return studentDTO;
+        return new StudentDTO(
+                student.getStudentId(),
+                student.getFirstName(),
+                student.getLastName(),
+                student.getEmail(),
+                student.getPhoneNumber(),
+                student.getAddress(),
+                student.getGender(),
+                student.getDateOfBirth(),
+                student.getManagementClass().getName());
     }
 
-    public void addNewStudent(Student student) {
-        Optional<StudentDTO> studentOptional = studentRepository.findStudentByEmail(student.getEmail());
-        if (studentOptional.isPresent()) {
-            throw new IllegalStateException("email taken");
-        }
-        studentRepository.save(student);
+    public Student addNewStudent(AddStudentDTO addStudentDTO) {
+        Student student = convertToEntity(addStudentDTO);
+        return studentRepository.save(student);
+    }
+
+    private Student convertToEntity(AddStudentDTO addStudentDTO) {
+        Student student = new Student();
+        student.setFirstName(addStudentDTO.getFirstName());
+        student.setLastName(addStudentDTO.getLastName());
+        student.setEmail(addStudentDTO.getEmail());
+        student.setPhoneNumber(addStudentDTO.getPhoneNumber());
+        student.setAddress(addStudentDTO.getAddress());
+        student.setGender(addStudentDTO.getGender());
+        student.setDateOfBirth(addStudentDTO.getDateOfBirth());
+
+        ManagementClass managementClass = managementClassService
+                .findManagementClassByIdForService(addStudentDTO.getManagementClassId()).orElse(null);
+        student.setManagementClass(managementClass);
+        return student;
+    }
+
+    @Override
+    public List<StudentDTO> findStudentByName(String name) {
+        return studentRepository.findAll().stream()
+                .filter(student -> student.getFirstName().contains(name) || student.getLastName().contains(name))
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public StudentDTO findStudentById(Long id) {
+        return studentRepository.findById(id).map(this::convertToDTO).orElseThrow(() -> new RuntimeException("Sinh viên này không tồn tại"));
+    }
+
+
+    //TEST
+    @Override
+    public Student findStudentById2(Long id) {
+        return studentRepository.findById(id).orElseThrow(() -> new RuntimeException("Sinh viên này không tồn tại"));
+    }
+
+    @Override
+    public List<StudentDTO> findStudentByManagementClassName(String name) {
+        return studentRepository.findAll().stream()
+                .filter(student -> student.getManagementClass().getName().contains(name))
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<StudentDTO> findStudentByManagementClassId(Long id) {
+        return studentRepository.findAll().stream()
+                .filter(student -> student.getManagementClass().getManagementClassId().equals(id))
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void updateStudent(UpdateStudentDTO input) {
+
+    }
+
+    @Override
+    public void deleteStudent(Long id) {
 
     }
 }
