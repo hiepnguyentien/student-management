@@ -1,22 +1,25 @@
 package com.example.student_management.service;
 
-import com.example.student_management.dto.Subject.AddSubjectDTO;
-import com.example.student_management.dto.Subject.SubjectDTO;
-import com.example.student_management.dto.Subject.UpdateSubjectDTO;
-
 import java.util.List;
 import java.util.Optional;
+
+import com.example.student_management.dto.subject.AddSubjectDTO;
+import com.example.student_management.dto.subject.SubjectDTO;
+import com.example.student_management.dto.subject.UpdateSubjectDTO;
+import com.example.student_management.model.Subject;
 
 public interface ISubjectService {
     public List<SubjectDTO> findAll();
 
-    public List<SubjectDTO> findByName(String name);
+    public List<SubjectDTO> findSubjectByName(String name);
 
-    public SubjectDTO findById(Long id);
+    public SubjectDTO findSubjectById(Long id);
 
-    public AddSubjectDTO add(AddSubjectDTO subjectDTO);
+    public Optional<Subject> findSubjectByIdForService(Long id);
 
-    public UpdateSubjectDTO update(UpdateSubjectDTO subjectDTO);
+    public AddSubjectDTO addSubject(AddSubjectDTO subjectDTO);
 
-    public void delete(Long id);
+    public UpdateSubjectDTO updateSubject(UpdateSubjectDTO subjectDTO);
+
+    public void deleteSubject(Long id);
 }

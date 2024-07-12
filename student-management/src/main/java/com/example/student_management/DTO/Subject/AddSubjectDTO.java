@@ -1,4 +1,4 @@
-package com.example.student_management.dto.Subject;
+package com.example.student_management.dto.subject;
 
 public class AddSubjectDTO {
     public String name;

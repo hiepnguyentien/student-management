@@ -1,4 +1,4 @@
-package com.example.student_management.dto.Subject;
+package com.example.student_management.dto.subject;
 import java.util.Objects;
 
 public class SubjectDTO {

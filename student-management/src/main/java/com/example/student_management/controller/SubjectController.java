@@ -1,10 +1,10 @@
 package com.example.student_management.controller;
 
 import com.example.student_management.dto.ApiResponse;
-import com.example.student_management.dto.Subject.AddSubjectDTO;
-import com.example.student_management.dto.Subject.SubjectDTO;
-import com.example.student_management.dto.Subject.UpdateSubjectDTO;
 import com.example.student_management.dto.student.UpdateStudentDTO;
+import com.example.student_management.dto.subject.AddSubjectDTO;
+import com.example.student_management.dto.subject.SubjectDTO;
+import com.example.student_management.dto.subject.UpdateSubjectDTO;
 import com.example.student_management.service.SubjectService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,21 +28,21 @@ public class SubjectController {
         return subjectService.findAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("id/{id}")
     public SubjectDTO findById(@PathVariable Long id){
-        return subjectService.findById(id);
+        return subjectService.findSubjectById(id);
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("name/{name}")
     public List<SubjectDTO> findByName(@PathVariable String name){
-        return subjectService.findByName(name);
+        return subjectService.findSubjectByName(name);
     }
 
     @PostMapping
     public ApiResponse<AddSubjectDTO> addSubject(@RequestBody @Valid AddSubjectDTO addSubjectDTO){
         ApiResponse<AddSubjectDTO> apiResponse = new ApiResponse<>();
 
-        apiResponse.setResult(subjectService.add(addSubjectDTO));
+        apiResponse.setResult(subjectService.addSubject(addSubjectDTO));
 
         return apiResponse;
     }
@@ -51,13 +51,13 @@ public class SubjectController {
     public ApiResponse<UpdateSubjectDTO> updateSubject(@RequestBody @Valid UpdateSubjectDTO updateSubjectDTO){
         ApiResponse<UpdateSubjectDTO> apiResponse = new ApiResponse<>();
 
-        apiResponse.setResult(subjectService.update(updateSubjectDTO));
+        apiResponse.setResult(subjectService.updateSubject(updateSubjectDTO));
 
         return apiResponse;
     }
 
     @DeleteMapping("{id}")
-    public void delete(Long id){
-        subjectService.delete(id);
+    public void delete(@PathVariable Long id){
+        subjectService.deleteSubject(id);
     }
 }

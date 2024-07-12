@@ -24,6 +24,8 @@ public class SubjectClass {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "subject_class_sequence")
     @Column(name = "subject_class_id")
     private Long subjectClassId;
+    @Column(name = "name", nullable = false, unique = true)
+    private String name;
     @ManyToOne
     @JoinColumn(name = "subject_id")
     private Subject subject;
@@ -33,6 +35,27 @@ public class SubjectClass {
     @OneToMany(mappedBy = "subjectClass")
     private List<Score> scores;
 
+
+    public SubjectClass(Long subjectClassId, String name, Subject subject, Lecturer lecturer, List<Score> scores) {
+        this.subjectClassId = subjectClassId;
+        this.name = name;
+        this.subject = subject;
+        this.lecturer = lecturer;
+        this.scores = scores;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public SubjectClass name(String name) {
+        setName(name);
+        return this;
+    }
 
     public SubjectClass() {
     }
