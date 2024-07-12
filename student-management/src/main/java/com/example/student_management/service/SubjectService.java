@@ -1,8 +1,8 @@
 package com.example.student_management.service;
 
-import com.example.student_management.dto.Subject.AddSubjectDTO;
-import com.example.student_management.dto.Subject.SubjectDTO;
-import com.example.student_management.dto.Subject.UpdateSubjectDTO;
+import com.example.student_management.dto.subject.AddSubjectDTO;
+import com.example.student_management.dto.subject.SubjectDTO;
+import com.example.student_management.dto.subject.UpdateSubjectDTO;
 import com.example.student_management.exception.AppException;
 import com.example.student_management.exception.ErrorCode;
 import com.example.student_management.model.Subject;
@@ -25,13 +25,12 @@ public class SubjectService implements ISubjectService {
         this.subjectRepository = subjectRepository;
     }
 
-    private SubjectDTO convertToDTO(Subject subject){
+    private SubjectDTO convertToDTO(Subject subject) {
         return new SubjectDTO(
                 subject.getSubjectId(),
                 subject.getName(),
                 subject.getDescription(),
-                subject.getCredit()
-        );
+                subject.getCredit());
     }
 
     @Override
@@ -40,7 +39,7 @@ public class SubjectService implements ISubjectService {
     }
 
     @Override
-    public List<SubjectDTO> findByName(String name) {
+    public List<SubjectDTO> findSubjectByName(String name) {
         return subjectRepository.findAll().stream()
                 .filter(subject -> subject.getName().contains(name))
                 .map(this::convertToDTO)
@@ -48,13 +47,19 @@ public class SubjectService implements ISubjectService {
     }
 
     @Override
-    public SubjectDTO findById(Long id) {
-        return subjectRepository.findById(id).map(this::convertToDTO)
+    public SubjectDTO findSubjectById(Long id) {
+        return subjectRepository.findById(id)
+                .map(this::convertToDTO)
                 .orElseThrow(() -> new AppException(ErrorCode.SUBJECT_NOTFOUND));
     }
 
     @Override
-    public AddSubjectDTO add(AddSubjectDTO subjectDTO) {
+    public Optional<Subject> findSubjectByIdForService(Long id) {
+        return subjectRepository.findById(id);
+    }
+
+    @Override
+    public AddSubjectDTO addSubject(AddSubjectDTO subjectDTO) {
         Subject subject = new Subject();
         subject.setName(subjectDTO.getName());
         subject.setDescription(subjectDTO.getDescription());
@@ -64,9 +69,9 @@ public class SubjectService implements ISubjectService {
     }
 
     @Override
-    public UpdateSubjectDTO update(UpdateSubjectDTO subjectDTO) {
+    public UpdateSubjectDTO updateSubject(UpdateSubjectDTO subjectDTO) {
         Subject subject = subjectRepository
-        .findById(subjectDTO.getId()).orElseThrow(() -> new AppException(ErrorCode.SUBJECT_NOTFOUND));
+                .findById(subjectDTO.getId()).orElseThrow(() -> new AppException(ErrorCode.SUBJECT_NOTFOUND));
         subject.setName(subjectDTO.getName());
         subject.setDescription(subjectDTO.getDescription());
         subject.setCredit(subjectDTO.getCredit());
@@ -75,8 +80,9 @@ public class SubjectService implements ISubjectService {
     }
 
     @Override
-    public void delete(Long id) {
-        Subject subject = subjectRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.SUBJECT_NOTFOUND));
+    public void deleteSubject(Long id) {
+        Subject subject = subjectRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.SUBJECT_NOTFOUND));
         subjectRepository.delete(subject);
     }
 }
