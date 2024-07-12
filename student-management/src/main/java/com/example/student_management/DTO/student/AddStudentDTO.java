@@ -15,11 +15,9 @@ public class AddStudentDTO {
     @NotNull(message = "NAME_BLANK")
     public String lastName;
     @Email(message = "email không hợp lệ")
-    // @UniqueElements(message = "Email này đã tồn tại")
     public String email;
     @Size(min = 10, message = "INVALID_PHONE_NUMBER")
     @Size(max = 10, message = "INVALID_PHONE_NUMBER")
-    // @UniqueElements(message = "Số điện thoại này đã tồn tại")
     public String phoneNumber;
     public String address;
     public String gender;

@@ -23,6 +23,4 @@ public interface IStudentService {
 
     void deleteStudent(Long id);
 
-    //TEST
-    Student findStudentById2(Long id);
 }

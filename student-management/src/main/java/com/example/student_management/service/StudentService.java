@@ -51,12 +51,6 @@ public class StudentService implements IStudentService {
         if (studentRepository.existsByPhoneNumber(addStudentDTO.getPhoneNumber())) {
             throw new AppException(ErrorCode.PHONE_NUMBER_EXISTED);
         }
-        Student student = convertToEntity(addStudentDTO);
-        studentRepository.save(student);
-        return addStudentDTO;
-    }
-
-    private Student convertToEntity(AddStudentDTO addStudentDTO) {
         Student student = new Student();
         student.setFirstName(addStudentDTO.getFirstName());
         student.setLastName(addStudentDTO.getLastName());
@@ -67,9 +61,11 @@ public class StudentService implements IStudentService {
         student.setDateOfBirth(addStudentDTO.getDateOfBirth());
 
         ManagementClass managementClass = managementClassService
-                .findManagementClassByIdForService(addStudentDTO.getManagementClassId()).orElse(null);
+                .findManagementClassByIdForService(addStudentDTO.getManagementClassId())
+                .orElseThrow(() -> new AppException(ErrorCode.MANAGEMENT_CLASS_NOTFOUND));
         student.setManagementClass(managementClass);
-        return student;
+        studentRepository.save(student);
+        return addStudentDTO;
     }
 
     @Override
@@ -87,13 +83,6 @@ public class StudentService implements IStudentService {
                 .orElseThrow(() -> new AppException(ErrorCode.STUDENT_NOTFOUND));
     }
 
-
-    //TEST
-    @Override
-    public Student findStudentById2(Long id) {
-        return studentRepository.findById(id).orElseThrow(() -> new RuntimeException("Sinh viên này không tồn tại"));
-    }
-
     @Override
     public List<StudentDTO> findStudentByManagementClassName(String name) {
         return studentRepository.findAll().stream()
@@ -104,6 +93,13 @@ public class StudentService implements IStudentService {
 
     @Override
     public List<StudentDTO> findStudentByManagementClassId(Long id) {
+        boolean exists = studentRepository.findAll().stream()
+                .anyMatch(student -> student.getManagementClass().getManagementClassId().equals(id));
+
+        if (!exists) {
+            throw new AppException(ErrorCode.MANAGEMENT_CLASS_NOTFOUND);
+        }
+
         return studentRepository.findAll().stream()
                 .filter(student -> student.getManagementClass().getManagementClassId().equals(id))
                 .map(this::convertToDTO)
@@ -113,8 +109,8 @@ public class StudentService implements IStudentService {
     @Override
     public UpdateStudentDTO updateStudent(UpdateStudentDTO input) {
         Student student = studentRepository.findById(input.getId())
-        .orElseThrow(() -> new AppException(ErrorCode.STUDENT_NOTFOUND));
- 
+                .orElseThrow(() -> new AppException(ErrorCode.STUDENT_NOTFOUND));
+
         student.setFirstName(input.getFirstName());
         student.setLastName(input.getLastName());
         student.setEmail(input.getEmail());
@@ -124,9 +120,9 @@ public class StudentService implements IStudentService {
         student.setDateOfBirth(input.getDateOfBirth());
 
         ManagementClass managementClass = managementClassService
-        .findManagementClassByIdForService(input.getManagementClassId())
-        .orElseThrow(() -> new AppException(ErrorCode.MANAGEMENT_CLASS_NOTFOUND));
-        
+                .findManagementClassByIdForService(input.getManagementClassId())
+                .orElseThrow(() -> new AppException(ErrorCode.MANAGEMENT_CLASS_NOTFOUND));
+
         student.setManagementClass(managementClass);
         studentRepository.save(student);
         return input;
@@ -134,10 +130,8 @@ public class StudentService implements IStudentService {
 
     @Override
     public void deleteStudent(Long id) {
-        Optional<Student> student = studentRepository.findById(id);
-        if (student.isEmpty()) {
-            throw new AppException(ErrorCode.STUDENT_NOTFOUND);
-        }
-        studentRepository.deleteById(id);
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.STUDENT_NOTFOUND));
+        studentRepository.delete(student);
     }
 }

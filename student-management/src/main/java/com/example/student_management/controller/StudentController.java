@@ -47,16 +47,14 @@ public class StudentController {
     }
 
     @GetMapping("class-id/{id}")
-    public List<StudentDTO> findStudentByManagementClassId(@PathVariable Long id){
-        return studentService.findStudentByManagementClassId(id);
+    public ApiResponse<List<StudentDTO>> findStudentByManagementClassId(@PathVariable @Valid Long id){
+        ApiResponse<List<StudentDTO>> apiResponse = new ApiResponse<>();
+
+        apiResponse.setResult(studentService.findStudentByManagementClassId(id));
+
+        return apiResponse;
     }
 
-    @GetMapping("test/{id}")
-    public Student findStudentById2(@PathVariable Long id){
-        return studentService.findStudentById2(id);
-    }
-
-    //apiResponse https://www.youtube.com/watch?v=a9wMrj-JHV4&t=109s 9:05
     @PostMapping
     public ApiResponse<AddStudentDTO> addNewStudent(@RequestBody @Valid AddStudentDTO student){
         ApiResponse<AddStudentDTO> apiResponse = new ApiResponse<>();
@@ -75,14 +73,8 @@ public class StudentController {
         return apiResponse;
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public void deleteStudent(@PathVariable Long id){
         studentService.deleteStudent(id);
     }
-
-//    @PostMapping
-//    public AddStudentDTO addNewStudent(@RequestBody @Valid AddStudentDTO student){
-//        studentService.addNewStudent(student);
-//        return student;
-//    }
 }
