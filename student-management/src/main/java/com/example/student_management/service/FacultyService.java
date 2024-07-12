@@ -3,8 +3,11 @@ package com.example.student_management.service;
 import com.example.student_management.dto.faculty.AddNewFacultyDTO;
 import com.example.student_management.dto.faculty.FacultyDTO;
 import com.example.student_management.dto.faculty.UpdateFacultyDTO;
+import com.example.student_management.exception.AppException;
+import com.example.student_management.exception.ErrorCode;
 import com.example.student_management.model.Faculty;
 import com.example.student_management.repository.FacultyRepository;
+import com.example.student_management.service.IFacultyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,16 +30,11 @@ public class FacultyService implements IFacultyService {
                 faculty.getFacultyId(),
                 faculty.getFacultyName());
     }
-
-    private Faculty convertToEntity(AddNewFacultyDTO addNewFacultyDTO){
-        Faculty faculty = new Faculty();
-        faculty.setFacultyName(addNewFacultyDTO.getName());
-        return faculty;
-    }
-
+    
     @Override
     public List<FacultyDTO> findFacultyByName(String name) {
-        return facultyRepository.findAll().stream().filter(f -> f.getFacultyName().contains(name)).map(this::convertToDTO)
+        return facultyRepository.findAll().stream().filter(f -> f.getFacultyName().contains(name))
+                .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
 
@@ -52,7 +50,8 @@ public class FacultyService implements IFacultyService {
 
     @Override
     public Faculty addNew(AddNewFacultyDTO addNewFacultyDTO) {
-        Faculty faculty = convertToEntity(addNewFacultyDTO);
+        Faculty faculty = new Faculty();
+        faculty.setFacultyName(addNewFacultyDTO.getName());
         return facultyRepository.save(faculty);
     }
 
@@ -65,6 +64,8 @@ public class FacultyService implements IFacultyService {
 
     @Override
     public void delete(Long id) {
-        facultyRepository.deleteById(id);
+        Faculty faculty = facultyRepository.findById(id)
+        .orElseThrow(() -> new AppException(ErrorCode.FACULTY_NOTFOUND));
+        facultyRepository.delete(faculty);
     }
 }
