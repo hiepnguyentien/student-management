@@ -1,7 +1,6 @@
 package com.example.student_management.controller;
 
 import com.example.student_management.dto.ApiResponse;
-import com.example.student_management.dto.student.UpdateStudentDTO;
 import com.example.student_management.dto.subject.AddSubjectDTO;
 import com.example.student_management.dto.subject.SubjectDTO;
 import com.example.student_management.dto.subject.UpdateSubjectDTO;

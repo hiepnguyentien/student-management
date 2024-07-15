@@ -3,10 +3,8 @@ package com.example.student_management.model;
 import jakarta.persistence.*;
 //import org.springframework.data.annotation.Id;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Table(name = "management_class")
 @Entity(name = "management_class")

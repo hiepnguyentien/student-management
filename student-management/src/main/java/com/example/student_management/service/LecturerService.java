@@ -3,7 +3,6 @@ package com.example.student_management.service;
 import com.example.student_management.dto.lecturer.AddLecturerDTO;
 import com.example.student_management.dto.lecturer.LecturerDTO;
 import com.example.student_management.dto.lecturer.UpdateLecturerDTO;
-import com.example.student_management.dto.student.AddStudentDTO;
 import com.example.student_management.exception.AppException;
 import com.example.student_management.exception.ErrorCode;
 import com.example.student_management.model.Lecturer;

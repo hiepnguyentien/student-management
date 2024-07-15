@@ -4,7 +4,6 @@ import com.example.student_management.dto.ApiResponse;
 import com.example.student_management.dto.student.AddStudentDTO;
 import com.example.student_management.dto.student.StudentDTO;
 import com.example.student_management.dto.student.UpdateStudentDTO;
-import com.example.student_management.model.Student;
 import com.example.student_management.service.StudentService;
 
 import jakarta.validation.Valid;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "student")

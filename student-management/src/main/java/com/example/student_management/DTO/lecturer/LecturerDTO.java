@@ -2,7 +2,6 @@ package com.example.student_management.dto.lecturer;
 
 import java.time.LocalDate;
 
-import org.springframework.cglib.core.Local;
 import java.util.Objects;
 
 public class LecturerDTO {

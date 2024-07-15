@@ -1,9 +1,6 @@
 package com.example.student_management.model;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.List;
-
-import java.util.Set;
 
 import jakarta.persistence.*;
 
