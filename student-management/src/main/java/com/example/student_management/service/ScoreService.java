@@ -9,7 +9,6 @@ import com.example.student_management.model.Score;
 import com.example.student_management.model.Student;
 import com.example.student_management.model.SubjectClass;
 import com.example.student_management.repository.ScoreRepository;
-import com.example.student_management.repository.StudentRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
