@@ -19,7 +19,7 @@ public class ScoreDTO {
     public Float processScore;
     public Float finalScore;
     public Float GPA;
-    public Grade grade;
+    public String grade;
 
 
     public ScoreDTO() {
@@ -27,7 +27,7 @@ public class ScoreDTO {
 
     public ScoreDTO(Long scoreId, Long subjectClassId, Long studentId, Float attendanceScore, 
                     Float midTermScore, Float endTermScore, Integer semester, 
-                    Float processScore, Float finalScore, Float GPA, Grade grade) {
+                    Float processScore, Float finalScore, Float GPA, String grade) {
         this.scoreId = scoreId;
         this.subjectClassId = subjectClassId;
         this.studentId = studentId;
@@ -97,18 +97,18 @@ public class ScoreDTO {
         this.semester = semester;
     }
 
-        public Float getProcessScore() {
-        return (getAttendanceScore() + getMidTermScore()) / 2;
+    public Float getProcessScore() {
+        return Math.round((getAttendanceScore() + getMidTermScore()) / 2 * 10.0f) / 10.0f;
     }
 
     public Float getFinalScore() {
-        return getProcessScore() * 0.3f + getEndTermScore() * 0.7f;
+        return Math.round((getProcessScore() * 0.3f + getEndTermScore() * 0.7f) * 10.0f) / 10.0f;
     }
 
     public Float getGPA(){
         float finalScore = getFinalScore();
         if (finalScore >= 8.5f)
-            return 4f;
+            return 4.0f;
         else if (finalScore >= 8.0f)
             return 3.5f;
         else if (finalScore >= 7.0f)
@@ -125,7 +125,7 @@ public class ScoreDTO {
             return 0f;
     }
 
-    public Grade getGrade(){
+    public String getGrade(){
         return Grade.fromScore(getFinalScore());
     }
 

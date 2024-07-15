@@ -8,12 +8,10 @@ import com.example.student_management.exception.ErrorCode;
 import com.example.student_management.model.Score;
 import com.example.student_management.repository.ScoreRepository;
 
-import org.apache.el.stream.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,7 +36,7 @@ public class ScoreService implements IScoreService {
                 score.getProcessScore(),
                 score.getFinalScore(),
                 score.getGPA(),
-                score.getGrade());
+                score.getGrade().toString());
     }
 
     @Override

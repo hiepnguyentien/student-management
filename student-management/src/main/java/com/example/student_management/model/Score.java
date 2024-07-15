@@ -8,7 +8,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
@@ -91,17 +90,17 @@ public class Score {
     }
 
     public Float getProcessScore() {
-        return (getAttendanceScore() + getMidTermScore()) / 2;
+        return Math.round((getAttendanceScore() + getMidTermScore()) / 2 * 10.0f) / 10.0f;
     }
 
     public Float getFinalScore() {
-        return getProcessScore() * 0.3f + getEndTermScore() * 0.7f;
+        return Math.round((getProcessScore() * 0.3f + getEndTermScore() * 0.7f) * 10.0f) / 10.0f;
     }
 
     public Float getGPA(){
         float finalScore = getFinalScore();
         if (finalScore >= 8.5f)
-            return 4f;
+            return 4.0f;
         else if (finalScore >= 8.0f)
             return 3.5f;
         else if (finalScore >= 7.0f)
@@ -118,7 +117,7 @@ public class Score {
             return 0f;
     }
 
-    public Grade getGrade(){
+    public String getGrade(){
         return Grade.fromScore(getGPA());
     }
 
