@@ -10,7 +10,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
 
 @Table(name = "score")
 @Entity
@@ -23,16 +24,20 @@ public class Score {
     @ManyToOne
     @JoinColumn(name = "student_id")
     private Student student;
-    @Size(min = 0, max = 10, message = "Điểm phải nằm trong khoảng từ 0 đến 10")
+    @DecimalMin(value = "0.0", inclusive = true)
+    @DecimalMax(value = "10.0", inclusive = true)
     private Float attendanceScore;
-    @Size(min = 0, max = 10, message = "Điểm phải nằm trong khoảng từ 0 đến 10")
+    @DecimalMin(value = "0.0", inclusive = true)
+    @DecimalMax(value = "10.0", inclusive = true)
     private Float midTermScore;
-    @Size(min = 0, max = 10, message = "Điểm phải nằm trong khoảng từ 0 đến 10")
+    @DecimalMin(value = "0.0", inclusive = true)
+    @DecimalMax(value = "10.0", inclusive = true)
     private Float endTermScore;
     @ManyToOne
     @JoinColumn(name = "subject_class_id")
     private SubjectClass subjectClass;
-    @Size(min = 1, max = 3, message = "Học kỳ phải nằm trong khoảng từ 1 đến 3")
+    @DecimalMin(value = "1.0", inclusive = true)
+    @DecimalMax(value = "3.0", inclusive = true)
     private Integer semester;
 
 
@@ -192,11 +197,11 @@ public class Score {
     public String toString() {
         return "{" +
             " scoreId='" + getScoreId() + "'" +
-            ", student='" + getStudent() + "'" +
+            // ", student='" + getStudent() + "'" +
             ", attendanceScore='" + getAttendanceScore() + "'" +
             ", midTermScore='" + getMidTermScore() + "'" +
             ", endTermScore='" + getEndTermScore() + "'" +
-            ", subjectClass='" + getSubjectClass() + "'" +
+            // ", subjectClass='" + getSubjectClass() + "'" +
             ", semester='" + getSemester() + "'" +
             "}";
     }

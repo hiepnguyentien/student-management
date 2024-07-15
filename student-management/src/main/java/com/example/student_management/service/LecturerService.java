@@ -53,7 +53,7 @@ public class LecturerService implements ILecturerService{
     public LecturerDTO findLecturerById(Long id) {
         return lecturerRepository.findById(id)
                 .map(this::convertTODTO)
-                .orElseThrow(() -> new AppException(ErrorCode.LECTURER_NOTFOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.LECTURER_NOT_FOUND));
     }
 
     @Override
@@ -75,7 +75,7 @@ public class LecturerService implements ILecturerService{
                 .anyMatch(lecturer -> lecturer.getFacultyId().equals(id));
 
         if(!isExist){
-            throw new AppException(ErrorCode.FACULTY_NOTFOUND);
+            throw new AppException(ErrorCode.FACULTY_NOT_FOUND);
         }
 
         return lecturerRepository.findAll().stream()
@@ -90,20 +90,20 @@ public class LecturerService implements ILecturerService{
                 .anyMatch(lecturer -> lecturer.getManagementClass().getManagementClassId().equals(id));
     
         if(!isExist){
-            throw new AppException(ErrorCode.MANAGEMENT_CLASS_NOTFOUND);
+            throw new AppException(ErrorCode.MANAGEMENT_CLASS_NOT_FOUND);
         }
     
         return lecturerRepository.findAll().stream()
                 .map(this::convertTODTO)
                 .filter(lecturer -> lecturer.getManagementClassId().equals(id))
                 .findFirst()
-                .orElseThrow(() -> new AppException(ErrorCode.LECTURER_NOTFOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.LECTURER_NOT_FOUND));
     }
 
     @Override
     public UpdateLecturerDTO updateLecturer(UpdateLecturerDTO updateLecturerDTO) {
         Lecturer lecturer = lecturerRepository.findById(updateLecturerDTO.id)
-                .orElseThrow(() -> new AppException(ErrorCode.LECTURER_NOTFOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.LECTURER_NOT_FOUND));
 
         lecturer.setFirstName(updateLecturerDTO.getFirstName());
         lecturer.setLastName(updateLecturerDTO.getLastName());
@@ -122,7 +122,7 @@ public class LecturerService implements ILecturerService{
 
         ManagementClass managementClass = managementClassService
                 .findManagementClassByIdForService(updateLecturerDTO.getManagementClassId())
-                .orElseThrow(() -> new AppException(ErrorCode.MANAGEMENT_CLASS_NOTFOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.MANAGEMENT_CLASS_NOT_FOUND));
 
         lecturer.setManagementClass(managementClass);
         lecturer.setFacultyId(updateLecturerDTO.getFacultyId());
@@ -157,7 +157,7 @@ public class LecturerService implements ILecturerService{
         
         ManagementClass managementClass = managementClassService
                 .findManagementClassByIdForService(addLecturerDTO.managementClassId)
-                .orElseThrow(() -> new AppException(ErrorCode.MANAGEMENT_CLASS_NOTFOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.MANAGEMENT_CLASS_NOT_FOUND));
 
         lecturer.setManagementClass(managementClass);
         lecturerRepository.save(lecturer);
@@ -167,7 +167,7 @@ public class LecturerService implements ILecturerService{
     @Override
     public void deleteLecturer(Long id) {
         Lecturer lecturer = lecturerRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.LECTURER_NOTFOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.LECTURER_NOT_FOUND));
         lecturerRepository.delete(lecturer);
     }
 }

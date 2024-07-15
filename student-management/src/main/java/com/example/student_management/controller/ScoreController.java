@@ -42,35 +42,47 @@ public class ScoreController {
     }
 
     @GetMapping("/subject-class/{subjectClassId}/student/{studentId}")
-    public ScoreDTO getScoreBySubjectIdViaStudent(@PathVariable Long subjectClassId, @PathVariable Long studentId) {
+    public ScoreDTO getScoreBySubjectIdViaStudent(
+            @PathVariable Long subjectClassId,
+            @PathVariable Long studentId) {
         return scoreService.getScoreBySubjectIdViaStudent(subjectClassId, studentId);
     }
 
     @GetMapping("/semester/{semester}/student/{studentId}")
-    public List<ScoreDTO> getScoreBySemesterViaStudent(@PathVariable Long studentId, @PathVariable Integer semester) {
+    public List<ScoreDTO> getScoreBySemesterViaStudent(
+            @PathVariable Long studentId,
+            @PathVariable Integer semester) {
         return scoreService.getScoreBySemesterViaStudent(studentId, semester);
     }
 
     @PutMapping("/student/{studentId}/subject-class/{subjectClassId}")
-    public ApiResponse<UpdateScoreDTO> updateScoreViaStudentAndSubjectClassId(@RequestBody @Valid UpdateScoreDTO updateScoreDTO, @PathVariable @Valid Long studentId, @PathVariable @Valid Long subjectClassId) {
-        ApiResponse<UpdateScoreDTO> response = new ApiResponse<>();
+    public ApiResponse<UpdateScoreDTO> updateScoreViaStudentAndSubjectClassId(
+            @RequestBody @Valid UpdateScoreDTO updateScoreDTO,
+            @PathVariable @Valid Long studentId,
+            @PathVariable @Valid Long subjectClassId) {
+        ApiResponse<UpdateScoreDTO> apiResponse = new ApiResponse<>();
 
-        response.setResult(scoreService.updateScoreViaStudentAndSubjectClassId(updateScoreDTO, studentId, subjectClassId));
+        apiResponse.setResult(scoreService.updateScoreViaStudentAndSubjectClassId(updateScoreDTO, studentId, subjectClassId));
 
-        return response;
+        return apiResponse;
     }
 
     @PostMapping("/student/{studentId}/subject-class/{subjectClassId}")
-    public ApiResponse<AddScoreDTO> addScoreViaStudentAndSubjectClassId(@RequestBody @Valid AddScoreDTO addScoreDTO, @PathVariable Long studentId, @PathVariable Long subjectClassId) {
-        ApiResponse<AddScoreDTO> response = new ApiResponse<>();
+    public ApiResponse<AddScoreDTO> addScoreViaStudentAndSubjectClassId(
+            @RequestBody @Valid AddScoreDTO addScoreDTO,
+            @PathVariable Long studentId,
+            @PathVariable Long subjectClassId) {
+        ApiResponse<AddScoreDTO> apiResponse = new ApiResponse<>();
 
-        response.setResult(scoreService.addScoreViaStudentAndSubjectClassId(addScoreDTO, studentId, subjectClassId));
+        apiResponse.setResult(scoreService.addScoreViaStudentAndSubjectClassId(addScoreDTO, studentId, subjectClassId));
 
-        return response;
+        return apiResponse;
     }
 
     @DeleteMapping("/student/{studentId}/subject-class/{subjectClassId}")
-    public void deleteScore(@PathVariable Long studentId, @PathVariable Long subjectClassId) {
+    public void delete(
+            @PathVariable Long studentId,
+            @PathVariable Long subjectClassId) {
         scoreService.deleteScore(studentId, subjectClassId);
     }
 }

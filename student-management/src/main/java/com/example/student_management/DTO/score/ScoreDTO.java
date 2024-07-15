@@ -2,19 +2,25 @@ package com.example.student_management.dto.score;
 import java.util.Objects;
 
 import com.example.student_management.model.Grade;
-import jakarta.validation.constraints.Size;
+
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
 
 public class ScoreDTO {
     public Long scoreId;
-    public Long subjectClassId;
     public Long studentId;
-    @Size(min = 0, max = 10, message = "Điểm phải nằm trong khoảng từ 0 đến 10")
+    public Long subjectClassId;
+    @DecimalMin(value = "0.0", inclusive = true)
+    @DecimalMax(value = "10.0", inclusive = true)
     public Float attendanceScore;
-    @Size(min = 0, max = 10, message = "Điểm phải nằm trong khoảng từ 0 đến 10")
+    @DecimalMin(value = "0.0", inclusive = true)
+    @DecimalMax(value = "10.0", inclusive = true)
     public Float midTermScore;
-    @Size(min = 0, max = 10, message = "Điểm phải nằm trong khoảng từ 0 đến 10")
+    @DecimalMin(value = "0.0", inclusive = true)
+    @DecimalMax(value = "10.0", inclusive = true)
     public Float endTermScore;
-    @Size(min = 1, max = 3, message = "Học kỳ phải nằm trong khoảng từ 1 đến 3")
+    @DecimalMin(value = "1.0", inclusive = true)
+    @DecimalMax(value = "3.0", inclusive = true)
     public Integer semester;
     public Float processScore;
     public Float finalScore;

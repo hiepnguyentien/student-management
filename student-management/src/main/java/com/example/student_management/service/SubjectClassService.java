@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,7 +50,7 @@ public class SubjectClassService implements ISubjectClassService{
     public SubjectClassDTO findById(Long id) {
         return subjectClassRepository.findById(id)
         .map(this::convertToDTO)
-        .orElseThrow(() -> new AppException(ErrorCode.SUBJECT_CLASS_NOTFOUND));
+        .orElseThrow(() -> new AppException(ErrorCode.SUBJECT_CLASS_NOT_FOUND));
     }
 
     @Override
@@ -62,18 +63,18 @@ public class SubjectClassService implements ISubjectClassService{
     @Override
     public UpdateSubjectClassDTO updateSubjectClass(UpdateSubjectClassDTO updateSubjectClassDTO) {
         SubjectClass subjectClass = subjectClassRepository.findById(updateSubjectClassDTO.getId())
-        .orElseThrow(() -> new AppException(ErrorCode.SUBJECT_CLASS_NOTFOUND));
+        .orElseThrow(() -> new AppException(ErrorCode.SUBJECT_CLASS_NOT_FOUND));
 
         subjectClass.setName(updateSubjectClassDTO.getName());
 
         Subject subject = subjectService
         .findSubjectByIdForService(updateSubjectClassDTO.getSubjectId())
-        .orElseThrow(() -> new AppException(ErrorCode.SUBJECT_NOTFOUND));
+        .orElseThrow(() -> new AppException(ErrorCode.SUBJECT_NOT_FOUND));
         subjectClass.setSubject(subject);
 
         Lecturer lecturer = lecturerService
         .findLecturerByIdForService(updateSubjectClassDTO.getLecturerId())
-        .orElseThrow(() -> new AppException(ErrorCode.LECTURER_NOTFOUND));
+        .orElseThrow(() -> new AppException(ErrorCode.LECTURER_NOT_FOUND));
         subjectClass.setLecturer(lecturer);
 
         subjectClassRepository.save(subjectClass);
@@ -87,12 +88,12 @@ public class SubjectClassService implements ISubjectClassService{
 
         Subject subject = subjectService
                 .findSubjectByIdForService(addSubjectClassDTO.getSubjectId())
-                .orElseThrow(() -> new AppException(ErrorCode.SUBJECT_NOTFOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.SUBJECT_NOT_FOUND));
         subjectClass.setSubject(subject);
 
         Lecturer lecturer = lecturerService
                 .findLecturerByIdForService(addSubjectClassDTO.getLecturerId())
-                .orElseThrow(() -> new AppException(ErrorCode.LECTURER_NOTFOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.LECTURER_NOT_FOUND));
         subjectClass.setLecturer(lecturer);
         subjectClassRepository.save(subjectClass);
 
@@ -102,7 +103,12 @@ public class SubjectClassService implements ISubjectClassService{
     @Override
     public void delete(Long id) {
         SubjectClass subjectClass = subjectClassRepository.findById(id)
-        .orElseThrow(() -> new AppException(ErrorCode.SUBJECT_CLASS_NOTFOUND));
+        .orElseThrow(() -> new AppException(ErrorCode.SUBJECT_CLASS_NOT_FOUND));
         subjectClassRepository.delete(subjectClass);
+    }
+
+    @Override
+    public Optional<SubjectClass> findByIdForService(Long id) {
+        return subjectClassRepository.findById(id);
     }
 }

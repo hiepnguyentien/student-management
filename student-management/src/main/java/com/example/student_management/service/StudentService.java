@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -61,7 +62,7 @@ public class StudentService implements IStudentService {
 
         ManagementClass managementClass = managementClassService
                 .findManagementClassByIdForService(addStudentDTO.getManagementClassId())
-                .orElseThrow(() -> new AppException(ErrorCode.MANAGEMENT_CLASS_NOTFOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.MANAGEMENT_CLASS_NOT_FOUND));
         student.setManagementClass(managementClass);
         studentRepository.save(student);
         return addStudentDTO;
@@ -79,7 +80,7 @@ public class StudentService implements IStudentService {
     public StudentDTO findStudentById(Long id) {
         return studentRepository.findById(id)
                 .map(this::convertToDTO)
-                .orElseThrow(() -> new AppException(ErrorCode.STUDENT_NOTFOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.STUDENT_NOT_FOUND));
     }
 
     @Override
@@ -96,7 +97,7 @@ public class StudentService implements IStudentService {
                 .anyMatch(student -> student.getManagementClass().getManagementClassId().equals(id));
 
         if (!exists) {
-            throw new AppException(ErrorCode.MANAGEMENT_CLASS_NOTFOUND);
+            throw new AppException(ErrorCode.MANAGEMENT_CLASS_NOT_FOUND);
         }
 
         return studentRepository.findAll().stream()
@@ -108,7 +109,7 @@ public class StudentService implements IStudentService {
     @Override
     public UpdateStudentDTO updateStudent(UpdateStudentDTO input) {
         Student student = studentRepository.findById(input.getId())
-                .orElseThrow(() -> new AppException(ErrorCode.STUDENT_NOTFOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.STUDENT_NOT_FOUND));
 
         student.setFirstName(input.getFirstName());
         student.setLastName(input.getLastName());
@@ -120,7 +121,7 @@ public class StudentService implements IStudentService {
 
         ManagementClass managementClass = managementClassService
                 .findManagementClassByIdForService(input.getManagementClassId())
-                .orElseThrow(() -> new AppException(ErrorCode.MANAGEMENT_CLASS_NOTFOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.MANAGEMENT_CLASS_NOT_FOUND));
 
         student.setManagementClass(managementClass);
         studentRepository.save(student);
@@ -130,7 +131,12 @@ public class StudentService implements IStudentService {
     @Override
     public void deleteStudent(Long id) {
         Student student = studentRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.STUDENT_NOTFOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.STUDENT_NOT_FOUND));
         studentRepository.delete(student);
+    }
+
+    @Override
+    public Optional<Student> findStudentByIdForService(Long id) {
+        return studentRepository.findById(id);
     }
 }

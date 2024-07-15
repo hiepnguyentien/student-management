@@ -50,7 +50,7 @@ public class SubjectService implements ISubjectService {
     public SubjectDTO findSubjectById(Long id) {
         return subjectRepository.findById(id)
                 .map(this::convertToDTO)
-                .orElseThrow(() -> new AppException(ErrorCode.SUBJECT_NOTFOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.SUBJECT_NOT_FOUND));
     }
 
     @Override
@@ -71,7 +71,7 @@ public class SubjectService implements ISubjectService {
     @Override
     public UpdateSubjectDTO updateSubject(UpdateSubjectDTO subjectDTO) {
         Subject subject = subjectRepository
-                .findById(subjectDTO.getId()).orElseThrow(() -> new AppException(ErrorCode.SUBJECT_NOTFOUND));
+                .findById(subjectDTO.getId()).orElseThrow(() -> new AppException(ErrorCode.SUBJECT_NOT_FOUND));
         subject.setName(subjectDTO.getName());
         subject.setDescription(subjectDTO.getDescription());
         subject.setCredit(subjectDTO.getCredit());
@@ -82,7 +82,7 @@ public class SubjectService implements ISubjectService {
     @Override
     public void deleteSubject(Long id) {
         Subject subject = subjectRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.SUBJECT_NOTFOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.SUBJECT_NOT_FOUND));
         subjectRepository.delete(subject);
     }
 }

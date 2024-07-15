@@ -6,7 +6,10 @@ import com.example.student_management.dto.score.UpdateScoreDTO;
 import com.example.student_management.exception.AppException;
 import com.example.student_management.exception.ErrorCode;
 import com.example.student_management.model.Score;
+import com.example.student_management.model.Student;
+import com.example.student_management.model.SubjectClass;
 import com.example.student_management.repository.ScoreRepository;
+import com.example.student_management.repository.StudentRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,10 +21,15 @@ import java.util.stream.Collectors;
 public class ScoreService implements IScoreService {
 
     private final ScoreRepository scoreRepository;
+    private final StudentService studentService;
+    private final SubjectClassService subjectClassService;
 
     @Autowired
-    public ScoreService(ScoreRepository scoreRepository) {
+    public ScoreService(ScoreRepository scoreRepository, StudentService studentService,
+            SubjectClassService subjectClassService) {
         this.scoreRepository = scoreRepository;
+        this.studentService = studentService;
+        this.subjectClassService = subjectClassService;
     }
 
     private ScoreDTO convertToDTO(Score score) {
@@ -45,7 +53,7 @@ public class ScoreService implements IScoreService {
                 .anyMatch(s -> s.getStudent().getStudentId().equals(id));
 
         if (!exist) {
-            throw new AppException(ErrorCode.STUDENT_NOTFOUND);
+            throw new AppException(ErrorCode.STUDENT_NOT_FOUND);
         }
 
         return scoreRepository.findAll()
@@ -60,7 +68,7 @@ public class ScoreService implements IScoreService {
                 .anyMatch(s -> s.getSubjectClass().getSubjectClassId().equals(id));
 
         if (!exist) {
-            throw new AppException(ErrorCode.SUBJECT_CLASS_NOTFOUND);
+            throw new AppException(ErrorCode.SUBJECT_CLASS_NOT_FOUND);
         }
 
         return scoreRepository.findAll()
@@ -75,13 +83,13 @@ public class ScoreService implements IScoreService {
                 .anyMatch(s -> s.getSubjectClass().getSubjectClassId().equals(subjectClassId));
 
         if (!existSubjectClass) {
-            throw new AppException(ErrorCode.SUBJECT_CLASS_NOTFOUND);
+            throw new AppException(ErrorCode.SUBJECT_CLASS_NOT_FOUND);
         }
         boolean existStudent = scoreRepository.findAll().stream()
                 .anyMatch(s -> s.getStudent().getStudentId().equals(studentId));
 
         if (!existStudent) {
-            throw new AppException(ErrorCode.STUDENT_NOTFOUND);
+            throw new AppException(ErrorCode.STUDENT_NOT_FOUND);
         }
 
         return scoreRepository.findAll()
@@ -97,13 +105,17 @@ public class ScoreService implements IScoreService {
                 .anyMatch(s -> s.getStudent().getStudentId().equals(studentId));
 
         if (!existStudent) {
-            throw new AppException(ErrorCode.STUDENT_NOTFOUND);
+            throw new AppException(ErrorCode.STUDENT_NOT_FOUND);
         }
 
         return scoreRepository.findAll()
                 .stream().map(this::convertToDTO)
                 .filter(s -> s.getSemester().equals(semester))
                 .collect(Collectors.toList());
+    }
+
+    private boolean isFlunked(Score score) {
+        return score.getFinalScore() < 4;
     }
 
     @Override
@@ -113,17 +125,16 @@ public class ScoreService implements IScoreService {
                 .anyMatch(s -> s.getSubjectClass().getSubjectClassId().equals(subjectClassId));
 
         if (!existSubjectClass) {
-            throw new AppException(ErrorCode.SUBJECT_CLASS_NOTFOUND);
+            throw new AppException(ErrorCode.SUBJECT_CLASS_NOT_FOUND);
         }
         boolean existStudent = scoreRepository.findAll().stream()
                 .anyMatch(s -> s.getStudent().getStudentId().equals(studentId));
 
         if (!existStudent) {
-            throw new AppException(ErrorCode.STUDENT_NOTFOUND);
+            throw new AppException(ErrorCode.STUDENT_NOT_FOUND);
         }
 
         Score score = scoreRepository.findByStudentIdAndSubjectClassId(studentId, subjectClassId);
-
         if (score == null) {
             throw new AppException(ErrorCode.SCORE_DOES_NOT_EXIST);
         }
@@ -142,17 +153,33 @@ public class ScoreService implements IScoreService {
                 .anyMatch(s -> s.getSubjectClass().getSubjectClassId().equals(subjectClassId));
 
         if (!existSubjectClass) {
-            throw new AppException(ErrorCode.SUBJECT_CLASS_NOTFOUND);
+            throw new AppException(ErrorCode.SUBJECT_CLASS_NOT_FOUND);
         }
 
         boolean existStudent = scoreRepository.findAll().stream()
                 .anyMatch(s -> s.getStudent().getStudentId().equals(studentId));
 
         if (!existStudent) {
-            throw new AppException(ErrorCode.STUDENT_NOTFOUND);
+            throw new AppException(ErrorCode.STUDENT_NOT_FOUND);
+        }
+
+        Score score1 = scoreRepository.findByStudentIdAndSubjectClassId(studentId, subjectClassId);
+        if (score1 != null) {
+            if (!isFlunked(score1)) {
+                throw new AppException(ErrorCode.SCORE_FOUND);
+            }
         }
 
         Score score = new Score();
+
+        Student student = studentService.findStudentByIdForService(studentId)
+                .orElseThrow(() -> new AppException(ErrorCode.STUDENT_NOT_FOUND));
+        score.setStudent(student);
+
+        SubjectClass subjectClass = subjectClassService.findByIdForService(subjectClassId)
+                .orElseThrow(() -> new AppException(ErrorCode.SUBJECT_NOT_FOUND));
+        score.setSubjectClass(subjectClass);
+
         score.setAttendanceScore(addScoreDTO.getAttendanceScore());
         score.setMidTermScore(addScoreDTO.getMidTermScore());
         score.setEndTermScore(addScoreDTO.getEndTermScore());
@@ -168,14 +195,14 @@ public class ScoreService implements IScoreService {
                 .anyMatch(s -> s.getSubjectClass().getSubjectClassId().equals(subjectClassId));
 
         if (!existSubjectClass) {
-            throw new AppException(ErrorCode.SUBJECT_CLASS_NOTFOUND);
+            throw new AppException(ErrorCode.SUBJECT_CLASS_NOT_FOUND);
         }
 
         boolean existStudent = scoreRepository.findAll().stream()
                 .anyMatch(s -> s.getStudent().getStudentId().equals(studentId));
 
         if (!existStudent) {
-            throw new AppException(ErrorCode.STUDENT_NOTFOUND);
+            throw new AppException(ErrorCode.STUDENT_NOT_FOUND);
         }
 
         Score score = scoreRepository.findByStudentIdAndSubjectClassId(studentId, subjectClassId);

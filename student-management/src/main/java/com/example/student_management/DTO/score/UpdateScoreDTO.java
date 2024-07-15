@@ -1,32 +1,37 @@
 package com.example.student_management.dto.score;
 import java.util.Objects;
 
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
 
 public class UpdateScoreDTO {
     public Long scoreId;
     public Long studentId;
-    @Size(min = 0, max = 10, message = "Điểm phải nằm trong khoảng từ 0 đến 10")
-    public Float attendanceScore;
-    @Size(min = 0, max = 10, message = "Điểm phải nằm trong khoảng từ 0 đến 10")
-    public Float midTermScore;
-    @Size(min = 0, max = 10, message = "Điểm phải nằm trong khoảng từ 0 đến 10")
-    public Float endTermScore;
     public Long subjectClassId;
-    @Size(min = 1, max = 3, message = "Học kỳ phải nằm trong khoảng từ 1 đến 3")
+    @DecimalMin(value = "0.0", inclusive = true)
+    @DecimalMax(value = "10.0", inclusive = true)
+    public Float attendanceScore;
+    @DecimalMin(value = "0.0", inclusive = true)
+    @DecimalMax(value = "10.0", inclusive = true)
+    public Float midTermScore;
+    @DecimalMin(value = "0.0", inclusive = true)
+    @DecimalMax(value = "10.0", inclusive = true)
+    public Float endTermScore;
+    @DecimalMin(value = "1.0", inclusive = true)
+    @DecimalMax(value = "3.0", inclusive = true)
     public Integer semester;
 
 
     public UpdateScoreDTO() {
     }
 
-    public UpdateScoreDTO(Long scoreId, Long studentId, Float attendanceScore, Float midTermScore, Float endTermScore, Long subjectClassId, Integer semester) {
+    public UpdateScoreDTO(Long scoreId, Long studentId, Long subjectClassId, Float attendanceScore, Float midTermScore, Float endTermScore, Integer semester) {
         this.scoreId = scoreId;
         this.studentId = studentId;
+        this.subjectClassId = subjectClassId;
         this.attendanceScore = attendanceScore;
         this.midTermScore = midTermScore;
         this.endTermScore = endTermScore;
-        this.subjectClassId = subjectClassId;
         this.semester = semester;
     }
 
@@ -44,6 +49,14 @@ public class UpdateScoreDTO {
 
     public void setStudentId(Long studentId) {
         this.studentId = studentId;
+    }
+
+    public Long getSubjectClassId() {
+        return this.subjectClassId;
+    }
+
+    public void setSubjectClassId(Long subjectClassId) {
+        this.subjectClassId = subjectClassId;
     }
 
     public Float getAttendanceScore() {
@@ -70,14 +83,6 @@ public class UpdateScoreDTO {
         this.endTermScore = endTermScore;
     }
 
-    public Long getSubjectClassId() {
-        return this.subjectClassId;
-    }
-
-    public void setSubjectClassId(Long subjectClassId) {
-        this.subjectClassId = subjectClassId;
-    }
-
     public Integer getSemester() {
         return this.semester;
     }
@@ -96,6 +101,11 @@ public class UpdateScoreDTO {
         return this;
     }
 
+    public UpdateScoreDTO subjectClassId(Long subjectClassId) {
+        setSubjectClassId(subjectClassId);
+        return this;
+    }
+
     public UpdateScoreDTO attendanceScore(Float attendanceScore) {
         setAttendanceScore(attendanceScore);
         return this;
@@ -108,11 +118,6 @@ public class UpdateScoreDTO {
 
     public UpdateScoreDTO endTermScore(Float endTermScore) {
         setEndTermScore(endTermScore);
-        return this;
-    }
-
-    public UpdateScoreDTO subjectClassId(Long subjectClassId) {
-        setSubjectClassId(subjectClassId);
         return this;
     }
 
@@ -129,12 +134,12 @@ public class UpdateScoreDTO {
             return false;
         }
         UpdateScoreDTO updateScoreDTO = (UpdateScoreDTO) o;
-        return Objects.equals(scoreId, updateScoreDTO.scoreId) && Objects.equals(studentId, updateScoreDTO.studentId) && Objects.equals(attendanceScore, updateScoreDTO.attendanceScore) && Objects.equals(midTermScore, updateScoreDTO.midTermScore) && Objects.equals(endTermScore, updateScoreDTO.endTermScore) && Objects.equals(subjectClassId, updateScoreDTO.subjectClassId) && Objects.equals(semester, updateScoreDTO.semester);
+        return Objects.equals(scoreId, updateScoreDTO.scoreId) && Objects.equals(studentId, updateScoreDTO.studentId) && Objects.equals(subjectClassId, updateScoreDTO.subjectClassId) && Objects.equals(attendanceScore, updateScoreDTO.attendanceScore) && Objects.equals(midTermScore, updateScoreDTO.midTermScore) && Objects.equals(endTermScore, updateScoreDTO.endTermScore) && Objects.equals(semester, updateScoreDTO.semester);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(scoreId, studentId, attendanceScore, midTermScore, endTermScore, subjectClassId, semester);
+        return Objects.hash(scoreId, studentId, subjectClassId, attendanceScore, midTermScore, endTermScore, semester);
     }
 
     @Override
@@ -142,13 +147,12 @@ public class UpdateScoreDTO {
         return "{" +
             " scoreId='" + getScoreId() + "'" +
             ", studentId='" + getStudentId() + "'" +
+            ", subjectClassId='" + getSubjectClassId() + "'" +
             ", attendanceScore='" + getAttendanceScore() + "'" +
             ", midTermScore='" + getMidTermScore() + "'" +
             ", endTermScore='" + getEndTermScore() + "'" +
-            ", subjectClassId='" + getSubjectClassId() + "'" +
             ", semester='" + getSemester() + "'" +
             "}";
     }
-    
-    
+
 }

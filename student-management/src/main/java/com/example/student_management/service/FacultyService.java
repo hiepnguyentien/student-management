@@ -64,7 +64,7 @@ public class FacultyService implements IFacultyService {
     @Override
     public void delete(Long id) {
         Faculty faculty = facultyRepository.findById(id)
-        .orElseThrow(() -> new AppException(ErrorCode.FACULTY_NOTFOUND));
+        .orElseThrow(() -> new AppException(ErrorCode.FACULTY_NOT_FOUND));
         facultyRepository.delete(faculty);
     }
 }
