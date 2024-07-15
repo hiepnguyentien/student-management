@@ -107,8 +107,8 @@ public class Lecturer extends Person {
         return "{" +
             " lecturerId='" + getLecturerId() + "'" +
             ", facultyId='" + getFacultyId() + "'" +
-            ", managementClass='" + getManagementClass() + "'" +
-            ", subjectclasses='" + getSubjectclasses() + "'" +
+            // ", managementClass='" + getManagementClass() + "'" +
+            // ", subjectclasses='" + getSubjectclasses() + "'" +
             "}";
     }
     

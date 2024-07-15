@@ -127,7 +127,7 @@ public class ManagementClass {
             ", name='" + getName() + "'" +
             ", faculty='" + getFaculty() + "'" +
             ", lecturer='" + getLecturer() + "'" +
-            ", students='" + getStudents() + "'" +
+            // ", students='" + getStudents() + "'" +
             "}";
     }
     

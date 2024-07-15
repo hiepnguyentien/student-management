@@ -108,8 +108,8 @@ public class Faculty {
         return "{" +
             " facultyId='" + getFacultyId() + "'" +
             ", facultyName='" + getFacultyName() + "'" +
-            ", subjects='" + getSubjects() + "'" +
-            ", managementClasses='" + getManagementClasses() + "'" +
+            // ", subjects='" + getSubjects() + "'" +
+            // ", managementClasses='" + getManagementClasses() + "'" +
             "}";
     }
 
