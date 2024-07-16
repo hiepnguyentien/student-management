@@ -1,14 +1,15 @@
 package com.example.student_management.service;
 
-import com.example.student_management.dto.subjectClass.AddSubjectClassDTO;
-import com.example.student_management.dto.subjectClass.SubjectClassDTO;
-import com.example.student_management.dto.subjectClass.UpdateSubjectClassDTO;
+import com.example.student_management.dto.subject_class.AddSubjectClassDTO;
+import com.example.student_management.dto.subject_class.SubjectClassDTO;
+import com.example.student_management.dto.subject_class.UpdateSubjectClassDTO;
 import com.example.student_management.exception.AppException;
 import com.example.student_management.exception.ErrorCode;
 import com.example.student_management.model.Lecturer;
 import com.example.student_management.model.Subject;
 import com.example.student_management.model.SubjectClass;
 import com.example.student_management.repository.SubjectClassRepository;
+import com.example.student_management.service.abstracts.ISubjectClassService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class SubjectClassService implements ISubjectClassService{
+public class SubjectClassService implements ISubjectClassService {
 
     private final SubjectClassRepository subjectClassRepository;
     private final SubjectService subjectService;

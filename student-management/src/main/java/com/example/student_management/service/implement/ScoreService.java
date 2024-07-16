@@ -10,6 +10,7 @@ import com.example.student_management.model.Student;
 import com.example.student_management.model.SubjectClass;
 import com.example.student_management.repository.ScoreRepository;
 
+import com.example.student_management.service.abstracts.IScoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

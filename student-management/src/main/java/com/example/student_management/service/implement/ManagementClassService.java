@@ -2,15 +2,16 @@ package com.example.student_management.service;
 
 import java.util.Optional;
 
+import com.example.student_management.service.abstracts.IManagementClassService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.student_management.dto.managementClass.ManagementClassDTO;
+import com.example.student_management.dto.management_class.ManagementClassDTO;
 import com.example.student_management.model.ManagementClass;
 import com.example.student_management.repository.ManagementClassRepository;
 
 @Service
-public class ManagementClassService implements IManagementClassService{
+public class ManagementClassService implements IManagementClassService {
 
     private final ManagementClassRepository managementClassRepository;
 

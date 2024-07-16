@@ -8,6 +8,7 @@ import com.example.student_management.exception.ErrorCode;
 import com.example.student_management.model.Subject;
 import com.example.student_management.repository.SubjectRepository;
 
+import com.example.student_management.service.abstracts.ISubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

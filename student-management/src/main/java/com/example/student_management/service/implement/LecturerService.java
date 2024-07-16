@@ -8,6 +8,7 @@ import com.example.student_management.exception.ErrorCode;
 import com.example.student_management.model.Lecturer;
 import com.example.student_management.model.ManagementClass;
 import com.example.student_management.repository.LecturerRepository;
+import com.example.student_management.service.abstracts.ILecturerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class LecturerService implements ILecturerService{
+public class LecturerService implements ILecturerService {
 
     private final LecturerRepository lecturerRepository;
     private final ManagementClassService managementClassService;
