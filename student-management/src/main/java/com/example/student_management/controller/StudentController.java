@@ -4,7 +4,7 @@ import com.example.student_management.dto.ApiResponse;
 import com.example.student_management.dto.student.AddStudentDTO;
 import com.example.student_management.dto.student.StudentDTO;
 import com.example.student_management.dto.student.UpdateStudentDTO;
-import com.example.student_management.service.StudentService;
+import com.example.student_management.service.implement.StudentService;
 
 import jakarta.validation.Valid;
 
@@ -18,7 +18,6 @@ import java.util.List;
 public class StudentController {
     private final StudentService studentService;
 
-    @Autowired
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
     }
@@ -54,19 +53,19 @@ public class StudentController {
     }
 
     @PostMapping
-    public ApiResponse<AddStudentDTO> addNewStudent(@RequestBody @Valid AddStudentDTO student){
-        ApiResponse<AddStudentDTO> apiResponse = new ApiResponse<>();
+    public ApiResponse<StudentDTO> addNewStudent(@RequestBody @Valid AddStudentDTO student){
+        ApiResponse<StudentDTO> apiResponse = new ApiResponse<>();
 
         apiResponse.setResult(studentService.addNewStudent(student));
 
         return apiResponse;
     }
 
-    @PutMapping
-    public ApiResponse<UpdateStudentDTO> updateStudent(@RequestBody @Valid UpdateStudentDTO student){
-        ApiResponse<UpdateStudentDTO> apiResponse = new ApiResponse<>();
+    @PutMapping("/{id}")
+    public ApiResponse<StudentDTO> updateStudent(@PathVariable @Valid Long id, @RequestBody @Valid UpdateStudentDTO student){
+        ApiResponse<StudentDTO> apiResponse = new ApiResponse<>();
 
-        apiResponse.setResult(studentService.updateStudent(student));
+        apiResponse.setResult(studentService.updateStudent(id, student));
 
         return apiResponse;
     }

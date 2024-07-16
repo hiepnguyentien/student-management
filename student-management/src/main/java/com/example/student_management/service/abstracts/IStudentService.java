@@ -1,4 +1,4 @@
-package com.example.student_management.service;
+package com.example.student_management.service.abstracts;
 
 import com.example.student_management.dto.student.AddStudentDTO;
 import com.example.student_management.dto.student.StudentDTO;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IStudentService {
-    AddStudentDTO addNewStudent(AddStudentDTO student);
+    StudentDTO addNewStudent(AddStudentDTO student);
 
     List<StudentDTO> findStudentByName(String name);
 
@@ -21,7 +21,7 @@ public interface IStudentService {
 
     List<StudentDTO> findStudentByManagementClassId(Long id);
 
-    UpdateStudentDTO updateStudent(UpdateStudentDTO student);
+    StudentDTO updateStudent(Long studentId, UpdateStudentDTO student);
 
     void deleteStudent(Long id);
 

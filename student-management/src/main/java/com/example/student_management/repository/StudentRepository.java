@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
-    @Query("SELECT s FROM Student s WHERE s.email = ?1")
+    @Query("SELECT s FROM student s WHERE s.email = ?1")
     StudentDTO findStudentByEmail(String email);
 
     boolean existsByEmail(String email);

@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.student_management.dto.ApiResponse;
-import com.example.student_management.dto.subjectClass.AddSubjectClassDTO;
-import com.example.student_management.dto.subjectClass.SubjectClassDTO;
-import com.example.student_management.dto.subjectClass.UpdateSubjectClassDTO;
-import com.example.student_management.service.SubjectClassService;
+import com.example.student_management.dto.subject_class.AddSubjectClassDTO;
+import com.example.student_management.dto.subject_class.SubjectClassDTO;
+import com.example.student_management.dto.subject_class.UpdateSubjectClassDTO;
+import com.example.student_management.service.implement.SubjectClassService;
 
 import jakarta.validation.Valid;
 

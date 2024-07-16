@@ -1,15 +1,19 @@
-package com.example.student_management.service;
+package com.example.student_management.service.implement;
 
 import com.example.student_management.dto.student.AddStudentDTO;
 import com.example.student_management.dto.student.StudentDTO;
 import com.example.student_management.dto.student.UpdateStudentDTO;
 import com.example.student_management.exception.AppException;
 import com.example.student_management.exception.ErrorCode;
-import com.example.student_management.model.ManagementClass;
-import com.example.student_management.model.Student;
+import com.example.student_management.mapper.StudentMapper;
+    import com.example.student_management.model.Student;
 import com.example.student_management.repository.StudentRepository;
 import com.example.student_management.service.abstracts.IStudentService;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.AccessLevel;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,78 +21,54 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class StudentService implements IStudentService {
-
-    private final StudentRepository studentRepository;
-    private final ManagementClassService managementClassService;
-
-    @Autowired
-    public StudentService(StudentRepository studentRepository, ManagementClassService managementClassService) {
-        this.studentRepository = studentRepository;
-        this.managementClassService = managementClassService;
-    }
+    StudentRepository studentRepository;
+    StudentMapper studentMapper;
 
     public List<StudentDTO> findAll() {
-        return studentRepository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
+        return studentRepository.findAll().stream()
+                .map(studentMapper::toStudentDTO)
+                .collect(Collectors.toList());
     }
 
-    private StudentDTO convertToDTO(Student student) {
-        return new StudentDTO(
-                student.getStudentId(),
-                student.getFirstName(),
-                student.getLastName(),
-                student.getEmail(),
-                student.getPhoneNumber(),
-                student.getAddress(),
-                student.getGender(),
-                student.getDateOfBirth(),
-                student.getManagementClass().getName());
-    }
-
-    public AddStudentDTO addNewStudent(AddStudentDTO addStudentDTO) {
+    public StudentDTO addNewStudent(AddStudentDTO addStudentDTO) {
         if (studentRepository.existsByEmail(addStudentDTO.getEmail())) {
             throw new AppException(ErrorCode.EMAIL_EXISTED);
         }
         if (studentRepository.existsByPhoneNumber(addStudentDTO.getPhoneNumber())) {
             throw new AppException(ErrorCode.PHONE_NUMBER_EXISTED);
         }
-        Student student = new Student();
-        student.setFirstName(addStudentDTO.getFirstName());
-        student.setLastName(addStudentDTO.getLastName());
-        student.setEmail(addStudentDTO.getEmail());
-        student.setPhoneNumber(addStudentDTO.getPhoneNumber());
-        student.setAddress(addStudentDTO.getAddress());
-        student.setGender(addStudentDTO.getGender());
-        student.setDateOfBirth(addStudentDTO.getDateOfBirth());
 
-        ManagementClass managementClass = managementClassService
-                .findManagementClassByIdForService(addStudentDTO.getManagementClassId())
-                .orElseThrow(() -> new AppException(ErrorCode.MANAGEMENT_CLASS_NOT_FOUND));
-        student.setManagementClass(managementClass);
+        System.out.println("------------------addStudentDTO: " + addStudentDTO + "----------------------");
+        Student student = studentMapper.toStudent(addStudentDTO);
+
+        System.out.println("------------------student: " + student + "----------------------");
         studentRepository.save(student);
-        return addStudentDTO;
+
+        return studentMapper.toStudentDTO(student);
     }
 
     @Override
     public List<StudentDTO> findStudentByName(String name) {
         return studentRepository.findAll().stream()
                 .filter(student -> student.getFirstName().contains(name) || student.getLastName().contains(name))
-                .map(this::convertToDTO)
+                .map(studentMapper::toStudentDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
     public StudentDTO findStudentById(Long id) {
-        return studentRepository.findById(id)
-                .map(this::convertToDTO)
-                .orElseThrow(() -> new AppException(ErrorCode.STUDENT_NOT_FOUND));
+        return studentMapper.toStudentDTO(studentRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.STUDENT_NOT_FOUND)));
     }
 
     @Override
     public List<StudentDTO> findStudentByManagementClassName(String name) {
         return studentRepository.findAll().stream()
                 .filter(student -> student.getManagementClass().getName().contains(name))
-                .map(this::convertToDTO)
+                .map(studentMapper::toStudentDTO)
                 .collect(Collectors.toList());
     }
 
@@ -103,30 +83,19 @@ public class StudentService implements IStudentService {
 
         return studentRepository.findAll().stream()
                 .filter(student -> student.getManagementClass().getManagementClassId().equals(id))
-                .map(this::convertToDTO)
+                .map(studentMapper::toStudentDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public UpdateStudentDTO updateStudent(UpdateStudentDTO input) {
-        Student student = studentRepository.findById(input.getId())
+    public StudentDTO updateStudent(Long studentId, UpdateStudentDTO input) {
+        Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new AppException(ErrorCode.STUDENT_NOT_FOUND));
+        studentMapper.updateStudent(student, input);
 
-        student.setFirstName(input.getFirstName());
-        student.setLastName(input.getLastName());
-        student.setEmail(input.getEmail());
-        student.setPhoneNumber(input.getPhoneNumber());
-        student.setAddress(input.getAddress());
-        student.setGender(input.getGender());
-        student.setDateOfBirth(input.getDateOfBirth());
-
-        ManagementClass managementClass = managementClassService
-                .findManagementClassByIdForService(input.getManagementClassId())
-                .orElseThrow(() -> new AppException(ErrorCode.MANAGEMENT_CLASS_NOT_FOUND));
-
-        student.setManagementClass(managementClass);
         studentRepository.save(student);
-        return input;
+
+        return studentMapper.toStudentDTO(student);
     }
 
     @Override

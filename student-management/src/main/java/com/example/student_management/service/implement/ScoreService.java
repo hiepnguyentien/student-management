@@ -1,4 +1,4 @@
-package com.example.student_management.service;
+package com.example.student_management.service.implement;
 
 import com.example.student_management.dto.score.AddScoreDTO;
 import com.example.student_management.dto.score.ScoreDTO;

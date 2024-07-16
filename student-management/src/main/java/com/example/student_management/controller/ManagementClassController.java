@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.student_management.dto.managementClass.ManagementClassDTO;
-import com.example.student_management.service.ManagementClassService;
+import com.example.student_management.dto.management_class.ManagementClassDTO;
+import com.example.student_management.model.ManagementClass;
+import com.example.student_management.service.implement.ManagementClassService;
 
 @RestController
 @RequestMapping(path = "management")
@@ -27,8 +28,7 @@ public class ManagementClassController {
     // }
 
     @GetMapping("id/{id}")
-    public Optional<ManagementClassDTO> findById(@PathVariable Long id){
-        Optional<ManagementClassDTO> managementClass = managementClassService.findManagementClassById(id);
-        return managementClass;
+    public ManagementClass findById(@PathVariable Long id){
+        return managementClassService.findManagementClassById(id);
     }
 }

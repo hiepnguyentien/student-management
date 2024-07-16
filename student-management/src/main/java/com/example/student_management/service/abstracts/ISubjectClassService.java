@@ -1,8 +1,8 @@
-package com.example.student_management.service;
+package com.example.student_management.service.abstracts;
 
-import com.example.student_management.dto.subjectClass.AddSubjectClassDTO;
-import com.example.student_management.dto.subjectClass.SubjectClassDTO;
-import com.example.student_management.dto.subjectClass.UpdateSubjectClassDTO;
+import com.example.student_management.dto.subject_class.AddSubjectClassDTO;
+import com.example.student_management.dto.subject_class.SubjectClassDTO;
+import com.example.student_management.dto.subject_class.UpdateSubjectClassDTO;
 import com.example.student_management.model.SubjectClass;
 
 import java.util.List;

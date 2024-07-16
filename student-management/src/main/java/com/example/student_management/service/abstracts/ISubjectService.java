@@ -1,4 +1,4 @@
-package com.example.student_management.service;
+package com.example.student_management.service.abstracts;
 
 import java.util.List;
 import java.util.Optional;

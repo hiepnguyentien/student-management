@@ -4,7 +4,7 @@ import com.example.student_management.dto.ApiResponse;
 import com.example.student_management.dto.subject.AddSubjectDTO;
 import com.example.student_management.dto.subject.SubjectDTO;
 import com.example.student_management.dto.subject.UpdateSubjectDTO;
-import com.example.student_management.service.SubjectService;
+import com.example.student_management.service.implement.SubjectService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

@@ -3,7 +3,7 @@ package com.example.student_management.controller;
 import com.example.student_management.dto.faculty.AddNewFacultyDTO;
 import com.example.student_management.dto.faculty.FacultyDTO;
 import com.example.student_management.dto.faculty.UpdateFacultyDTO;
-import com.example.student_management.service.FacultyService;
+import com.example.student_management.service.implement.FacultyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

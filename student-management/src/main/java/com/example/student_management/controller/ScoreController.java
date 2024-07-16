@@ -16,7 +16,7 @@ import com.example.student_management.dto.ApiResponse;
 import com.example.student_management.dto.score.AddScoreDTO;
 import com.example.student_management.dto.score.ScoreDTO;
 import com.example.student_management.dto.score.UpdateScoreDTO;
-import com.example.student_management.service.IScoreService;
+import com.example.student_management.service.abstracts.IScoreService;
 
 import jakarta.validation.Valid;
 

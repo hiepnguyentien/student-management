@@ -1,4 +1,4 @@
-package com.example.student_management.service;
+package com.example.student_management.service.abstracts;
 
 import com.example.student_management.dto.faculty.AddNewFacultyDTO;
 import com.example.student_management.dto.faculty.FacultyDTO;

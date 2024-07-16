@@ -1,4 +1,4 @@
-package com.example.student_management.service;
+package com.example.student_management.service.implement;
 
 import java.util.Optional;
 
@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.student_management.dto.management_class.ManagementClassDTO;
+import com.example.student_management.exception.AppException;
+import com.example.student_management.exception.ErrorCode;
 import com.example.student_management.model.ManagementClass;
 import com.example.student_management.repository.ManagementClassRepository;
 
@@ -25,23 +27,9 @@ public class ManagementClassService implements IManagementClassService {
         return managementClassRepository.findById(id);
     }
 
-    private ManagementClassDTO convertToDTO(ManagementClass managementClass) {
-        return new ManagementClassDTO(
-                managementClass.getManagementClassId(),
-                managementClass.getName(),
-                managementClass.getFaculty().getFacultyId(),
-                managementClass.getLecturer().getLecturerId()
-        );
-    }
-
     @Override
-    public Optional<ManagementClassDTO> findManagementClassById(Long id) {
-        Optional<ManagementClass> management
-                = managementClassRepository.findById(id);
-        if (management.isPresent()) {
-            return Optional.of(convertToDTO(management.get()));
-        }
-        return Optional.empty();
+    public ManagementClass findManagementClassById(Long id) {
+        return managementClassRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.MANAGEMENT_CLASS_NOT_FOUND));
     }
     
 }
