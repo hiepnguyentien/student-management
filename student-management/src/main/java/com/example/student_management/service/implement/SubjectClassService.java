@@ -6,8 +6,6 @@ import com.example.student_management.dto.subject_class.UpdateSubjectClassDTO;
 import com.example.student_management.exception.AppException;
 import com.example.student_management.exception.ErrorCode;
 import com.example.student_management.mapper.SubjectClassMapper;
-import com.example.student_management.model.Lecturer;
-import com.example.student_management.model.Subject;
 import com.example.student_management.model.SubjectClass;
 import com.example.student_management.repository.SubjectClassRepository;
 import com.example.student_management.service.abstracts.ISubjectClassService;
@@ -20,7 +18,6 @@ import lombok.AccessLevel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

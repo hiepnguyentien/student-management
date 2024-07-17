@@ -1,16 +1,12 @@
 package com.example.student_management.service.implement;
 
-import java.util.Optional;
-
 import com.example.student_management.service.abstracts.IManagementClassService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.student_management.dto.management_class.ManagementClassDTO;
 import com.example.student_management.exception.AppException;
 import com.example.student_management.exception.ErrorCode;
 import com.example.student_management.model.ManagementClass;
