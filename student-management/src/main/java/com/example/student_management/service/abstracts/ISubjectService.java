@@ -17,9 +17,9 @@ public interface ISubjectService {
 
     public Optional<Subject> findSubjectByIdForService(Long id);
 
-    public AddSubjectDTO addSubject(AddSubjectDTO subjectDTO);
+    public SubjectDTO addSubject(AddSubjectDTO subjectDTO);
 
-    public UpdateSubjectDTO updateSubject(UpdateSubjectDTO subjectDTO);
+    public SubjectDTO updateSubject(Long id, UpdateSubjectDTO subjectDTO);
 
     public void deleteSubject(Long id);
 }

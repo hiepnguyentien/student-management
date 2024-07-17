@@ -19,18 +19,17 @@ import com.example.student_management.dto.subject_class.UpdateSubjectClassDTO;
 import com.example.student_management.service.implement.SubjectClassService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.AccessLevel;
 
 @RestController
 @RequestMapping(path = "subject-class")
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class SubjectClassController {
+    SubjectClassService subjectClassService;
 
-    private final SubjectClassService subjectClassService;
-
-    @Autowired
-    public SubjectClassController(SubjectClassService subjectClassService) {
-        this.subjectClassService = subjectClassService;
-    }
-    
     @GetMapping("find-all")
     public List<SubjectClassDTO> findAll() {
         return subjectClassService.findAll();
@@ -46,25 +45,26 @@ public class SubjectClassController {
         return subjectClassService.findByName(name);
     }
 
-    @PutMapping
-    public ApiResponse<UpdateSubjectClassDTO> updateSubjectClass(@RequestBody @Valid UpdateSubjectClassDTO updateSubjectClassDTO) {
-        ApiResponse<UpdateSubjectClassDTO> apiResponse = new ApiResponse<>();
+    @PutMapping("/{id}")
+    public ApiResponse<SubjectClassDTO> updateSubjectClass(@PathVariable @Valid Long id,
+            @RequestBody @Valid UpdateSubjectClassDTO updateSubjectClassDTO) {
+        ApiResponse<SubjectClassDTO> apiResponse = new ApiResponse<>();
 
-        apiResponse.setResult(subjectClassService.updateSubjectClass(updateSubjectClassDTO));
+        apiResponse.setResult(subjectClassService.updateSubjectClass(id, updateSubjectClassDTO));
 
         return apiResponse;
     }
 
     @PostMapping
-    public ApiResponse<AddSubjectClassDTO> addSubjectClass(@RequestBody @Valid AddSubjectClassDTO addSubjectClassDTO) {
-        ApiResponse<AddSubjectClassDTO> apiResponse = new ApiResponse<>();
+    public ApiResponse<SubjectClassDTO> addSubjectClass(@RequestBody @Valid AddSubjectClassDTO addSubjectClassDTO) {
+        ApiResponse<SubjectClassDTO> apiResponse = new ApiResponse<>();
 
         apiResponse.setResult(subjectClassService.addSubjectClass(addSubjectClassDTO));
 
         return apiResponse;
     }
 
-    @DeleteMapping("id/{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         subjectClassService.delete(id);
     }

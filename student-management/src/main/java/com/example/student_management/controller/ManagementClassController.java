@@ -12,15 +12,16 @@ import com.example.student_management.dto.management_class.ManagementClassDTO;
 import com.example.student_management.model.ManagementClass;
 import com.example.student_management.service.implement.ManagementClassService;
 
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.AccessLevel;
+
 @RestController
 @RequestMapping(path = "management")
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ManagementClassController {
-    private final ManagementClassService managementClassService;
-
-    @Autowired
-    public ManagementClassController(ManagementClassService managementClassService) {
-        this.managementClassService = managementClassService;
-    }
+    ManagementClassService managementClassService;
 
     // @GetMapping("/find-all")
     // public List<ManagementClassDTO> findAllManagementClass() {

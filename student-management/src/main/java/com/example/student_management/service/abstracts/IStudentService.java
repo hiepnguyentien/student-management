@@ -9,13 +9,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IStudentService {
+    List<StudentDTO> findAll();
+
     StudentDTO addNewStudent(AddStudentDTO student);
 
     List<StudentDTO> findStudentByName(String name);
 
     StudentDTO findStudentById(Long id);
-
-    Optional<Student> findStudentByIdForService(Long id);
 
     List<StudentDTO> findStudentByManagementClassName(String name);
 

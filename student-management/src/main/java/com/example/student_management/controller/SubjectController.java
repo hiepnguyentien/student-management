@@ -6,21 +6,21 @@ import com.example.student_management.dto.subject.SubjectDTO;
 import com.example.student_management.dto.subject.UpdateSubjectDTO;
 import com.example.student_management.service.implement.SubjectService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping(path = "subject")
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class SubjectController {
 
-    private final SubjectService subjectService;
-
-    @Autowired
-    public SubjectController(SubjectService subjectService) {
-        this.subjectService = subjectService;
-    }
+    SubjectService subjectService;
 
     @GetMapping("/find-all")
     public List<SubjectDTO> findAll(){
@@ -38,25 +38,26 @@ public class SubjectController {
     }
 
     @PostMapping
-    public ApiResponse<AddSubjectDTO> addSubject(@RequestBody @Valid AddSubjectDTO addSubjectDTO){
-        ApiResponse<AddSubjectDTO> apiResponse = new ApiResponse<>();
+    public ApiResponse<SubjectDTO> addSubject(@RequestBody @Valid AddSubjectDTO addSubjectDTO){
+        ApiResponse<SubjectDTO> apiResponse = new ApiResponse<>();
 
         apiResponse.setResult(subjectService.addSubject(addSubjectDTO));
 
         return apiResponse;
     }
 
-    @PutMapping
-    public ApiResponse<UpdateSubjectDTO> updateSubject(@RequestBody @Valid UpdateSubjectDTO updateSubjectDTO){
-        ApiResponse<UpdateSubjectDTO> apiResponse = new ApiResponse<>();
+    @PutMapping({"/{id}"})
+    public ApiResponse<SubjectDTO> updateSubject(@PathVariable @Valid Long id, 
+    @RequestBody @Valid UpdateSubjectDTO updateSubjectDTO){
+        ApiResponse<SubjectDTO> apiResponse = new ApiResponse<>();
 
-        apiResponse.setResult(subjectService.updateSubject(updateSubjectDTO));
+        apiResponse.setResult(subjectService.updateSubject(id, updateSubjectDTO));
 
         return apiResponse;
     }
 
-    @DeleteMapping("{id}")
-    public void delete(@PathVariable Long id){
+    @DeleteMapping("/{id}")
+    public void deleteSubject(@PathVariable Long id){
         subjectService.deleteSubject(id);
     }
 }

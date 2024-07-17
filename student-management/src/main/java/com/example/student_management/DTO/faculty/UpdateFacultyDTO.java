@@ -10,6 +10,6 @@ import java.util.Objects;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PUBLIC)
 public class UpdateFacultyDTO {
-    Long id;
-    String name;
+    Long facultyId;
+    String facultyName;
 }

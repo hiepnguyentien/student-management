@@ -10,7 +10,6 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")//, uses = {ManagementClassMapper.class})
 public interface StudentMapper {
-//    @Mapping(source = "managementClassId", target = "managementClass")
     Student toStudent(AddStudentDTO request);
 
     @Mapping(source = "managementClass.name", target = "managementClassName")

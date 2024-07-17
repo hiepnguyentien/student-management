@@ -7,6 +7,9 @@ import com.example.student_management.dto.student.UpdateStudentDTO;
 import com.example.student_management.service.implement.StudentService;
 
 import jakarta.validation.Valid;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +18,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "student")
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class StudentController {
-    private final StudentService studentService;
-
-    public StudentController(StudentService studentService) {
-        this.studentService = studentService;
-    }
+    StudentService studentService;
 
     @GetMapping("/find-all")
     public List<StudentDTO> findAllStudents() {

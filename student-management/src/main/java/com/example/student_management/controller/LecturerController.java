@@ -6,6 +6,10 @@ import com.example.student_management.dto.lecturer.LecturerDTO;
 import com.example.student_management.dto.lecturer.UpdateLecturerDTO;
 import com.example.student_management.service.implement.LecturerService;
 import jakarta.validation.Valid;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,13 +17,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/lecturer")
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class LecturerController {
-    private final LecturerService lecturerService;
-
-    @Autowired
-    public LecturerController(LecturerService lecturerService) {
-        this.lecturerService = lecturerService;
-    }
+    LecturerService lecturerService;
 
     @GetMapping("/find-all")
     public List<LecturerDTO> findAll(){
@@ -54,18 +55,18 @@ public class LecturerController {
         return apiResponse;
     }
 
-    @PutMapping
-    public ApiResponse<UpdateLecturerDTO> updateLecturer(@RequestBody @Valid UpdateLecturerDTO updateLecturerDTO){
-        ApiResponse<UpdateLecturerDTO> apiResponse = new ApiResponse<>();
+    @PutMapping("/{id}")
+    public ApiResponse<LecturerDTO> updateLecturer(@PathVariable @Valid Long id, @RequestBody @Valid UpdateLecturerDTO updateLecturerDTO){
+        ApiResponse<LecturerDTO> apiResponse = new ApiResponse<>();
 
-        apiResponse.setResult(lecturerService.updateLecturer(updateLecturerDTO));
+        apiResponse.setResult(lecturerService.updateLecturer(id, updateLecturerDTO));
 
         return apiResponse;
     }
 
     @PostMapping
-    public ApiResponse<AddLecturerDTO> addLecturer(@RequestBody @Valid AddLecturerDTO addLecturerDTO){
-        ApiResponse<AddLecturerDTO> apiResponse = new ApiResponse<>();
+    public ApiResponse<LecturerDTO> addLecturer(@RequestBody @Valid AddLecturerDTO addLecturerDTO){
+        ApiResponse<LecturerDTO> apiResponse = new ApiResponse<>();
 
         apiResponse.setResult(lecturerService.addLecturer(addLecturerDTO));
 

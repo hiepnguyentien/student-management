@@ -10,7 +10,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PUBLIC)
 public class SubjectDTO {
-    Long id;
+    Long subjectId;
     String name;
     String description;
     Integer credit;

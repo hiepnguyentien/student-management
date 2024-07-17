@@ -10,6 +10,7 @@ import com.example.student_management.model.Student;
 import com.example.student_management.repository.StudentRepository;
 import com.example.student_management.service.abstracts.IStudentService;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.AccessLevel;
@@ -35,6 +36,7 @@ public class StudentService implements IStudentService {
     }
 
     @Override
+    @Transactional
     public StudentDTO addNewStudent(AddStudentDTO addStudentDTO) {
         if (studentRepository.existsByEmail(addStudentDTO.getEmail())) {
             throw new AppException(ErrorCode.EMAIL_EXISTED);
@@ -90,6 +92,7 @@ public class StudentService implements IStudentService {
     }
 
     @Override
+    @Transactional
     public StudentDTO updateStudent(Long studentId, UpdateStudentDTO input) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new AppException(ErrorCode.STUDENT_NOT_FOUND));
@@ -101,14 +104,10 @@ public class StudentService implements IStudentService {
     }
 
     @Override
+    @Transactional
     public void deleteStudent(Long id) {
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.STUDENT_NOT_FOUND));
         studentRepository.delete(student);
-    }
-
-    @Override
-    public Optional<Student> findStudentByIdForService(Long id) {
-        return studentRepository.findById(id);
     }
 }

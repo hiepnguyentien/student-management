@@ -6,7 +6,6 @@ import com.example.student_management.dto.student.UpdateStudentDTO;
 import com.example.student_management.model.ManagementClass;
 import com.example.student_management.model.Student;
 import javax.annotation.processing.Generated;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Generated(
@@ -16,9 +15,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class StudentMapperImpl implements StudentMapper {
 
-    @Autowired
-    private ManagementClassMapper managementClassMapper;
-
     @Override
     public Student toStudent(AddStudentDTO request) {
         if ( request == null ) {
@@ -26,8 +22,6 @@ public class StudentMapperImpl implements StudentMapper {
         }
 
         Student.StudentBuilder student = Student.builder();
-
-        student.managementClass( managementClassMapper.toManagementClass( request.getManagementClassId() ) );
 
         return student.build();
     }

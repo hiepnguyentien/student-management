@@ -3,6 +3,10 @@ package com.example.student_management.service.implement;
 import java.util.Optional;
 
 import com.example.student_management.service.abstracts.IManagementClassService;
+
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,19 +17,10 @@ import com.example.student_management.model.ManagementClass;
 import com.example.student_management.repository.ManagementClassRepository;
 
 @Service
+@RequiredArgsConstructor
+@FieldDefaults(makeFinal = true, level = lombok.AccessLevel.PRIVATE)
 public class ManagementClassService implements IManagementClassService {
-
-    private final ManagementClassRepository managementClassRepository;
-
-    @Autowired
-    public ManagementClassService(ManagementClassRepository managementClassRepository) {
-        this.managementClassRepository = managementClassRepository;
-    }
-
-    @Override
-    public Optional<ManagementClass> findManagementClassByIdForService(Long id) {
-        return managementClassRepository.findById(id);
-    }
+    ManagementClassRepository managementClassRepository;
 
     @Override
     public ManagementClass findManagementClassById(Long id) {

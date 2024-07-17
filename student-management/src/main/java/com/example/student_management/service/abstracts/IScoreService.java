@@ -15,9 +15,9 @@ public interface IScoreService {
 
     public List<ScoreDTO> getScoreBySemesterViaStudent(Long studentId, Integer semester);
 
-    public UpdateScoreDTO updateScoreViaStudentAndSubjectClassId(UpdateScoreDTO updateScoreDTO, Long studentId, Long subjectClassId);
+    public ScoreDTO updateScoreViaStudentAndSubjectClassId(Long scoreId, UpdateScoreDTO updateScoreDTO);
 
-    public AddScoreDTO addScoreViaStudentAndSubjectClassId(AddScoreDTO addScoreDTO, Long studentId, Long subjectClassId);
+    public ScoreDTO addScoreViaStudentAndSubjectClassId(AddScoreDTO addScoreDTO);
 
     public void deleteScore(Long studentId, Long subjectClassId);
 }

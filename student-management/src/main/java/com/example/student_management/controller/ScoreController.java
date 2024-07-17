@@ -16,20 +16,18 @@ import com.example.student_management.dto.ApiResponse;
 import com.example.student_management.dto.score.AddScoreDTO;
 import com.example.student_management.dto.score.ScoreDTO;
 import com.example.student_management.dto.score.UpdateScoreDTO;
-import com.example.student_management.service.abstracts.IScoreService;
+import com.example.student_management.service.implement.ScoreService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 @RestController
 @RequestMapping("/score")
+@RequiredArgsConstructor
+@FieldDefaults(makeFinal = true, level = lombok.AccessLevel.PRIVATE)
 public class ScoreController {
-    
-    private final IScoreService scoreService;
-
-    @Autowired
-    public ScoreController(IScoreService scoreService) {
-        this.scoreService = scoreService;
-    }
+    ScoreService scoreService;
 
     @GetMapping("/student/{id}")
     public List<ScoreDTO> getScoreByStudentId(@PathVariable Long id) {
@@ -55,26 +53,23 @@ public class ScoreController {
         return scoreService.getScoreBySemesterViaStudent(studentId, semester);
     }
 
-    @PutMapping("/student/{studentId}/subject-class/{subjectClassId}")
-    public ApiResponse<UpdateScoreDTO> updateScoreViaStudentAndSubjectClassId(
-            @RequestBody @Valid UpdateScoreDTO updateScoreDTO,
-            @PathVariable @Valid Long studentId,
-            @PathVariable @Valid Long subjectClassId) {
-        ApiResponse<UpdateScoreDTO> apiResponse = new ApiResponse<>();
+    @PutMapping("/id/{scoreId}")
+    public ApiResponse<ScoreDTO> updateScoreViaStudentAndSubjectClassId(
+            @PathVariable @Valid Long scoreId,
+            @RequestBody @Valid UpdateScoreDTO updateScoreDTO) {
+        ApiResponse<ScoreDTO> apiResponse = new ApiResponse<>();
 
-        apiResponse.setResult(scoreService.updateScoreViaStudentAndSubjectClassId(updateScoreDTO, studentId, subjectClassId));
+        apiResponse.setResult(scoreService.updateScoreViaStudentAndSubjectClassId(scoreId, updateScoreDTO));
 
         return apiResponse;
     }
 
-    @PostMapping("/student/{studentId}/subject-class/{subjectClassId}")
-    public ApiResponse<AddScoreDTO> addScoreViaStudentAndSubjectClassId(
-            @RequestBody @Valid AddScoreDTO addScoreDTO,
-            @PathVariable Long studentId,
-            @PathVariable Long subjectClassId) {
-        ApiResponse<AddScoreDTO> apiResponse = new ApiResponse<>();
+    @PostMapping
+    public ApiResponse<ScoreDTO> addScoreViaStudentAndSubjectClassId(
+            @RequestBody @Valid AddScoreDTO addScoreDTO) {
+        ApiResponse<ScoreDTO> apiResponse = new ApiResponse<>();
 
-        apiResponse.setResult(scoreService.addScoreViaStudentAndSubjectClassId(addScoreDTO, studentId, subjectClassId));
+        apiResponse.setResult(scoreService.addScoreViaStudentAndSubjectClassId(addScoreDTO));
 
         return apiResponse;
     }

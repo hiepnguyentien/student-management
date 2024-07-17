@@ -1,10 +1,16 @@
 package com.example.student_management.controller;
 
+import com.example.student_management.dto.ApiResponse;
 import com.example.student_management.dto.faculty.AddNewFacultyDTO;
 import com.example.student_management.dto.faculty.FacultyDTO;
 import com.example.student_management.dto.faculty.UpdateFacultyDTO;
 import com.example.student_management.service.implement.FacultyService;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.AccessLevel;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,41 +18,47 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "faculty")
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class FacultyController {
-    private final FacultyService facultyService;
-
-    @Autowired
-    public FacultyController(FacultyService facultyService) {
-        this.facultyService = facultyService;
-    }
+    FacultyService facultyService;
 
     @GetMapping("/find-all")
-    public List<FacultyDTO> findAll(){
+    public List<FacultyDTO> findAll() {
         return facultyService.findAll();
     }
 
     @GetMapping("id/{id}")
-    public Optional<FacultyDTO> findById(@PathVariable Long id){
+    public Optional<FacultyDTO> findById(@PathVariable Long id) {
         return facultyService.findFacultyById(id);
     }
 
     @GetMapping("name/{name}")
-    public List<FacultyDTO> findByName(@PathVariable String name){
+    public List<FacultyDTO> findByName(@PathVariable String name) {
         return facultyService.findFacultyByName(name);
     }
 
     @PostMapping
-    public void addNew(@RequestBody AddNewFacultyDTO addNewFacultyDTO){
-        facultyService.addNew(addNewFacultyDTO);
+    public ApiResponse<FacultyDTO> addNew(@RequestBody @Valid AddNewFacultyDTO addNewFacultyDTO) {
+        ApiResponse<FacultyDTO> apiResponse = new ApiResponse<>();
+
+        apiResponse.setResult(facultyService.addNew(addNewFacultyDTO));
+
+        return apiResponse;
     }
 
-    @PutMapping
-    public void update(@RequestBody UpdateFacultyDTO facultyDTO){
-        facultyService.update(facultyDTO);
+    @PutMapping("/{id}")
+    public ApiResponse<FacultyDTO> update(@PathVariable @Valid Long id,
+            @RequestBody @Valid UpdateFacultyDTO facultyDTO) {
+        ApiResponse<FacultyDTO> apiResponse = new ApiResponse<>();
+
+        apiResponse.setResult(facultyService.update(id, facultyDTO));
+
+        return apiResponse;
     }
 
-    @DeleteMapping("{id}")
-    public void delete(@PathVariable Long id){
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
         facultyService.delete(id);
     }
 }
