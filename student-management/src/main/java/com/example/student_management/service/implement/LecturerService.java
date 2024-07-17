@@ -7,7 +7,6 @@ import com.example.student_management.exception.AppException;
 import com.example.student_management.exception.ErrorCode;
 import com.example.student_management.mapper.LecturerMapper;
 import com.example.student_management.model.Lecturer;
-import com.example.student_management.model.ManagementClass;
 import com.example.student_management.repository.LecturerRepository;
 import com.example.student_management.service.abstracts.ILecturerService;
 
@@ -16,11 +15,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.AccessLevel;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,11 +38,6 @@ public class LecturerService implements ILecturerService {
     public LecturerDTO findLecturerById(Long id) {
         return lecturerMapper.toLecturerDTO(lecturerRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.LECTURER_NOT_FOUND)));
-    }
-
-    @Override
-    public Optional<Lecturer> findLecturerByIdForService(Long id) {
-        return lecturerRepository.findById(id);
     }
 
     @Override

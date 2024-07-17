@@ -19,7 +19,6 @@ import lombok.AccessLevel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,11 +48,6 @@ public class SubjectService implements ISubjectService {
         return subjectRepository.findById(id)
                 .map(subjectMapper::toSubjectDTO)
                 .orElseThrow(() -> new AppException(ErrorCode.SUBJECT_NOT_FOUND));
-    }
-
-    @Override
-    public Optional<Subject> findSubjectByIdForService(Long id) {
-        return subjectRepository.findById(id);
     }
 
     @Override
