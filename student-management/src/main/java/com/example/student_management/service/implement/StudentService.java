@@ -6,7 +6,7 @@ import com.example.student_management.dto.student.UpdateStudentDTO;
 import com.example.student_management.exception.AppException;
 import com.example.student_management.exception.ErrorCode;
 import com.example.student_management.mapper.StudentMapper;
-    import com.example.student_management.model.Student;
+import com.example.student_management.model.Student;
 import com.example.student_management.repository.StudentRepository;
 import com.example.student_management.service.abstracts.IStudentService;
 
@@ -27,12 +27,14 @@ public class StudentService implements IStudentService {
     StudentRepository studentRepository;
     StudentMapper studentMapper;
 
+    @Override
     public List<StudentDTO> findAll() {
         return studentRepository.findAll().stream()
                 .map(studentMapper::toStudentDTO)
                 .collect(Collectors.toList());
     }
 
+    @Override
     public StudentDTO addNewStudent(AddStudentDTO addStudentDTO) {
         if (studentRepository.existsByEmail(addStudentDTO.getEmail())) {
             throw new AppException(ErrorCode.EMAIL_EXISTED);

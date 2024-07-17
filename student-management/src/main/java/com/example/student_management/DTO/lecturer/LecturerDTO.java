@@ -13,7 +13,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PUBLIC)
 public class LecturerDTO {
-    Long id;
+    Long lecturerId;
     String firstName;
     String lastName;
     String email;

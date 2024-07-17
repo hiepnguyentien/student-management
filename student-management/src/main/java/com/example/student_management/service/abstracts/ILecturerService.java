@@ -21,9 +21,9 @@ public interface ILecturerService {
 
     public LecturerDTO findLecturerByManagementClassId(Long id);
 
-    public UpdateLecturerDTO updateLecturer(UpdateLecturerDTO updateLecturerDTO);
+    public LecturerDTO updateLecturer(Long id, UpdateLecturerDTO updateLecturerDTO);
 
-    public AddLecturerDTO addLecturer(AddLecturerDTO addLecturerDTO);
+    public LecturerDTO addLecturer(AddLecturerDTO addLecturerDTO);
 
     public void deleteLecturer(Long id);
 }
