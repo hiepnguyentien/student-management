@@ -19,7 +19,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class SubjectController {
-
     SubjectService subjectService;
 
     @GetMapping("/find-all")

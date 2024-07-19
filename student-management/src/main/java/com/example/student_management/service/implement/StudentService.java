@@ -41,15 +41,11 @@ public class StudentService implements IStudentService {
             throw new AppException(ErrorCode.EMAIL_EXISTED);
         }
         if (studentRepository.existsByPhoneNumber(addStudentDTO.getPhoneNumber())) {
-            throw new AppException(ErrorCode.PHONE_NUMBER_EXISTED);
+            throw new AppException(ErrorCode.PHONE_NUMBER_ALREADY_EXISTS);
         }
 
-        System.out.println("------------------addStudentDTO: " + addStudentDTO + "----------------------");
         Student student = studentMapper.toStudent(addStudentDTO);
-
-        System.out.println("------------------student: " + student + "----------------------");
         studentRepository.save(student);
-
         return studentMapper.toStudentDTO(student);
     }
 

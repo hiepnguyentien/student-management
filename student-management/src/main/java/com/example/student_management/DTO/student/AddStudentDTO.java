@@ -7,7 +7,8 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
-import java.util.Objects;
+
+import org.hibernate.validator.constraints.UniqueElements;
 
 @Data
 @Builder
@@ -19,12 +20,14 @@ public class AddStudentDTO {
     String firstName;
     @NotNull(message = "NAME_BLANK")
     String lastName;
-    @Email(message = "email không hợp lệ")
+    @Email(message = "INVALID_EMAIL")
     String email;
-    @Size(min = 10, max = 10, message = "PHONE_NUMBER_INVALID")
+    @Size(min = 10, max = 10, message = "INVALID_PHONE_NUMBER")
+    @UniqueElements(message = "PHONE_NUMBER_ALREADY_EXISTS")
     String phoneNumber;
     String address;
     String gender;
+    @NotNull(message = "DATE_OF_BIRTH_BLANK")
     LocalDate dateOfBirth;
     Long managementClassId;
 }

@@ -1,0 +1,122 @@
+[
+  {
+    "studentId": 1,
+    "firstName": "Hoàng Quang",
+    "lastName": "Sinh",
+    "email": "hoangquangsinh@huce.edu.vn",
+    "phoneNumber": "0123456789",
+    "address": "1, 3, Quang Trung, Hà Đông",
+    "gender": "nam",
+    "batch": 56,
+    "dateOfBirth": "1990-01-01",
+    "managementClassName": "66IT1"
+  },
+  {
+    "studentId": 2,
+    "firstName": "Nguyễn Văn",
+    "lastName": " An",
+    "email": "nguyenvanan1@huce.edu.vn",
+    "phoneNumber": "0987654321",
+    "address": "1, Thành Công, Quang Trung, Hà Đông",
+    "gender": "nam",
+    "batch": 57,
+    "dateOfBirth": "1992-05-10",
+    "managementClassName": "66IT1"
+  },
+  {
+    "studentId": 3,
+    "firstName": "Lê Thị",
+    "lastName": " Hương",
+    "email": "lethihuong@huce.edu.vn",
+    "phoneNumber": "0123412345",
+    "address": "1, Nguyễn Trãi, Thanh Xuân",
+    "gender": "nữ",
+    "batch": 57,
+    "dateOfBirth": "1991-07-15",
+    "managementClassName": "66IT3"
+  },
+  {
+    "studentId": 4,
+    "firstName": "Trần Văn",
+    "lastName": " Quân",
+    "email": "tranvanquan@huce.edu.vn",
+    "phoneNumber": "0567891234",
+    "address": "2, Hoàng Diệu, Ba Đình",
+    "gender": "nam",
+    "batch": 57,
+    "dateOfBirth": "1990-09-20",
+    "managementClassName": "66IT3"
+  },
+  {
+    "studentId": 5,
+    "firstName": "Phạm Thị",
+    "lastName": " Mai",
+    "email": "phamthimai@huce.edu.vn",
+    "phoneNumber": "0932145678",
+    "address": "5, Trường Chinh, Hai Bà Trưng",
+    "gender": "nữ",
+    "batch": 58,
+    "dateOfBirth": "1993-03-05",
+    "managementClassName": "66IT3"
+  },
+  {
+    "studentId": 6,
+    "firstName": "Đỗ Quốc",
+    "lastName": " Bảo",
+    "email": "doquocbao@huce.edu.vn",
+    "phoneNumber": "0978654321",
+    "address": "7, Lê Duẩn, Hoàn Kiếm",
+    "gender": "nam",
+    "batch": 56,
+    "dateOfBirth": "1992-11-18",
+    "managementClassName": "66IT5"
+  },
+  {
+    "studentId": 7,
+    "firstName": "Nguyễn Thị",
+    "lastName": " Hạnh",
+    "email": "nguyenthihanh@huce.edu.vn",
+    "phoneNumber": "0123678901",
+    "address": "10, Lý Thường Kiệt, Đống Đa",
+    "gender": "nữ",
+    "batch": 56,
+    "dateOfBirth": "1990-06-30",
+    "managementClassName": "66IT5"
+  },
+  {
+    "studentId": 8,
+    "firstName": "Trương Minh",
+    "lastName": " Đức",
+    "email": "truongminhduc@huce.edu.vn",
+    "phoneNumber": "0987123456",
+    "address": "15, Huỳnh Thúc Kháng, Đống Đa",
+    "gender": "nam",
+    "batch": 57,
+    "dateOfBirth": "1991-04-25",
+    "managementClassName": "66KT1"
+  },
+  {
+    "studentId": 9,
+    "firstName": "Lê Thị",
+    "lastName": " Ngọc",
+    "email": "lethingoc@huce.edu.vn",
+    "phoneNumber": "0956789123",
+    "address": "20, Phạm Hùng, Cầu Giấy",
+    "gender": "nữ",
+    "batch": 57,
+    "dateOfBirth": "1993-08-12",
+    "managementClassName": "66KT1"
+  },
+  {
+    "studentId": 10,
+    "firstName": "Vũ Văn",
+    "lastName": " Tuấn",
+    "email": "vuvantuan@huce.edu.vn",
+    "phoneNumber": "0912345678",
+    "address": "25, Trần Phú, Hà Đông",
+    "gender": "nam",
+    "batch": 56,
+    "dateOfBirth": "1991-02-15",
+    "managementClassName": "66KT1"
+  }
+]

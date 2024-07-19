@@ -1,0 +1,62 @@
+[
+  {
+    "subjectId": 1,
+    "name": "Tin học đại cương",
+    "description": "lập trình cơ bản với C, C++",
+    "credit": 3
+  },
+  {
+    "subjectId": 2,
+    "name": "Ngôn ngữ C++",
+    "description": "lập trình với ngôn ngữ c++",
+    "credit": 3
+  },
+  {
+    "subjectId": 3,
+    "name": "Phương pháp lập trình HĐT",
+    "description": "lập trình hướng đối tượng qua Java",
+    "credit": 3
+  },
+  {
+    "subjectId": 4,
+    "name": "Kinh tế vĩ mô",
+    "description": "kinh tế vĩ mô toàn cầu",
+    "credit": 2
+  },
+  {
+    "subjectId": 5,
+    "name": "Toán học tính toán",
+    "description": "lập trình xử lí toán học với Python/Mathematica",
+    "credit": 2
+  },
+  {
+    "subjectId": 6,
+    "name": "Triết học Mác-Lenin",
+    "description": "triết học Mác - Lênin",
+    "credit": 3
+  },
+  {
+    "subjectId": 7,
+    "name": "Chủ Nghĩa XHKH",
+    "description": "Chủ nghĩa xã hội khoa học",
+    "credit": 2
+  },
+  {
+    "subjectId": 8,
+    "name": "Lập trình linux",
+    "description": "làm quen với nhân linux và các distro từ nó",
+    "credit": 2
+  },
+  {
+    "subjectId": 9,
+    "name": "Phần mềm nguồn mở",
+    "description": "tận dụng cộng đồng mã nguồn mở trên toàn thế giới",
+    "credit": 3
+  },
+  {
+    "subjectId": 10,
+    "name": "Toán Rời Rạc",
+    "description": "Toán rời rạc",
+    "credit": 3
+  }
+]

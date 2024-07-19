@@ -23,6 +23,8 @@ public class StudentMapperImpl implements StudentMapper {
 
         Student.StudentBuilder student = Student.builder();
 
+        student.managementClass( addStudentDTOToManagementClass( request ) );
+
         return student.build();
     }
 
@@ -61,6 +63,19 @@ public class StudentMapperImpl implements StudentMapper {
         student.setPhoneNumber( request.getPhoneNumber() );
         student.setGender( request.getGender() );
         student.setDateOfBirth( request.getDateOfBirth() );
+        student.setStudentId( request.getStudentId() );
+    }
+
+    protected ManagementClass addStudentDTOToManagementClass(AddStudentDTO addStudentDTO) {
+        if ( addStudentDTO == null ) {
+            return null;
+        }
+
+        ManagementClass.ManagementClassBuilder managementClass = ManagementClass.builder();
+
+        managementClass.managementClassId( addStudentDTO.getManagementClassId() );
+
+        return managementClass.build();
     }
 
     private String studentManagementClassName(Student student) {

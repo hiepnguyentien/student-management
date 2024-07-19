@@ -11,10 +11,11 @@ import com.example.student_management.model.Lecturer;
 
 @Mapper(componentModel = "spring")
 public interface LecturerMapper {
+    @Mapping(source = "managementClassId", target = "managementClass.managementClassId")
     Lecturer toLecturer(AddLecturerDTO request);
 
     @Mapping(source = "managementClass.managementClassId", target = "managementClassId")
     LecturerDTO toLecturerDTO(Lecturer lecturer);
-    
+
     void updateLecturer(@MappingTarget Lecturer lecturer, UpdateLecturerDTO request);
 }

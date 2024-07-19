@@ -110,10 +110,11 @@ public class LecturerService implements ILecturerService {
             throw new AppException(ErrorCode.EMAIL_EXISTED);
         }
         if (lecturerRepository.existsByPhoneNumber(addLecturerDTO.getPhoneNumber())) {
-            throw new AppException(ErrorCode.PHONE_NUMBER_EXISTED);
+            throw new AppException(ErrorCode.PHONE_NUMBER_ALREADY_EXISTS);
         }
-        
+        System.out.println("DTO------------" + addLecturerDTO + "----------------");
         Lecturer lecturer = lecturerMapper.toLecturer(addLecturerDTO);
+        System.out.println("lecturer------------" + lecturer + "------------");
         lecturerRepository.save(lecturer);
         return lecturerMapper.toLecturerDTO(lecturer);
     }

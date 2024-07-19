@@ -5,9 +5,13 @@ public enum ErrorCode {
     INVALID_KEY(9001, "Invalid message key"),
 
     EMAIL_EXISTED(1001, "Email đã tồn tại"),
-    PHONE_NUMBER_EXISTED(1002, "Số điện thoại đã tồn tại"),
-    INVALID_PHONE_NUMBER(1003, "Số điện thoại không hợp lệ"),
+    INVALID_EMAIL(1002, "Email không hợp lệ"),
+    PHONE_NUMBER_ALREADY_EXISTS(1003, "Số điện thoại đã tồn tại"),
+    INVALID_PHONE_NUMBER(1004, "Số điện thoại không hợp lệ"),
     NAME_BLANK(1005, "Phần tên không được để trống"),
+    DATE_OF_BIRTH_BLANK(1006, "Ngày sinh không được để trống"),
+    DATE_OF_BIRTH_IS_AFTER_NOW(1007, "Ngày sinh không được sau ngày hiện tại"),
+    FACULTY_BLANK(1008, "Phần khoa không được để trống"),
 
     STUDENT_NOT_FOUND(2001, "Không tìm thấy sinh viên"),
 

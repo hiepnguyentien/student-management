@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import java.util.Objects;
 
@@ -20,10 +21,9 @@ public class AddLecturerDTO {
     String firstName;
     @NotNull(message = "NAME_BLANK")
     String lastName;
-    @Email(message = "email không hợp lệ")
+    @Email(message = "INVALID_EMAIL")
     String email;
-    @Size(min = 10, message = "INVALID_PHONE_NUMBER")
-    @Size(max = 10, message = "INVALID_PHONE_NUMBER")
+    @Size(min = 10, max = 10, message = "INVALID_PHONE_NUMBER")
     String phoneNumber;
     String address;
     String gender;

@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PROTECTED)
 @MappedSuperclass
 public abstract class Person {
     @Column(name = "first_name", nullable = false)
@@ -22,7 +22,7 @@ public abstract class Person {
     @Column(name = "address")
     String address;
 
-    @Column(name = "email", nullable = false, columnDefinition = "TEXT")
+    @Column(name = "email", nullable = false, columnDefinition = "TEXT", unique = true)
     String email;
 
     @Column(name = "phone_number", nullable = false, unique = true)

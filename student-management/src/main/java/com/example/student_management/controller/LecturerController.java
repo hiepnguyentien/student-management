@@ -66,6 +66,7 @@ public class LecturerController {
 
     @PostMapping
     public ApiResponse<LecturerDTO> addLecturer(@RequestBody @Valid AddLecturerDTO addLecturerDTO){
+        System.out.println("-------request " + addLecturerDTO + "-------------");
         ApiResponse<LecturerDTO> apiResponse = new ApiResponse<>();
 
         apiResponse.setResult(lecturerService.addLecturer(addLecturerDTO));

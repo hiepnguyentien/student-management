@@ -1,24 +1,26 @@
 package com.example.student_management.exception;
 
 import com.example.student_management.dto.ApiResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+@Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    // @SuppressWarnings("rawtypes")
-    // @ExceptionHandler(value = Exception.class)
-    // ResponseEntity<ApiResponse> handlingRuntimeException(RuntimeException exception){
-    //     ApiResponse apiResponse = new ApiResponse();
+    @SuppressWarnings("rawtypes")
+    @ExceptionHandler(value = Exception.class)
+    ResponseEntity<ApiResponse> handlingRuntimeException(RuntimeException exception){
+        ApiResponse apiResponse = new ApiResponse();
 
-    //     apiResponse.setCode(ErrorCode.UNCATEGORIZED_EXCEPTION.getCode());
-    //     apiResponse.setMessage(ErrorCode.UNCATEGORIZED_EXCEPTION.getMessage());
-
-    //     return ResponseEntity.badRequest().body(apiResponse);
-    // }
+        apiResponse.setCode(ErrorCode.UNCATEGORIZED_EXCEPTION.getCode());
+        apiResponse.setMessage(ErrorCode.UNCATEGORIZED_EXCEPTION.getMessage());
+        log.error(exception.getMessage(), exception);
+        return ResponseEntity.badRequest().body(apiResponse);
+    }
 
     @SuppressWarnings("rawtypes")
     @ExceptionHandler(value = AppException.class)
@@ -28,7 +30,7 @@ public class GlobalExceptionHandler {
 
         apiResponse.setCode(errorCode.getCode());
         apiResponse.setMessage(errorCode.getMessage());
-
+        log.error(exception.getMessage(), exception);
         return ResponseEntity.badRequest().body(apiResponse);
     }
 
@@ -38,7 +40,7 @@ public class GlobalExceptionHandler {
         @SuppressWarnings("null")
         String enumKey = exception.getFieldError().getDefaultMessage();
         ErrorCode errorCode = ErrorCode.INVALID_KEY;
-
+        log.error(exception.getMessage(), exception);
         try {
             errorCode = ErrorCode.valueOf(enumKey);
         }catch (IllegalArgumentException e){

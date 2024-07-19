@@ -23,6 +23,7 @@ public class LecturerMapperImpl implements LecturerMapper {
 
         Lecturer.LecturerBuilder lecturer = Lecturer.builder();
 
+        lecturer.managementClass( addLecturerDTOToManagementClass( request ) );
         lecturer.facultyId( request.getFacultyId() );
 
         return lecturer.build();
@@ -64,6 +65,18 @@ public class LecturerMapperImpl implements LecturerMapper {
         lecturer.setGender( request.getGender() );
         lecturer.setDateOfBirth( request.getDateOfBirth() );
         lecturer.setFacultyId( request.getFacultyId() );
+    }
+
+    protected ManagementClass addLecturerDTOToManagementClass(AddLecturerDTO addLecturerDTO) {
+        if ( addLecturerDTO == null ) {
+            return null;
+        }
+
+        ManagementClass.ManagementClassBuilder managementClass = ManagementClass.builder();
+
+        managementClass.managementClassId( addLecturerDTO.getManagementClassId() );
+
+        return managementClass.build();
     }
 
     private Long lecturerManagementClassManagementClassId(Lecturer lecturer) {
