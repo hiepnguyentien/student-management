@@ -3,10 +3,8 @@ package com.example.student_management.service.abstracts;
 import com.example.student_management.dto.student.AddStudentDTO;
 import com.example.student_management.dto.student.StudentDTO;
 import com.example.student_management.dto.student.UpdateStudentDTO;
-import com.example.student_management.model.Student;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface IStudentService {
     List<StudentDTO> findAll();

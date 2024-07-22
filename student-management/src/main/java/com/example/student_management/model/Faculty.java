@@ -1,5 +1,4 @@
 package com.example.student_management.model;
-import java.util.Objects;
 import java.util.List;
 
 import jakarta.persistence.*;

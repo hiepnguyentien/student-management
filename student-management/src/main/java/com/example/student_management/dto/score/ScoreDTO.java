@@ -1,5 +1,4 @@
 package com.example.student_management.dto.score;
-import java.util.Objects;
 
 import com.example.student_management.model.Grade;
 

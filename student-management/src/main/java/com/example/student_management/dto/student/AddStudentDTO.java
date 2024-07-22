@@ -8,8 +8,6 @@ import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 
-import org.hibernate.validator.constraints.UniqueElements;
-
 @Data
 @Builder
 @NoArgsConstructor

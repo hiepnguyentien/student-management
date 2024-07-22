@@ -1,5 +1,4 @@
 package com.example.student_management.dto.score;
-import java.util.Objects;
 
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;

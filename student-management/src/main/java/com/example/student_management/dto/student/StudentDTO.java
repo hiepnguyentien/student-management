@@ -3,9 +3,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
-import java.util.Objects;
-
-import com.example.student_management.model.ManagementClass;
 
 @Data
 @NoArgsConstructor

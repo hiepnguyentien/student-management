@@ -1,6 +1,5 @@
 package com.example.student_management.dto.student;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -8,8 +7,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
-
-import org.hibernate.validator.constraints.UniqueElements;
 
 @Data
 @Builder
