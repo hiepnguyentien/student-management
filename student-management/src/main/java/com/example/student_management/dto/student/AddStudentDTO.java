@@ -15,8 +15,7 @@ import org.hibernate.validator.constraints.UniqueElements;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PUBLIC)
-public class UpdateStudentDTO {
-    Long studentId;
+public class AddStudentDTO {
     @NotNull(message = "NAME_BLANK")
     String firstName;
     @NotNull(message = "NAME_BLANK")
@@ -24,11 +23,12 @@ public class UpdateStudentDTO {
     @Email(message = "INVALID_EMAIL")
     String email;
     @Size(min = 10, max = 10, message = "INVALID_PHONE_NUMBER")
-    @UniqueElements(message = "PHONE_NUMBER_ALREADY_EXISTS")
     String phoneNumber;
     String address;
     String gender;
     @NotNull(message = "DATE_OF_BIRTH_BLANK")
     LocalDate dateOfBirth;
+    LocalDate enrollDate;
+    Integer batch;
     Long managementClassId;
 }

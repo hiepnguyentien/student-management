@@ -24,6 +24,15 @@ public class StudentMapperImpl implements StudentMapper {
         Student.StudentBuilder student = Student.builder();
 
         student.managementClass( addStudentDTOToManagementClass( request ) );
+        student.enrollDate( request.getEnrollDate() );
+        student.batch( request.getBatch() );
+        student.firstName( request.getFirstName() );
+        student.lastName( request.getLastName() );
+        student.address( request.getAddress() );
+        student.email( request.getEmail() );
+        student.phoneNumber( request.getPhoneNumber() );
+        student.gender( request.getGender() );
+        student.dateOfBirth( request.getDateOfBirth() );
 
         return student.build();
     }
@@ -36,7 +45,7 @@ public class StudentMapperImpl implements StudentMapper {
 
         StudentDTO.StudentDTOBuilder studentDTO = StudentDTO.builder();
 
-        studentDTO.managementClassName( studentManagementClassName( student ) );
+        studentDTO.managementClassId( studentManagementClassManagementClassId( student ) );
         studentDTO.studentId( student.getStudentId() );
         studentDTO.firstName( student.getFirstName() );
         studentDTO.lastName( student.getLastName() );
@@ -56,6 +65,8 @@ public class StudentMapperImpl implements StudentMapper {
             return;
         }
 
+        student.setStudentId( request.getStudentId() );
+        student.setEnrollDate( request.getEnrollDate() );
         student.setFirstName( request.getFirstName() );
         student.setLastName( request.getLastName() );
         student.setAddress( request.getAddress() );
@@ -63,7 +74,6 @@ public class StudentMapperImpl implements StudentMapper {
         student.setPhoneNumber( request.getPhoneNumber() );
         student.setGender( request.getGender() );
         student.setDateOfBirth( request.getDateOfBirth() );
-        student.setStudentId( request.getStudentId() );
     }
 
     protected ManagementClass addStudentDTOToManagementClass(AddStudentDTO addStudentDTO) {
@@ -78,7 +88,7 @@ public class StudentMapperImpl implements StudentMapper {
         return managementClass.build();
     }
 
-    private String studentManagementClassName(Student student) {
+    private Long studentManagementClassManagementClassId(Student student) {
         if ( student == null ) {
             return null;
         }
@@ -86,10 +96,10 @@ public class StudentMapperImpl implements StudentMapper {
         if ( managementClass == null ) {
             return null;
         }
-        String name = managementClass.getName();
-        if ( name == null ) {
+        Long managementClassId = managementClass.getManagementClassId();
+        if ( managementClassId == null ) {
             return null;
         }
-        return name;
+        return managementClassId;
     }
 }

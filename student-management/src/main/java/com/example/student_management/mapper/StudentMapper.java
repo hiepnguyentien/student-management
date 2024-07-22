@@ -13,7 +13,7 @@ public interface StudentMapper {
     @Mapping(source = "managementClassId", target = "managementClass.managementClassId")
     Student toStudent(AddStudentDTO request);
 
-    @Mapping(source = "managementClass.name", target = "managementClassName")
+    @Mapping(source = "managementClass.managementClassId", target = "managementClassId")
     StudentDTO toStudentDTO(Student student);
 
     void updateStudent(@MappingTarget Student student, UpdateStudentDTO request);

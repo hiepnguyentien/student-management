@@ -22,5 +22,5 @@ public class StudentDTO {
      String gender;
      Integer batch;
      LocalDate dateOfBirth;
-     String managementClassName;
+     Long managementClassId;
 }
