@@ -28,6 +28,8 @@ public class StudentMapperImpl implements StudentMapper {
         student.batch( request.getBatch() );
         student.firstName( request.getFirstName() );
         student.lastName( request.getLastName() );
+        student.userName( request.getUserName() );
+        student.password( request.getPassword() );
         student.address( request.getAddress() );
         student.email( request.getEmail() );
         student.phoneNumber( request.getPhoneNumber() );
@@ -69,6 +71,8 @@ public class StudentMapperImpl implements StudentMapper {
         student.setEnrollDate( request.getEnrollDate() );
         student.setFirstName( request.getFirstName() );
         student.setLastName( request.getLastName() );
+        student.setUserName( request.getUserName() );
+        student.setPassword( request.getPassword() );
         student.setAddress( request.getAddress() );
         student.setEmail( request.getEmail() );
         student.setPhoneNumber( request.getPhoneNumber() );

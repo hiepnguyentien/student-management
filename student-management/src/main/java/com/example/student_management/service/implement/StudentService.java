@@ -15,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.AccessLevel;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,6 +47,8 @@ public class StudentService implements IStudentService {
         }
 
         Student student = studentMapper.toStudent(addStudentDTO);
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        student.setPassword(passwordEncoder.encode(addStudentDTO.getPassword()));
         studentRepository.save(student);
         return studentMapper.toStudentDTO(student);
     }

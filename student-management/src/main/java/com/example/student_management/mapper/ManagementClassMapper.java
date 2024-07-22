@@ -1,20 +1,21 @@
 package com.example.student_management.mapper;
 
-import com.example.student_management.exception.AppException;
-import com.example.student_management.exception.ErrorCode;
-import org.mapstruct.Mapper;
+import com.example.student_management.dto.management_class.ManagementClassDTO;
+import com.example.student_management.dto.management_class.UpdateManagementClassDTO;
 import com.example.student_management.model.ManagementClass;
-import com.example.student_management.repository.ManagementClassRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
-public abstract class ManagementClassMapper {
+public interface ManagementClassMapper {
+    @Mapping(source = "lecturerId", target = "lecturer.lecturerId")
+    @Mapping(source = "facultyId", target = "faculty.facultyId")
+    ManagementClass toManagementClass(ManagementClassDTO managementClassDTO);
 
-    @Autowired
-    private ManagementClassRepository managementClassRepository;
+    @Mapping(source = "lecturer.lecturerId", target = "lecturerId")
+    @Mapping(source = "faculty.facultyId", target = "facultyId")
+    ManagementClassDTO toManagementClassDTO(ManagementClass managementClass);
 
-    public ManagementClass toManagementClass(Long id) {
-        return managementClassRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.MANAGEMENT_CLASS_NOT_FOUND));
-    }
+    void updateManagementClassDTO(@MappingTarget ManagementClass managementClass, UpdateManagementClassDTO request);
 }

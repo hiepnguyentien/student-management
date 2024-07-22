@@ -15,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.AccessLevel;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -113,6 +115,8 @@ public class LecturerService implements ILecturerService {
             throw new AppException(ErrorCode.PHONE_NUMBER_ALREADY_EXISTS);
         }
         Lecturer lecturer = lecturerMapper.toLecturer(addLecturerDTO);
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+        lecturer.setPassword(passwordEncoder.encode(addLecturerDTO.getPassword()));
         lecturerRepository.save(lecturer);
         return lecturerMapper.toLecturerDTO(lecturer);
     }

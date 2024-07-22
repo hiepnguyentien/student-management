@@ -22,11 +22,13 @@ public class UpdateLecturerDTO {
     String firstName;
     @NotNull(message = "NAME_BLANK")
     String lastName;
+    @NotNull(message = "USERNAME_BLANK")
+    String userName;
+    @NotNull(message = "PASSWORD_BLANK")
+    String password;
     @Email(message = "INVALID_EMAIL")
-//    @UniqueElements(message = "EMAIL_EXISTED")
     String email;
     @Size(min = 10, max = 10, message = "INVALID_PHONE_NUMBER")
-//    @UniqueElements(message = "PHONE_NUMBER_ALREADY_EXIST")
     String phoneNumber;
     String address;
     String gender;

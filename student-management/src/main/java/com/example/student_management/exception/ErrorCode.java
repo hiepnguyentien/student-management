@@ -11,18 +11,22 @@ public enum ErrorCode {
     NAME_BLANK(1005, "Phần tên không được để trống"),
     DATE_OF_BIRTH_BLANK(1006, "Ngày sinh không được để trống"),
     DATE_OF_BIRTH_IS_AFTER_NOW(1007, "Ngày sinh không được sau ngày hiện tại"),
-    FACULTY_BLANK(1008, "Phần khoa không được để trống"),
+    USER_NAME_BLANK(1008, "Phần tên đăng nhập không được để trống"),
+    PASSWORD_BLANK(1009, "Phần mật khẩu không được để trống"),
 
     STUDENT_NOT_FOUND(2001, "Không tìm thấy sinh viên"),
 
     MANAGEMENT_CLASS_NOT_FOUND(3001, "Không tìm thấy lớp học"),
     ANOTHER_LECTURER_IN_MANAGEMENT_CLASS(3002, "Lớp học đã có giảng viên khác"),
+    CLASS_NAME_BLANK(3003, "Phần tên lớp không được để trống"),
 
     SUBJECT_NOT_FOUND(4001, "Không tìm thấy môn học"),
     
     LECTURER_NOT_FOUND(5001, "Không tìm thấy giảng viên"),
+    LECTURER_BLANK(5002, "Phần giảng viên không được để trống"),
 
     FACULTY_NOT_FOUND(6001, "Không tìm thấy khoa"),
+    FACULTY_BLANK(6002, "Phần khoa không được để trống"),
     
     SUBJECT_CLASS_NOT_FOUND(7001, "Không tìm thấy lớp môn học"),
     
