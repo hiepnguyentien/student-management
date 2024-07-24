@@ -20,7 +20,7 @@ VALUES
     (nextval('subject_sequence'), 'Phần mềm nguồn mở', 3, 'tận dụng cộng đồng mã nguồn mở trên toàn thế giới'),
     (nextval('subject_sequence'), 'Toán Rời Rạc', 3, 'Toán rời rạc');
 
-INSERT INTO lecturer (lecturer_id, first_name, last_name, gender, date_of_birth, address, email, phone_number, faculty_id, user_name, password)
+INSERT INTO lecturer (lecturer_id, first_name, last_name, gender, date_of_birth, address, email, phone_number, faculty_id, username, password)
 VALUES
     (nextval('lecturer_sequence'), 'Nguyễn Văn', 'An', 'nam', '1990-01-01', '1, 3, Quang Trung, Hà Đông', 'nguyenvanan@huce.edu.vn', '0123456789', 1, 'nguyenvanan', 'password1'),
     (nextval('lecturer_sequence'), 'Nguyễn Thị', 'Bình', 'nữ', '1991-02-02', '1, Thành Công, Quang Trung, Hà Đông', 'nguyenthibinh@huce.edu.vn', '0987654321', 2, 'nguyenthibinh', 'password2'),
@@ -66,7 +66,7 @@ VALUES
     (nextval('management_class_sequence'),2, '66XD1', 2),
     (nextval('management_class_sequence'),4, '66XD5', 2);
 
-INSERT INTO student (student_id, first_name, last_name, gender, date_of_birth, address, email, phone_number, enroll_date, management_class_id, user_name, password)
+INSERT INTO student (student_id, first_name, last_name, gender, date_of_birth, address, email, phone_number, enroll_date, management_class_id, username, password)
 VALUES
     (nextval('student_sequence'),'Hoàng Quang', 'Sinh', 'nam', '1990-01-01', '1, 3, Quang Trung, Hà Đông', 'hoangquangsinh@huce.edu.vn', '0123456789', '2021-01-01', 1, 'hoangquangsinh', 'password1'),
     (nextval('student_sequence'),'Nguyễn Văn', ' An', 'nam', '1992-05-10', '1, Thành Công, Quang Trung, Hà Đông', 'nguyenvanan1@huce.edu.vn', '0987654321', '2022-01-03', 1, 'nguyenvanan1', 'password2'),
