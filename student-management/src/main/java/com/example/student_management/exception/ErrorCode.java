@@ -37,7 +37,10 @@ public enum ErrorCode {
     SCORE_DOES_NOT_EXIST(8001, "score.does.not.exist"),
     SCORE_FOUND(8002, "score.found"),
     INVALID_SCORE(8003, "invalid.score"),
-    INVALID_SEMESTER(8004, "invalid.semester");
+    INVALID_SEMESTER(8004, "invalid.semester"),
+
+    UNAUTHORIZED(9001, "unauthorized"),
+    UNAUTHENTICATED(9002, "unauthenticated");
 
     private final int code;
     private final String messageKey;
