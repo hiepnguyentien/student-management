@@ -6,6 +6,6 @@ import com.example.student_management.dto.management_class.ManagementClassDTO;
 import com.example.student_management.model.ManagementClass;
 
 public interface IManagementClassService {
-    public ManagementClassDTO findManagementClassById(Long id, Locale locale); 
+    public ManagementClassDTO findManagementClassById(Long id, Locale locale);
 
 }

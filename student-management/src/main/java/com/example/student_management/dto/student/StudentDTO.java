@@ -13,7 +13,7 @@ public class StudentDTO {
      Long studentId;
      String firstName;
      String lastName;
-     String userName;
+     String username;
      String password;
      String email;
      String phoneNumber;

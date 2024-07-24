@@ -55,10 +55,11 @@ public class StudentController {
     }
 
     @PostMapping
-    public ApiResponse<StudentDTO> addNewStudent(@RequestBody @Valid AddStudentDTO student){
+    public ApiResponse<StudentDTO> addNewStudent(@RequestBody @Valid AddStudentDTO student, @RequestParam(name = "lang", required = false) String lang){
+        Locale locale = lang != null ? new Locale(lang) : Locale.getDefault();
         ApiResponse<StudentDTO> apiResponse = new ApiResponse<>();
 
-        apiResponse.setResult(studentService.addNewStudent(student));
+        apiResponse.setResult(studentService.addNewStudent(student, locale));
 
         return apiResponse;
     }

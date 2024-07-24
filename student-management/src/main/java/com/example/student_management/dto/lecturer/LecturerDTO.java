@@ -14,7 +14,7 @@ public class LecturerDTO {
     Long lecturerId;
     String firstName;
     String lastName;
-    String userName;
+    String username;
     String password;
     String email;
     String phoneNumber;

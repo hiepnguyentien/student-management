@@ -28,7 +28,7 @@ public class StudentMapperImpl implements StudentMapper {
         student.batch( request.getBatch() );
         student.firstName( request.getFirstName() );
         student.lastName( request.getLastName() );
-        student.userName( request.getUserName() );
+        student.username( request.getUsername() );
         student.password( request.getPassword() );
         student.address( request.getAddress() );
         student.email( request.getEmail() );
@@ -51,7 +51,7 @@ public class StudentMapperImpl implements StudentMapper {
         studentDTO.studentId( student.getStudentId() );
         studentDTO.firstName( student.getFirstName() );
         studentDTO.lastName( student.getLastName() );
-        studentDTO.userName( student.getUserName() );
+        studentDTO.username( student.getUsername() );
         studentDTO.password( student.getPassword() );
         studentDTO.email( student.getEmail() );
         studentDTO.phoneNumber( student.getPhoneNumber() );
@@ -73,7 +73,7 @@ public class StudentMapperImpl implements StudentMapper {
         student.setEnrollDate( request.getEnrollDate() );
         student.setFirstName( request.getFirstName() );
         student.setLastName( request.getLastName() );
-        student.setUserName( request.getUserName() );
+        student.setUsername( request.getUsername() );
         student.setPassword( request.getPassword() );
         student.setAddress( request.getAddress() );
         student.setEmail( request.getEmail() );

@@ -19,7 +19,7 @@ public class AddLecturerDTO {
     @NotNull(message = "NAME_BLANK")
     String lastName;
     @NotNull(message = "USERNAME_BLANK")
-    String userName;
+    String username;
     @NotNull(message = "PASSWORD_BLANK")
     String password;
     @Email(message = "INVALID_EMAIL")

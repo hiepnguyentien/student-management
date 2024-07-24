@@ -36,8 +36,8 @@ public class Lecturer{
     @Column(name = "last_name", nullable = false)
     String lastName;
 
-    @Column(name = "user_name", nullable = false, unique = true)
-    String userName;
+    @Column(name = "username", nullable = false, unique = true)
+    String username;
 
     @Column(name = "password", nullable = false)
     String password;

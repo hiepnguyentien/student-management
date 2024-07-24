@@ -41,12 +41,18 @@ public class StudentService implements IStudentService {
 
     @Override
     @Transactional
-    public StudentDTO addNewStudent(AddStudentDTO addStudentDTO) {
+    public StudentDTO addNewStudent(AddStudentDTO addStudentDTO, Locale locale) {
         if (studentRepository.existsByEmail(addStudentDTO.getEmail())) {
-            throw new AppException(ErrorCode.EMAIL_EXISTED, messageSource, Locale.getDefault());
+            throw new AppException(ErrorCode.EMAIL_EXISTED, messageSource, locale);
         }
         if (studentRepository.existsByPhoneNumber(addStudentDTO.getPhoneNumber())) {
-            throw new AppException(ErrorCode.PHONE_NUMBER_ALREADY_EXISTS, messageSource, Locale.getDefault());
+            throw new AppException(ErrorCode.PHONE_NUMBER_ALREADY_EXISTS, messageSource, locale);
+        }
+
+        boolean isManagementClassExist = studentRepository
+                .findAll().stream().anyMatch(m -> m.getManagementClass().getManagementClassId().equals(addStudentDTO.getManagementClassId()));
+        if(!isManagementClassExist) {
+            throw new AppException(ErrorCode.MANAGEMENT_CLASS_NOT_FOUND, messageSource, locale);
         }
 
         Student student = studentMapper.toStudent(addStudentDTO);

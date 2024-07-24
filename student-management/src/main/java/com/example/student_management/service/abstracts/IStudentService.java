@@ -20,7 +20,7 @@ public interface IStudentService {
     
     List<StudentDTO> findStudentByManagementClassId(Long id, Locale locale);
     
-    StudentDTO addNewStudent(AddStudentDTO student);
+    StudentDTO addNewStudent(AddStudentDTO student, Locale locale);
 
     StudentDTO updateStudent(Long studentId, UpdateStudentDTO student, Locale locale);
 
