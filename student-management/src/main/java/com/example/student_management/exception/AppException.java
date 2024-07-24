@@ -1,18 +1,26 @@
 package com.example.student_management.exception;
 
-public class AppException extends RuntimeException{
-    private ErrorCode errorCode;
+import org.springframework.context.MessageSource;
+
+import java.util.Locale;
+
+public class AppException extends RuntimeException {
+    private final ErrorCode errorCode;
+    private final MessageSource messageSource;
+    private final Locale locale;
 
     public ErrorCode getErrorCode() {
         return errorCode;
     }
 
-    public void setErrorCode(ErrorCode errorCode) {
+    public AppException(ErrorCode errorCode, MessageSource messageSource, Locale locale) {
+        super(messageSource.getMessage(errorCode.getMessageKey(), null, locale));
         this.errorCode = errorCode;
+        this.messageSource = messageSource;
+        this.locale = locale;
     }
 
-    public AppException(ErrorCode errorCode) {
-        super(errorCode.getMessage());
-        this.errorCode = errorCode;
+    public String getLocalizedMessage() {
+        return messageSource.getMessage(errorCode.getMessageKey(), null, locale);
     }
 }
