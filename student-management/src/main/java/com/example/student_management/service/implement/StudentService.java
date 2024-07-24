@@ -15,11 +15,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.AccessLevel;
 
+import org.springframework.context.MessageSource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,6 +30,7 @@ import java.util.stream.Collectors;
 public class StudentService implements IStudentService {
     StudentRepository studentRepository;
     StudentMapper studentMapper;
+    MessageSource messageSource;
 
     @Override
     public List<StudentDTO> findAll() {
@@ -40,10 +43,10 @@ public class StudentService implements IStudentService {
     @Transactional
     public StudentDTO addNewStudent(AddStudentDTO addStudentDTO) {
         if (studentRepository.existsByEmail(addStudentDTO.getEmail())) {
-            throw new AppException(ErrorCode.EMAIL_EXISTED);
+            throw new AppException(ErrorCode.EMAIL_EXISTED, messageSource, Locale.getDefault());
         }
         if (studentRepository.existsByPhoneNumber(addStudentDTO.getPhoneNumber())) {
-            throw new AppException(ErrorCode.PHONE_NUMBER_ALREADY_EXISTS);
+            throw new AppException(ErrorCode.PHONE_NUMBER_ALREADY_EXISTS, messageSource, Locale.getDefault());
         }
 
         Student student = studentMapper.toStudent(addStudentDTO);
@@ -62,9 +65,10 @@ public class StudentService implements IStudentService {
     }
 
     @Override
-    public StudentDTO findStudentById(Long id) {
-        return studentMapper.toStudentDTO(studentRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.STUDENT_NOT_FOUND)));
+    public StudentDTO findStudentById(Long id, Locale locale) {
+        return studentRepository.findById(id)
+                .map(studentMapper::toStudentDTO)
+                .orElseThrow(() -> new AppException(ErrorCode.STUDENT_NOT_FOUND, messageSource, locale));
     }
 
     @Override
@@ -76,12 +80,12 @@ public class StudentService implements IStudentService {
     }
 
     @Override
-    public List<StudentDTO> findStudentByManagementClassId(Long id) {
+    public List<StudentDTO> findStudentByManagementClassId(Long id, Locale locale) {
         boolean exists = studentRepository.findAll().stream()
                 .anyMatch(student -> student.getManagementClass().getManagementClassId().equals(id));
 
         if (!exists) {
-            throw new AppException(ErrorCode.MANAGEMENT_CLASS_NOT_FOUND);
+            throw new AppException(ErrorCode.MANAGEMENT_CLASS_NOT_FOUND, messageSource, locale);
         }
 
         return studentRepository.findAll().stream()
@@ -92,9 +96,9 @@ public class StudentService implements IStudentService {
 
     @Override
     @Transactional
-    public StudentDTO updateStudent(Long studentId, UpdateStudentDTO input) {
+    public StudentDTO updateStudent(Long studentId, UpdateStudentDTO input, Locale locale) {
         Student student = studentRepository.findById(studentId)
-                .orElseThrow(() -> new AppException(ErrorCode.STUDENT_NOT_FOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.STUDENT_NOT_FOUND, messageSource, locale));
         studentMapper.updateStudent(student, input);
 
         studentRepository.save(student);
@@ -104,9 +108,9 @@ public class StudentService implements IStudentService {
 
     @Override
     @Transactional
-    public void deleteStudent(Long id) {
+    public void deleteStudent(Long id, Locale locale) {
         Student student = studentRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.STUDENT_NOT_FOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.STUDENT_NOT_FOUND, messageSource, locale));
         studentRepository.delete(student);
     }
 }

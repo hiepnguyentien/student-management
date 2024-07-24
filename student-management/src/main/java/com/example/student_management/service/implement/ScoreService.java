@@ -15,9 +15,11 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.AccessLevel;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,14 +29,15 @@ public class ScoreService implements IScoreService {
 
     ScoreRepository scoreRepository;
     ScoreMapper scoreMapper;
+    MessageSource messageSource;
 
     @Override
-    public List<ScoreDTO> getScoreByStudentId(Long id) {
+    public List<ScoreDTO> getScoreByStudentId(Long id, Locale locale) {
         boolean exist = scoreRepository.findAll().stream()
                 .anyMatch(s -> s.getStudent().getStudentId().equals(id));
 
         if (!exist) {
-            throw new AppException(ErrorCode.STUDENT_NOT_FOUND);
+            throw new AppException(ErrorCode.STUDENT_NOT_FOUND, messageSource, locale);
         }
 
         return scoreRepository.findAll()
@@ -44,12 +47,12 @@ public class ScoreService implements IScoreService {
     }
 
     @Override
-    public List<ScoreDTO> getScoreBySubjectClassId(Long id) {
+    public List<ScoreDTO> getScoreBySubjectClassId(Long id, Locale locale) {
         boolean exist = scoreRepository.findAll().stream()
                 .anyMatch(s -> s.getSubjectClass().getSubjectClassId().equals(id));
 
         if (!exist) {
-            throw new AppException(ErrorCode.SUBJECT_CLASS_NOT_FOUND);
+            throw new AppException(ErrorCode.SUBJECT_CLASS_NOT_FOUND, messageSource, locale);
         }
 
         return scoreRepository.findAll()
@@ -59,34 +62,34 @@ public class ScoreService implements IScoreService {
     }
 
     @Override
-    public ScoreDTO getScoreBySubjectIdViaStudent(Long subjectClassId, Long studentId) {
+    public ScoreDTO getScoreBySubjectIdViaStudent(Long subjectClassId, Long studentId, Locale locale) {
         boolean existSubjectClass = scoreRepository.findAll().stream()
                 .anyMatch(s -> s.getSubjectClass().getSubjectClassId().equals(subjectClassId));
 
         if (!existSubjectClass) {
-            throw new AppException(ErrorCode.SUBJECT_CLASS_NOT_FOUND);
+            throw new AppException(ErrorCode.SUBJECT_CLASS_NOT_FOUND, messageSource, locale);
         }
         boolean existStudent = scoreRepository.findAll().stream()
                 .anyMatch(s -> s.getStudent().getStudentId().equals(studentId));
 
         if (!existStudent) {
-            throw new AppException(ErrorCode.STUDENT_NOT_FOUND);
+            throw new AppException(ErrorCode.STUDENT_NOT_FOUND, messageSource, locale);
         }
 
         return scoreRepository.findAll()
                 .stream().map(scoreMapper::toScoreDTO)
                 .filter(s -> s.getStudentId().equals(studentId) && s.getSubjectClassId().equals(subjectClassId))
                 .findFirst()
-                .orElseThrow(() -> new AppException(ErrorCode.SCORE_DOES_NOT_EXIST));
+                .orElseThrow(() -> new AppException(ErrorCode.SCORE_DOES_NOT_EXIST, messageSource, locale));
     }
 
     @Override
-    public List<ScoreDTO> getScoreBySemesterViaStudent(Long studentId, Integer semester) {
+    public List<ScoreDTO> getScoreBySemesterViaStudent(Long studentId, Integer semester, Locale locale) {
         boolean existStudent = scoreRepository.findAll().stream()
                 .anyMatch(s -> s.getStudent().getStudentId().equals(studentId));
 
         if (!existStudent) {
-            throw new AppException(ErrorCode.STUDENT_NOT_FOUND);
+            throw new AppException(ErrorCode.STUDENT_NOT_FOUND, messageSource, locale);
         }
 
         return scoreRepository.findAll()
@@ -101,21 +104,21 @@ public class ScoreService implements IScoreService {
 
     @Override
     @Transactional
-    public ScoreDTO updateScoreViaStudentAndSubjectClassId(Long scoreId, UpdateScoreDTO updateScoreDTO) {
+    public ScoreDTO updateScoreViaStudentAndSubjectClassId(Long scoreId, UpdateScoreDTO updateScoreDTO, Locale locale) {
         boolean existSubjectClass = scoreRepository.findAll().stream()
                 .anyMatch(s -> s.getSubjectClass().getSubjectClassId().equals(updateScoreDTO.getSubjectClassId()));
 
         if (!existSubjectClass) {
-            throw new AppException(ErrorCode.SUBJECT_CLASS_NOT_FOUND);
+            throw new AppException(ErrorCode.SUBJECT_CLASS_NOT_FOUND, messageSource, locale);
         }
         boolean existStudent = scoreRepository.findAll().stream()
                 .anyMatch(s -> s.getStudent().getStudentId().equals(updateScoreDTO.getStudentId()));
 
         if (!existStudent) {
-            throw new AppException(ErrorCode.STUDENT_NOT_FOUND);
+            throw new AppException(ErrorCode.STUDENT_NOT_FOUND, messageSource, locale);
         }
         Score score = scoreRepository.findById(scoreId)
-                .orElseThrow(() -> new AppException(ErrorCode.SCORE_DOES_NOT_EXIST));
+                .orElseThrow(() -> new AppException(ErrorCode.SCORE_DOES_NOT_EXIST, messageSource, locale));
 
         scoreMapper.updateScore(score, updateScoreDTO);
         scoreRepository.save(score);
@@ -124,26 +127,26 @@ public class ScoreService implements IScoreService {
 
     @Override
     @Transactional
-    public ScoreDTO addScoreViaStudentAndSubjectClassId(AddScoreDTO addScoreDTO) {
+    public ScoreDTO addScoreViaStudentAndSubjectClassId(AddScoreDTO addScoreDTO, Locale locale) {
         boolean existSubjectClass = scoreRepository.findAll().stream()
                 .anyMatch(s -> s.getSubjectClass()
                 .getSubjectClassId().equals(addScoreDTO.getSubjectClassId()));
 
         if (!existSubjectClass) {
-            throw new AppException(ErrorCode.SUBJECT_CLASS_NOT_FOUND);
+            throw new AppException(ErrorCode.SUBJECT_CLASS_NOT_FOUND, messageSource, locale);
         }
 
         boolean existStudent = scoreRepository.findAll().stream()
                 .anyMatch(s -> s.getStudent().getStudentId().equals(addScoreDTO.getStudentId()));
 
         if (!existStudent) {
-            throw new AppException(ErrorCode.STUDENT_NOT_FOUND);
+            throw new AppException(ErrorCode.STUDENT_NOT_FOUND, messageSource, locale);
         }
 
         Score score1 = scoreRepository.findByStudentIdAndSubjectClassId(addScoreDTO.getStudentId(), addScoreDTO.getSubjectClassId());
         if (score1 != null) {
             if (!isFlunked(score1)) {
-                throw new AppException(ErrorCode.SCORE_FOUND);
+                throw new AppException(ErrorCode.SCORE_FOUND, messageSource, locale);
             }
         }
         
@@ -154,25 +157,25 @@ public class ScoreService implements IScoreService {
 
     @Override
     @Transactional
-    public void deleteScore(Long studentId, Long subjectClassId) {
+    public void deleteScore(Long studentId, Long subjectClassId, Locale locale) {
         boolean existSubjectClass = scoreRepository.findAll().stream()
                 .anyMatch(s -> s.getSubjectClass().getSubjectClassId().equals(subjectClassId));
 
         if (!existSubjectClass) {
-            throw new AppException(ErrorCode.SUBJECT_CLASS_NOT_FOUND);
+            throw new AppException(ErrorCode.SUBJECT_CLASS_NOT_FOUND, messageSource, locale);
         }
 
         boolean existStudent = scoreRepository.findAll().stream()
                 .anyMatch(s -> s.getStudent().getStudentId().equals(studentId));
 
         if (!existStudent) {
-            throw new AppException(ErrorCode.STUDENT_NOT_FOUND);
+            throw new AppException(ErrorCode.STUDENT_NOT_FOUND, messageSource, locale);
         }
 
         Score score = scoreRepository.findByStudentIdAndSubjectClassId(studentId, subjectClassId);
 
         if (score == null) {
-            throw new AppException(ErrorCode.SCORE_DOES_NOT_EXIST);
+            throw new AppException(ErrorCode.SCORE_DOES_NOT_EXIST, messageSource, locale);
         }
 
         scoreRepository.delete(score);

@@ -15,18 +15,20 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.AccessLevel;
 
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class SubjectClassService implements ISubjectClassService {
-
     SubjectClassRepository subjectClassRepository;
     SubjectClassMapper subjectClassMapper;
+    MessageSource messageSource;
 
     @Override
     public List<SubjectClassDTO> findAll() {
@@ -36,10 +38,10 @@ public class SubjectClassService implements ISubjectClassService {
     }
 
     @Override
-    public SubjectClassDTO findById(Long id) {
+    public SubjectClassDTO findById(Long id, Locale locale) {
         return subjectClassRepository.findById(id)
         .map(subjectClassMapper::toSubjectClassDTO)
-        .orElseThrow(() -> new AppException(ErrorCode.SUBJECT_CLASS_NOT_FOUND));
+        .orElseThrow(() -> new AppException(ErrorCode.SUBJECT_CLASS_NOT_FOUND, messageSource, locale));
     }
 
     @Override
@@ -51,9 +53,9 @@ public class SubjectClassService implements ISubjectClassService {
 
     @Override
     @Transactional
-    public SubjectClassDTO updateSubjectClass(Long id, UpdateSubjectClassDTO updateSubjectClassDTO) {
+    public SubjectClassDTO updateSubjectClass(Long id, UpdateSubjectClassDTO updateSubjectClassDTO, Locale locale) {
         SubjectClass subjectClass = subjectClassRepository.findById(updateSubjectClassDTO.getId())
-        .orElseThrow(() -> new AppException(ErrorCode.SUBJECT_CLASS_NOT_FOUND));
+        .orElseThrow(() -> new AppException(ErrorCode.SUBJECT_CLASS_NOT_FOUND, messageSource, locale));
 
         subjectClassMapper.updateSubjectClass(subjectClass, updateSubjectClassDTO);
         subjectClassRepository.save(subjectClass);
@@ -66,13 +68,13 @@ public class SubjectClassService implements ISubjectClassService {
         boolean existSubject = subjectClassRepository.findAll().stream()
         .anyMatch(s -> s.getSubject().getSubjectId().equals(addSubjectClassDTO.getSubjectId()));
         if(!existSubject) {
-            throw new AppException(ErrorCode.SUBJECT_NOT_FOUND);
+            throw new AppException(ErrorCode.SUBJECT_NOT_FOUND, messageSource, Locale.getDefault());
         }
 
         boolean existLecturer = subjectClassRepository.findAll().stream()
         .anyMatch(l -> l.getLecturer().getLecturerId().equals(addSubjectClassDTO.getLecturerId()));
         if(!existLecturer) {
-            throw new AppException(ErrorCode.LECTURER_NOT_FOUND);
+            throw new AppException(ErrorCode.LECTURER_NOT_FOUND, messageSource, Locale.getDefault());
         }
 
         SubjectClass subjectClass = subjectClassMapper.toSubjectClass(addSubjectClassDTO);
@@ -82,9 +84,9 @@ public class SubjectClassService implements ISubjectClassService {
 
     @Override
     @Transactional
-    public void delete(Long id) {
+    public void delete(Long id, Locale locale) {
         SubjectClass subjectClass = subjectClassRepository.findById(id)
-        .orElseThrow(() -> new AppException(ErrorCode.SUBJECT_CLASS_NOT_FOUND));
+        .orElseThrow(() -> new AppException(ErrorCode.SUBJECT_CLASS_NOT_FOUND, messageSource, locale));
         subjectClassRepository.delete(subjectClass);
     }
 }

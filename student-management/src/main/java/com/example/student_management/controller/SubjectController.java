@@ -13,6 +13,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @RequestMapping(path = "subject")
@@ -22,41 +23,40 @@ public class SubjectController {
     SubjectService subjectService;
 
     @GetMapping("/find-all")
-    public List<SubjectDTO> findAll(){
+    public List<SubjectDTO> findAll() {
         return subjectService.findAll();
     }
 
     @GetMapping("id/{id}")
-    public SubjectDTO findById(@PathVariable Long id){
-        return subjectService.findSubjectById(id);
+    public SubjectDTO findById(@PathVariable Long id, @RequestParam(name = "lang", required = false) String lang) {
+        Locale locale = lang != null ? new Locale(lang) : Locale.getDefault();
+        return subjectService.findSubjectById(id, locale);
     }
 
     @GetMapping("name/{name}")
-    public List<SubjectDTO> findByName(@PathVariable String name){
+    public List<SubjectDTO> findByName(@PathVariable String name) {
         return subjectService.findSubjectByName(name);
     }
 
     @PostMapping
-    public ApiResponse<SubjectDTO> addSubject(@RequestBody @Valid AddSubjectDTO addSubjectDTO){
+    public ApiResponse<SubjectDTO> addSubject(@RequestBody @Valid AddSubjectDTO addSubjectDTO, @RequestParam(name = "lang", required = false) String lang) {
+        Locale locale = lang != null ? new Locale(lang) : Locale.getDefault();
         ApiResponse<SubjectDTO> apiResponse = new ApiResponse<>();
-
-        apiResponse.setResult(subjectService.addSubject(addSubjectDTO));
-
+        apiResponse.setResult(subjectService.addSubject(addSubjectDTO, locale));
         return apiResponse;
     }
 
     @PutMapping({"/{id}"})
-    public ApiResponse<SubjectDTO> updateSubject(@PathVariable @Valid Long id, 
-    @RequestBody @Valid UpdateSubjectDTO updateSubjectDTO){
+    public ApiResponse<SubjectDTO> updateSubject(@PathVariable @Valid Long id, @RequestBody @Valid UpdateSubjectDTO updateSubjectDTO, @RequestParam(name = "lang", required = false) String lang) {
+        Locale locale = lang != null ? new Locale(lang) : Locale.getDefault();
         ApiResponse<SubjectDTO> apiResponse = new ApiResponse<>();
-
-        apiResponse.setResult(subjectService.updateSubject(id, updateSubjectDTO));
-
+        apiResponse.setResult(subjectService.updateSubject(id, updateSubjectDTO, locale));
         return apiResponse;
     }
 
     @DeleteMapping("/{id}")
-    public void deleteSubject(@PathVariable Long id){
-        subjectService.deleteSubject(id);
+    public void deleteSubject(@PathVariable Long id, @RequestParam(name = "lang", required = false) String lang) {
+        Locale locale = lang != null ? new Locale(lang) : Locale.getDefault();
+        subjectService.deleteSubject(id, locale);
     }
 }

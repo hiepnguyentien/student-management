@@ -15,9 +15,11 @@ import lombok.experimental.FieldDefaults;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -27,6 +29,7 @@ import java.util.stream.Collectors;
 public class FacultyService implements IFacultyService {
     FacultyRepository facultyRepository;
     FacultyMapper facultyMapper;
+    MessageSource messageSource;
 
     @Override
     public List<FacultyDTO> findFacultyByName(String name) {
@@ -36,9 +39,10 @@ public class FacultyService implements IFacultyService {
     }
 
     @Override
-    public Optional<FacultyDTO> findFacultyById(Long id) {
+    public FacultyDTO findFacultyById(Long id, Locale locale) {
         return facultyRepository.findById(id)
-                .map(facultyMapper::toFacultyDTO);
+                .map(facultyMapper::toFacultyDTO)
+                .orElseThrow(() -> new AppException(ErrorCode.FACULTY_NOT_FOUND, messageSource, locale));
     }
 
     @Override
@@ -58,9 +62,9 @@ public class FacultyService implements IFacultyService {
 
     @Override
     @Transactional
-    public FacultyDTO update(Long id, UpdateFacultyDTO updateFacultyDTO) {
+    public FacultyDTO update(Long id, UpdateFacultyDTO updateFacultyDTO, Locale locale) {
         Faculty faculty = facultyRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.FACULTY_NOT_FOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.FACULTY_NOT_FOUND, messageSource, locale));
         facultyMapper.updateFaculty(faculty, updateFacultyDTO);
         facultyRepository.save(faculty);
         return facultyMapper.toFacultyDTO(faculty);
@@ -68,9 +72,9 @@ public class FacultyService implements IFacultyService {
 
     @Override
     @Transactional
-    public void delete(Long id) {
+    public void delete(Long id, Locale locale) {
         Faculty faculty = facultyRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.FACULTY_NOT_FOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.FACULTY_NOT_FOUND, messageSource, locale));
         facultyRepository.delete(faculty);
     }
 }

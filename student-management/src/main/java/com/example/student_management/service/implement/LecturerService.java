@@ -15,11 +15,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.AccessLevel;
 
+import org.springframework.context.MessageSource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,6 +30,7 @@ import java.util.stream.Collectors;
 public class LecturerService implements ILecturerService {
     LecturerRepository lecturerRepository;
     LecturerMapper lecturerMapper;
+    MessageSource messageSource;
 
     @Override
     public List<LecturerDTO> findAll() {
@@ -37,9 +40,9 @@ public class LecturerService implements ILecturerService {
     }
 
     @Override
-    public LecturerDTO findLecturerById(Long id) {
+    public LecturerDTO findLecturerById(Long id, Locale locale) {
         return lecturerMapper.toLecturerDTO(lecturerRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.LECTURER_NOT_FOUND)));
+                .orElseThrow(() -> new AppException(ErrorCode.LECTURER_NOT_FOUND, messageSource, locale)));
     }
 
     @Override
@@ -52,12 +55,12 @@ public class LecturerService implements ILecturerService {
     }
 
     @Override
-    public List<LecturerDTO> findLecturerByFacultyId(Long id) {
+    public List<LecturerDTO> findLecturerByFacultyId(Long id, Locale locale) {
         boolean isExist = lecturerRepository.findAll().stream()
                 .anyMatch(lecturer -> lecturer.getFacultyId().equals(id));
 
         if (!isExist) {
-            throw new AppException(ErrorCode.FACULTY_NOT_FOUND);
+            throw new AppException(ErrorCode.FACULTY_NOT_FOUND, messageSource, locale);
         }
 
         return lecturerRepository.findAll().stream()
@@ -67,35 +70,35 @@ public class LecturerService implements ILecturerService {
     }
 
     @Override
-    public LecturerDTO findLecturerByManagementClassId(Long id) {
+    public LecturerDTO findLecturerByManagementClassId(Long id, Locale locale) {
         boolean isExist = lecturerRepository.findAll().stream()
                 .anyMatch(lecturer -> lecturer.getManagementClass().getManagementClassId().equals(id));
 
         if (!isExist) {
-            throw new AppException(ErrorCode.MANAGEMENT_CLASS_NOT_FOUND);
+            throw new AppException(ErrorCode.MANAGEMENT_CLASS_NOT_FOUND, messageSource, locale);
         }
 
         return lecturerRepository.findAll().stream()
                 .map(lecturerMapper::toLecturerDTO)
                 .filter(lecturer -> lecturer.getManagementClassId().equals(id))
                 .findFirst()
-                .orElseThrow(() -> new AppException(ErrorCode.LECTURER_NOT_FOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.LECTURER_NOT_FOUND, messageSource, locale));
     }
 
     @Override
     @Transactional
-    public LecturerDTO updateLecturer(Long id, UpdateLecturerDTO updateLecturerDTO) {
+    public LecturerDTO updateLecturer(Long id, UpdateLecturerDTO updateLecturerDTO, Locale locale) {
         Lecturer lecturer = lecturerRepository.findById(updateLecturerDTO.id)
-                .orElseThrow(() -> new AppException(ErrorCode.LECTURER_NOT_FOUND));
-                
+                .orElseThrow(() -> new AppException(ErrorCode.LECTURER_NOT_FOUND, messageSource, locale));
+
         boolean isExist = lecturerRepository.findAll().stream()
                 .anyMatch(
                         l -> l.getManagementClass().getManagementClassId().equals(updateLecturerDTO.managementClassId));
 
-        if (!lecturer.getManagementClass().getManagementClassId().equals(updateLecturerDTO.managementClassId) 
-        || !lecturer.getLecturerId().equals(id)
-        && isExist ) {
-            throw new AppException(ErrorCode.ANOTHER_LECTURER_IN_MANAGEMENT_CLASS);
+        if (!lecturer.getManagementClass().getManagementClassId().equals(updateLecturerDTO.managementClassId)
+                || !lecturer.getLecturerId().equals(id)
+                        && isExist) {
+            throw new AppException(ErrorCode.ANOTHER_LECTURER_IN_MANAGEMENT_CLASS, messageSource, locale);
         }
 
         lecturerMapper.updateLecturer(lecturer, updateLecturerDTO);
@@ -107,12 +110,12 @@ public class LecturerService implements ILecturerService {
 
     @Override
     @Transactional
-    public LecturerDTO addLecturer(AddLecturerDTO addLecturerDTO) {
+    public LecturerDTO addLecturer(AddLecturerDTO addLecturerDTO, Locale locale) {
         if (lecturerRepository.existsByEmail(addLecturerDTO.getEmail())) {
-            throw new AppException(ErrorCode.EMAIL_EXISTED);
+            throw new AppException(ErrorCode.EMAIL_EXISTED, messageSource, locale);
         }
         if (lecturerRepository.existsByPhoneNumber(addLecturerDTO.getPhoneNumber())) {
-            throw new AppException(ErrorCode.PHONE_NUMBER_ALREADY_EXISTS);
+            throw new AppException(ErrorCode.PHONE_NUMBER_ALREADY_EXISTS, messageSource, locale);
         }
         Lecturer lecturer = lecturerMapper.toLecturer(addLecturerDTO);
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
@@ -123,9 +126,9 @@ public class LecturerService implements ILecturerService {
 
     @Override
     @Transactional
-    public void deleteLecturer(Long id) {
+    public void deleteLecturer(Long id, Locale locale) {
         Lecturer lecturer = lecturerRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.LECTURER_NOT_FOUND));
+                .orElseThrow(() -> new AppException(ErrorCode.LECTURER_NOT_FOUND, messageSource, locale));
         lecturerRepository.delete(lecturer);
     }
 }

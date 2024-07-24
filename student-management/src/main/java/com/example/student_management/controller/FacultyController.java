@@ -14,6 +14,7 @@ import lombok.AccessLevel;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @RestController
@@ -29,8 +30,9 @@ public class FacultyController {
     }
 
     @GetMapping("id/{id}")
-    public Optional<FacultyDTO> findById(@PathVariable Long id) {
-        return facultyService.findFacultyById(id);
+    public FacultyDTO findById(@PathVariable Long id, @RequestParam(name = "lang", required = false) String lang){
+        Locale locale = lang != null ? new Locale(lang) : Locale.getDefault();
+        return facultyService.findFacultyById(id, locale);
     }
 
     @GetMapping("name/{name}")
@@ -49,16 +51,19 @@ public class FacultyController {
 
     @PutMapping("/{id}")
     public ApiResponse<FacultyDTO> update(@PathVariable @Valid Long id,
-            @RequestBody @Valid UpdateFacultyDTO facultyDTO) {
+            @RequestBody @Valid UpdateFacultyDTO facultyDTO,
+            @RequestParam(name = "lang", required = false) String lang){
+        Locale locale = lang != null ? new Locale(lang) : Locale.getDefault();
         ApiResponse<FacultyDTO> apiResponse = new ApiResponse<>();
 
-        apiResponse.setResult(facultyService.update(id, facultyDTO));
+        apiResponse.setResult(facultyService.update(id, facultyDTO, locale));
 
         return apiResponse;
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        facultyService.delete(id);
+    public void delete(@PathVariable Long id, @RequestParam(name = "lang", required = false) String lang){
+        Locale locale = lang != null ? new Locale(lang) : Locale.getDefault();
+        facultyService.delete(id, locale);
     }
 }

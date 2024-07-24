@@ -27,6 +27,8 @@ public class LecturerMapperImpl implements LecturerMapper {
         lecturer.facultyId( request.getFacultyId() );
         lecturer.firstName( request.getFirstName() );
         lecturer.lastName( request.getLastName() );
+        lecturer.userName( request.getUserName() );
+        lecturer.password( request.getPassword() );
         lecturer.address( request.getAddress() );
         lecturer.email( request.getEmail() );
         lecturer.phoneNumber( request.getPhoneNumber() );
@@ -48,6 +50,8 @@ public class LecturerMapperImpl implements LecturerMapper {
         lecturerDTO.lecturerId( lecturer.getLecturerId() );
         lecturerDTO.firstName( lecturer.getFirstName() );
         lecturerDTO.lastName( lecturer.getLastName() );
+        lecturerDTO.userName( lecturer.getUserName() );
+        lecturerDTO.password( lecturer.getPassword() );
         lecturerDTO.email( lecturer.getEmail() );
         lecturerDTO.phoneNumber( lecturer.getPhoneNumber() );
         lecturerDTO.address( lecturer.getAddress() );
@@ -67,6 +71,8 @@ public class LecturerMapperImpl implements LecturerMapper {
         lecturer.setFacultyId( request.getFacultyId() );
         lecturer.setFirstName( request.getFirstName() );
         lecturer.setLastName( request.getLastName() );
+        lecturer.setUserName( request.getUserName() );
+        lecturer.setPassword( request.getPassword() );
         lecturer.setAddress( request.getAddress() );
         lecturer.setEmail( request.getEmail() );
         lecturer.setPhoneNumber( request.getPhoneNumber() );

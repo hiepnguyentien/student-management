@@ -51,6 +51,8 @@ public class StudentMapperImpl implements StudentMapper {
         studentDTO.studentId( student.getStudentId() );
         studentDTO.firstName( student.getFirstName() );
         studentDTO.lastName( student.getLastName() );
+        studentDTO.userName( student.getUserName() );
+        studentDTO.password( student.getPassword() );
         studentDTO.email( student.getEmail() );
         studentDTO.phoneNumber( student.getPhoneNumber() );
         studentDTO.address( student.getAddress() );

@@ -14,6 +14,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @RequestMapping(path = "student")
@@ -28,9 +29,9 @@ public class StudentController {
     }
 
     @GetMapping("id/{id}")
-    public StudentDTO findById(@PathVariable Long id){
-        return studentService.findStudentById(id);
-
+    public StudentDTO findById(@PathVariable Long id, @RequestParam(name = "lang", required = false) String lang) {
+        Locale locale = lang != null ? new Locale(lang) : Locale.getDefault();
+        return studentService.findStudentById(id, locale);
     }
 
     @GetMapping("name/{name}")
@@ -44,10 +45,11 @@ public class StudentController {
     }
 
     @GetMapping("class-id/{id}")
-    public ApiResponse<List<StudentDTO>> findStudentByManagementClassId(@PathVariable @Valid Long id){
+    public ApiResponse<List<StudentDTO>> findStudentByManagementClassId(@PathVariable @Valid Long id, @RequestParam(name = "lang", required = false) String lang){
+        Locale locale = lang != null ? new Locale(lang) : Locale.getDefault();
         ApiResponse<List<StudentDTO>> apiResponse = new ApiResponse<>();
 
-        apiResponse.setResult(studentService.findStudentByManagementClassId(id));
+        apiResponse.setResult(studentService.findStudentByManagementClassId(id, locale));
 
         return apiResponse;
     }
@@ -62,16 +64,20 @@ public class StudentController {
     }
 
     @PutMapping("/{id}")
-    public ApiResponse<StudentDTO> updateStudent(@PathVariable @Valid Long id, @RequestBody @Valid UpdateStudentDTO student){
+    public ApiResponse<StudentDTO> updateStudent(@PathVariable @Valid Long id, 
+    @RequestBody @Valid UpdateStudentDTO student,
+    @RequestParam(name = "lang", required = false) String lang){
+        Locale locale = lang != null ? new Locale(lang) : Locale.getDefault();
         ApiResponse<StudentDTO> apiResponse = new ApiResponse<>();
 
-        apiResponse.setResult(studentService.updateStudent(id, student));
+        apiResponse.setResult(studentService.updateStudent(id, student, locale));
 
         return apiResponse;
     }
 
     @DeleteMapping("/{id}")
-    public void deleteStudent(@PathVariable Long id){
-        studentService.deleteStudent(id);
+    public void deleteStudent(@PathVariable Long id, @RequestParam(name = "lang", required = false) String lang){
+        Locale locale = lang != null ? new Locale(lang) : Locale.getDefault();
+        studentService.deleteStudent(id, locale);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.student_management.controller;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.student_management.dto.ApiResponse;
@@ -35,8 +37,9 @@ public class SubjectClassController {
     }
 
     @GetMapping("id/{id}")
-    public SubjectClassDTO findById(@PathVariable Long id) {
-        return subjectClassService.findById(id);
+    public SubjectClassDTO findById(@PathVariable Long id, @RequestParam(name = "lang", required = false) String lang){
+        Locale locale = lang != null ? new Locale(lang) : Locale.getDefault();
+        return subjectClassService.findById(id, locale);
     }
 
     @GetMapping("name/{name}")
@@ -46,10 +49,12 @@ public class SubjectClassController {
 
     @PutMapping("/{id}")
     public ApiResponse<SubjectClassDTO> updateSubjectClass(@PathVariable @Valid Long id,
-            @RequestBody @Valid UpdateSubjectClassDTO updateSubjectClassDTO) {
+            @RequestBody @Valid UpdateSubjectClassDTO updateSubjectClassDTO,
+            @RequestParam(name = "lang", required = false) String lang){
+        Locale locale = lang != null ? new Locale(lang) : Locale.getDefault();
         ApiResponse<SubjectClassDTO> apiResponse = new ApiResponse<>();
 
-        apiResponse.setResult(subjectClassService.updateSubjectClass(id, updateSubjectClassDTO));
+        apiResponse.setResult(subjectClassService.updateSubjectClass(id, updateSubjectClassDTO, locale));
 
         return apiResponse;
     }
@@ -64,7 +69,8 @@ public class SubjectClassController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        subjectClassService.delete(id);
+    public void delete(@PathVariable Long id, @RequestParam(name = "lang", required = false) String lang){
+        Locale locale = lang != null ? new Locale(lang) : Locale.getDefault();
+        subjectClassService.delete(id, locale);
     }
 }

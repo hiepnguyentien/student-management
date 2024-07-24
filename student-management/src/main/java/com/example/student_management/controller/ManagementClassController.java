@@ -1,11 +1,14 @@
 package com.example.student_management.controller;
 
+import java.util.Locale;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.student_management.model.ManagementClass;
+import com.example.student_management.dto.management_class.ManagementClassDTO;
 import com.example.student_management.service.implement.ManagementClassService;
 
 import lombok.RequiredArgsConstructor;
@@ -25,7 +28,8 @@ public class ManagementClassController {
     // }
 
     @GetMapping("id/{id}")
-    public ManagementClass findById(@PathVariable Long id){
-        return managementClassService.findManagementClassById(id);
+    public ManagementClassDTO findById(@PathVariable Long id, @RequestParam(name = "lang", required = false) String lang) {
+        Locale locale = lang != null ? new Locale(lang) : Locale.getDefault();
+        return managementClassService.findManagementClassById(id, locale);
     }
 }
