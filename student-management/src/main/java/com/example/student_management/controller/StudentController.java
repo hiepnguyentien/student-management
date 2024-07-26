@@ -42,6 +42,12 @@ public class StudentController {
         return studentService.findStudentById(id, locale);
     }
 
+    @GetMapping("/my-info")
+    public StudentDTO getMyInfo(@RequestParam(name = "lang", required = false) String lang) {
+        Locale locale = lang != null ? new Locale(lang) : Locale.getDefault();
+        return studentService.getMyInfo(locale);
+    }
+
     @GetMapping("name/{name}")
     public List<StudentDTO> findStudentByName(@PathVariable String name){
         return studentService.findStudentByName(name);

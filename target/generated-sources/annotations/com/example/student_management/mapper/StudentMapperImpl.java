@@ -27,6 +27,15 @@ public class StudentMapperImpl implements StudentMapper {
 
         student.managementClass( addStudentDTOToManagementClass( request ) );
         student.enrollDate( request.getEnrollDate() );
+        student.firstName( request.getFirstName() );
+        student.lastName( request.getLastName() );
+        student.username( request.getUsername() );
+        student.password( request.getPassword() );
+        student.address( request.getAddress() );
+        student.email( request.getEmail() );
+        student.phoneNumber( request.getPhoneNumber() );
+        student.gender( request.getGender() );
+        student.dateOfBirth( request.getDateOfBirth() );
 
         return student.build();
     }
@@ -64,6 +73,8 @@ public class StudentMapperImpl implements StudentMapper {
             return;
         }
 
+        student.setStudentId( request.getStudentId() );
+        student.setEnrollDate( request.getEnrollDate() );
         student.setFirstName( request.getFirstName() );
         student.setLastName( request.getLastName() );
         student.setUsername( request.getUsername() );
@@ -73,8 +84,6 @@ public class StudentMapperImpl implements StudentMapper {
         student.setPhoneNumber( request.getPhoneNumber() );
         student.setGender( request.getGender() );
         student.setDateOfBirth( request.getDateOfBirth() );
-        student.setStudentId( request.getStudentId() );
-        student.setEnrollDate( request.getEnrollDate() );
     }
 
     protected ManagementClass addStudentDTOToManagementClass(AddStudentDTO addStudentDTO) {

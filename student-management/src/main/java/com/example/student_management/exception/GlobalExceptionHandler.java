@@ -28,6 +28,7 @@ public class GlobalExceptionHandler {
         apiResponse.setCode(ErrorCode.UNCATEGORIZED_EXCEPTION.getCode());
         apiResponse.setMessage(messageSource.getMessage(ErrorCode.UNCATEGORIZED_EXCEPTION.getMessageKey(), null, locale));
         log.error(exception.getMessage(), exception);
+
         return ResponseEntity.badRequest().body(apiResponse);
     }
 
@@ -40,7 +41,9 @@ public class GlobalExceptionHandler {
         apiResponse.setCode(errorCode.getCode());
         apiResponse.setMessage(messageSource.getMessage(errorCode.getMessageKey(), null, locale));
         log.error(exception.getMessage(), exception);
-        return ResponseEntity.badRequest().body(apiResponse);
+        return ResponseEntity
+                .status(errorCode.getStatusCode())
+                .body(apiResponse);
     }
 
     @SuppressWarnings("rawtypes")

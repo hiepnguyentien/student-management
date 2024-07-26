@@ -17,6 +17,9 @@ import lombok.experimental.FieldDefaults;
 import lombok.AccessLevel;
 
 import org.springframework.context.MessageSource;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -35,6 +38,7 @@ public class StudentService implements IStudentService {
     MessageSource messageSource;
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public List<StudentDTO> findAll() {
         return studentRepository.findAll().stream()
                 .map(studentMapper::toStudentDTO)
@@ -79,6 +83,7 @@ public class StudentService implements IStudentService {
     }
 
     @Override
+    @PostAuthorize("returnObject.username == authentication.name")
     public StudentDTO findStudentById(Long id, Locale locale) {
         return studentRepository.findById(id)
                 .map(studentMapper::toStudentDTO)
@@ -106,6 +111,16 @@ public class StudentService implements IStudentService {
                 .filter(student -> student.getManagementClass().getManagementClassId().equals(id))
                 .map(studentMapper::toStudentDTO)
                 .collect(Collectors.toList());
+    }
+
+    public StudentDTO getMyInfo(Locale locale){
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+
+        Student student = studentRepository.findByUsername(name)
+                .orElseThrow(() -> new AppException(ErrorCode.STUDENT_NOT_FOUND, messageSource, locale));
+
+        return studentMapper.toStudentDTO(student);
     }
 
     @Override
