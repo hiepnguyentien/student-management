@@ -5,6 +5,8 @@ import com.example.student_management.dto.student.StudentDTO;
 import com.example.student_management.dto.student.UpdateStudentDTO;
 import com.example.student_management.model.ManagementClass;
 import com.example.student_management.model.Student;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
@@ -52,13 +54,16 @@ public class StudentMapperImpl implements StudentMapper {
         studentDTO.firstName( student.getFirstName() );
         studentDTO.lastName( student.getLastName() );
         studentDTO.username( student.getUsername() );
-        studentDTO.password( student.getPassword() );
         studentDTO.email( student.getEmail() );
         studentDTO.phoneNumber( student.getPhoneNumber() );
         studentDTO.address( student.getAddress() );
         studentDTO.gender( student.getGender() );
         studentDTO.batch( student.getBatch() );
         studentDTO.dateOfBirth( student.getDateOfBirth() );
+        Set<String> set = student.getRoles();
+        if ( set != null ) {
+            studentDTO.roles( new LinkedHashSet<String>( set ) );
+        }
 
         return studentDTO.build();
     }

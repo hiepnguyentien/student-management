@@ -3,6 +3,7 @@ package com.example.student_management.service.implement;
 import com.example.student_management.dto.student.AddStudentDTO;
 import com.example.student_management.dto.student.StudentDTO;
 import com.example.student_management.dto.student.UpdateStudentDTO;
+import com.example.student_management.enums.Role;
 import com.example.student_management.exception.AppException;
 import com.example.student_management.exception.ErrorCode;
 import com.example.student_management.mapper.StudentMapper;
@@ -20,6 +21,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -58,6 +60,12 @@ public class StudentService implements IStudentService {
         Student student = studentMapper.toStudent(addStudentDTO);
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         student.setPassword(passwordEncoder.encode(addStudentDTO.getPassword()));
+
+        HashSet<String> roles = new HashSet<>();
+        roles.add(Role.STUDENT.name());
+
+        student.setRoles(roles);
+
         studentRepository.save(student);
         return studentMapper.toStudentDTO(student);
     }

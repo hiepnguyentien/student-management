@@ -3,6 +3,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -14,7 +15,6 @@ public class StudentDTO {
      String firstName;
      String lastName;
      String username;
-     String password;
      String email;
      String phoneNumber;
      String address;
@@ -22,4 +22,5 @@ public class StudentDTO {
      Integer batch;
      LocalDate dateOfBirth;
      Long managementClassId;
+     Set<String> roles;
 }

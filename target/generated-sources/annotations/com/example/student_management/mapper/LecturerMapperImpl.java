@@ -5,6 +5,8 @@ import com.example.student_management.dto.lecturer.LecturerDTO;
 import com.example.student_management.dto.lecturer.UpdateLecturerDTO;
 import com.example.student_management.model.Lecturer;
 import com.example.student_management.model.ManagementClass;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
@@ -51,13 +53,16 @@ public class LecturerMapperImpl implements LecturerMapper {
         lecturerDTO.firstName( lecturer.getFirstName() );
         lecturerDTO.lastName( lecturer.getLastName() );
         lecturerDTO.username( lecturer.getUsername() );
-        lecturerDTO.password( lecturer.getPassword() );
         lecturerDTO.email( lecturer.getEmail() );
         lecturerDTO.phoneNumber( lecturer.getPhoneNumber() );
         lecturerDTO.address( lecturer.getAddress() );
         lecturerDTO.gender( lecturer.getGender() );
         lecturerDTO.dateOfBirth( lecturer.getDateOfBirth() );
         lecturerDTO.facultyId( lecturer.getFacultyId() );
+        Set<String> set = lecturer.getRoles();
+        if ( set != null ) {
+            lecturerDTO.roles( new LinkedHashSet<String>( set ) );
+        }
 
         return lecturerDTO.build();
     }

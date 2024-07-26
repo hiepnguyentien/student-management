@@ -3,10 +3,12 @@ package com.example.student_management.service.implement;
 import com.example.student_management.dto.lecturer.AddLecturerDTO;
 import com.example.student_management.dto.lecturer.LecturerDTO;
 import com.example.student_management.dto.lecturer.UpdateLecturerDTO;
+import com.example.student_management.enums.Role;
 import com.example.student_management.exception.AppException;
 import com.example.student_management.exception.ErrorCode;
 import com.example.student_management.mapper.LecturerMapper;
 import com.example.student_management.model.Lecturer;
+import com.example.student_management.model.Student;
 import com.example.student_management.repository.LecturerRepository;
 import com.example.student_management.service.abstracts.ILecturerService;
 
@@ -20,6 +22,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -31,6 +34,7 @@ public class LecturerService implements ILecturerService {
     LecturerRepository lecturerRepository;
     LecturerMapper lecturerMapper;
     MessageSource messageSource;
+    PasswordEncoder passwordEncoder;
 
     @Override
     public List<LecturerDTO> findAll() {
@@ -118,8 +122,13 @@ public class LecturerService implements ILecturerService {
             throw new AppException(ErrorCode.PHONE_NUMBER_ALREADY_EXISTS, messageSource, locale);
         }
         Lecturer lecturer = lecturerMapper.toLecturer(addLecturerDTO);
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         lecturer.setPassword(passwordEncoder.encode(addLecturerDTO.getPassword()));
+
+        HashSet<String> roles = new HashSet<>();
+        roles.add(Role.LECTURER.name());
+
+        lecturer.setRoles(roles);
+
         lecturerRepository.save(lecturer);
         return lecturerMapper.toLecturerDTO(lecturer);
     }

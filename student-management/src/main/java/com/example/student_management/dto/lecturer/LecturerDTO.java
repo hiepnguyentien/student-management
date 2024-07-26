@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Data
 @Builder
@@ -15,7 +16,6 @@ public class LecturerDTO {
     String firstName;
     String lastName;
     String username;
-    String password;
     String email;
     String phoneNumber;
     String address;
@@ -23,4 +23,5 @@ public class LecturerDTO {
     LocalDate dateOfBirth;
     Long facultyId;
     Long managementClassId;
+    Set<String> roles;
 }
