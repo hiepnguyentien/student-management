@@ -31,6 +31,5 @@ public class AddStudentDTO {
     @NotNull(message = "DATE_OF_BIRTH_BLANK")
     LocalDate dateOfBirth;
     LocalDate enrollDate;
-    Integer batch;
     Long managementClassId;
 }

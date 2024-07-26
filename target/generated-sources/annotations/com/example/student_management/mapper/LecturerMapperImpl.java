@@ -27,15 +27,6 @@ public class LecturerMapperImpl implements LecturerMapper {
 
         lecturer.managementClass( addLecturerDTOToManagementClass( request ) );
         lecturer.facultyId( request.getFacultyId() );
-        lecturer.firstName( request.getFirstName() );
-        lecturer.lastName( request.getLastName() );
-        lecturer.username( request.getUsername() );
-        lecturer.password( request.getPassword() );
-        lecturer.address( request.getAddress() );
-        lecturer.email( request.getEmail() );
-        lecturer.phoneNumber( request.getPhoneNumber() );
-        lecturer.gender( request.getGender() );
-        lecturer.dateOfBirth( request.getDateOfBirth() );
 
         return lecturer.build();
     }
@@ -73,7 +64,6 @@ public class LecturerMapperImpl implements LecturerMapper {
             return;
         }
 
-        lecturer.setFacultyId( request.getFacultyId() );
         lecturer.setFirstName( request.getFirstName() );
         lecturer.setLastName( request.getLastName() );
         lecturer.setUsername( request.getUsername() );
@@ -83,6 +73,7 @@ public class LecturerMapperImpl implements LecturerMapper {
         lecturer.setPhoneNumber( request.getPhoneNumber() );
         lecturer.setGender( request.getGender() );
         lecturer.setDateOfBirth( request.getDateOfBirth() );
+        lecturer.setFacultyId( request.getFacultyId() );
     }
 
     protected ManagementClass addLecturerDTOToManagementClass(AddLecturerDTO addLecturerDTO) {
