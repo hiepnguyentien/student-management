@@ -29,7 +29,8 @@ VALUES
     (nextval('lecturer_sequence'), 'Hoàng Thị', 'Hoa', 'nữ', '1995-06-06', '9, Nguyễn Chí Thanh, Đống Đa', 'hoangthihoa@huce.edu.vn', '0932154876', 4, 'hoangthihoa', 'password5'),
     (nextval('lecturer_sequence'), 'Đặng Văn', 'Khoa', 'nam', '1996-07-07', '12, Trường Chinh, Thanh Xuân', 'dangvankhoa@huce.edu.vn', '0852145632', 1, 'dangvankhoa', 'password6'),
     (nextval('lecturer_sequence'), 'Mai Thị', 'Lan', 'nữ', '1997-08-08', '8, Lê Duẩn, Hoàn Kiếm', 'maithilan@huce.edu.vn', '0945632154', 3, 'maithilan', 'password7'),
-    (nextval('lecturer_sequence'), 'Nguyễn Thị', 'Nga', 'nữ', '1999-10-10', '15, Hoàng Quốc Việt, Cầu Giấy', 'nguyenthinga@huce.edu.vn', '0978654123', 3, 'nguyenthinga', 'password8');
+    (nextval('lecturer_sequence'), 'Nguyễn Thị', 'Nga', 'nữ', '1999-10-10', '15, Hoàng Quốc Việt, Cầu Giấy', 'nguyenthinga@huce.edu.vn', '0978654123', 3, 'nguyenthinga', 'password8'),
+    (nextval('lecturer_sequence'), 'admin', 'admin', 'nam', '1990-01-01', 'Nguyễn An Ninh, Tương Mai, Hoàng Mai', 'hiep9ams@gmail.com', '0379913071', 3, 'admin', '$2a$10$2mN7HMQAUmcGOUG1hDtT5ODuiEUqy328iAkj3OD/WXoIG6wTeSPku');
 
 
 INSERT INTO subject_class (subject_class_id, name, subject_id, lecturer_id)
