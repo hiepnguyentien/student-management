@@ -43,20 +43,16 @@ public enum ErrorCode {
     INVALID_SCORE(8003, "invalid.score", HttpStatus.BAD_REQUEST),
     INVALID_SEMESTER(8004, "invalid.semester", HttpStatus.BAD_REQUEST),
 
-    UNAUTHORIZED(9001, "unauthorized", HttpStatus.UNAUTHORIZED),
+    UNAUTHORIZED(9001, "unauthorized", HttpStatus.FORBIDDEN),
     UNAUTHENTICATED(9002, "unauthenticated", HttpStatus.UNAUTHORIZED),;
 
     private final int code;
-    private final String messageKey;
+    private final String message;
     private HttpStatusCode statusCode;
 
-    ErrorCode(int code, String messageKey, HttpStatusCode statusCode) {
+    ErrorCode(int code, String message, HttpStatusCode statusCode) {
         this.code = code;
-        this.messageKey = messageKey;
+        this.message = message;
         this.statusCode = statusCode;
-    }
-
-    public String getMessage(MessageSource messageSource, Object[] args, Locale locale) {
-        return messageSource.getMessage(messageKey, args, locale);
     }
 }
