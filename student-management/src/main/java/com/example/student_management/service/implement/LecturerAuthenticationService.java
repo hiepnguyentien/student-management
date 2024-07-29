@@ -6,8 +6,8 @@ import com.example.student_management.dto.authentication.IntrospectRequest;
 import com.example.student_management.dto.authentication.IntrospectResponse;
 import com.example.student_management.exception.AppException;
 import com.example.student_management.exception.ErrorCode;
-import com.example.student_management.model.Student;
-import com.example.student_management.repository.StudentRepository;
+import com.example.student_management.model.Lecturer;
+import com.example.student_management.repository.LecturerRepository;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
@@ -27,7 +27,6 @@ import org.springframework.util.CollectionUtils;
 import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Locale;
 import java.util.StringJoiner;
@@ -36,8 +35,8 @@ import java.util.StringJoiner;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Service
-public class AuthenticationService {
-    StudentRepository studentRepository;
+public class LecturerAuthenticationService {
+    LecturerRepository lecturerRepository;
     MessageSource messageSource;
 
     @NonFinal
@@ -62,35 +61,35 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request, Locale locale){
-        var student = studentRepository
+        var lecturer = lecturerRepository
                 .findByUsername(request.getUsername())
-                .orElseThrow(() -> new AppException(ErrorCode.STUDENT_NOT_FOUND, messageSource, locale));
+                .orElseThrow(() -> new AppException(ErrorCode.LECTURER_NOT_FOUND, messageSource, locale));
 
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
-        boolean authenticated = passwordEncoder.matches(request.getPassword(), student.getPassword());
+        boolean authenticated = passwordEncoder.matches(request.getPassword(), lecturer.getPassword());
 
         if(!authenticated){
             throw new AppException(ErrorCode.UNAUTHORIZED, messageSource, locale);
         }
-        var token = generateToken(student);
+        var token = generateToken(lecturer);
 
         return AuthenticationResponse.builder()
                 .token(token)
                 .authenticated(true)
                 .build();
     }
-    
-    private String generateToken(Student student){
+
+    private String generateToken(Lecturer lecturer){
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
 
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
-                .subject(student.getUsername())
+                .subject(lecturer.getUsername())
                 .issuer("hiep.com")
                 .issueTime(new Date())
                 .expirationTime(new Date(
                         Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
                 ))
-                .claim("scope", buildScope(student))
+                .claim("scope", buildScope(lecturer))
                 .build();
 
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());
@@ -106,11 +105,17 @@ public class AuthenticationService {
         }
     }
 
-    private String buildScope(Student student){
+    private String buildScope(Lecturer lecturer){
         StringJoiner stringJoiner = new StringJoiner(" ");
-        if (!CollectionUtils.isEmpty(student.getRoles())) {
-            student.getRoles().forEach(stringJoiner::add);
+
+        if (!CollectionUtils.isEmpty(lecturer.getRoles())) {
+            lecturer.getRoles().forEach(role -> {
+                stringJoiner.add("ROLE_" + role.getName());
+                if (!CollectionUtils.isEmpty(role.getPermissions())) {
+                    role.getPermissions().forEach(permission -> stringJoiner.add(permission.getName()));
+                }
+            });
         }
-            return stringJoiner.toString();
+        return stringJoiner.toString();
     }
 }

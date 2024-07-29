@@ -7,9 +7,11 @@ import com.example.student_management.enums.Role;
 import com.example.student_management.exception.AppException;
 import com.example.student_management.exception.ErrorCode;
 import com.example.student_management.mapper.LecturerMapper;
+import com.example.student_management.mapper.RoleMapper;
 import com.example.student_management.model.Lecturer;
 import com.example.student_management.model.Student;
 import com.example.student_management.repository.LecturerRepository;
+import com.example.student_management.repository.RoleRepository;
 import com.example.student_management.service.abstracts.ILecturerService;
 
 import jakarta.transaction.Transactional;
@@ -18,6 +20,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.AccessLevel;
 
 import org.springframework.context.MessageSource;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -35,6 +38,8 @@ public class LecturerService implements ILecturerService {
     LecturerMapper lecturerMapper;
     MessageSource messageSource;
     PasswordEncoder passwordEncoder;
+    RoleRepository roleRepository;
+    private final RoleMapper roleMapper;
 
     @Override
     public List<LecturerDTO> findAll() {
@@ -91,8 +96,10 @@ public class LecturerService implements ILecturerService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasAuthority('FIND_ALL_STUDENT')")
     public LecturerDTO updateLecturer(Long id, UpdateLecturerDTO updateLecturerDTO, Locale locale) {
-        Lecturer lecturer = lecturerRepository.findById(updateLecturerDTO.id)
+        Lecturer lecturer = lecturerRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.LECTURER_NOT_FOUND, messageSource, locale));
 
         boolean isExist = lecturerRepository.findAll().stream()
@@ -106,6 +113,10 @@ public class LecturerService implements ILecturerService {
         }
 
         lecturerMapper.updateLecturer(lecturer, updateLecturerDTO);
+        lecturer.setPassword(passwordEncoder.encode(updateLecturerDTO.getPassword()));
+
+        var roles = roleRepository.findAllById(updateLecturerDTO.getRoles());
+        lecturer.setRoles(new HashSet<>(roles));
 
         lecturerRepository.save(lecturer);
 
@@ -127,7 +138,7 @@ public class LecturerService implements ILecturerService {
         HashSet<String> roles = new HashSet<>();
         roles.add(Role.LECTURER.name());
 
-        lecturer.setRoles(roles);
+//        lecturer.setRoles(roles);
 
         lecturerRepository.save(lecturer);
         return lecturerMapper.toLecturerDTO(lecturer);

@@ -1,6 +1,7 @@
 package com.example.student_management.dto.lecturer;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -14,7 +15,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PUBLIC)
 public class UpdateLecturerDTO {
-    Long id;
+    // Long id;
     @NotNull(message = "NAME_BLANK")
     String firstName;
     @NotNull(message = "NAME_BLANK")
@@ -34,4 +35,5 @@ public class UpdateLecturerDTO {
     @NotNull(message = "FACULTY_BLANK")
     Long facultyId;
     Long managementClassId;
+    List<String> roles;
 }

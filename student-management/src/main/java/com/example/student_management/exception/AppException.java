@@ -14,13 +14,13 @@ public class AppException extends RuntimeException {
     }
 
     public AppException(ErrorCode errorCode, MessageSource messageSource, Locale locale) {
-        super(messageSource.getMessage(errorCode.getMessageKey(), null, locale));
+        super(messageSource.getMessage(errorCode.getMessage(), null, locale));
         this.errorCode = errorCode;
         this.messageSource = messageSource;
         this.locale = locale;
     }
 
     public String getLocalizedMessage() {
-        return messageSource.getMessage(errorCode.getMessageKey(), null, locale);
+        return messageSource.getMessage(errorCode.getMessage(), null, locale);
     }
 }

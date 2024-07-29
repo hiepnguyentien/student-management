@@ -46,5 +46,6 @@ public class Lecturer {
     String gender;
     @Column(name = "date_of_birth", nullable = false)
     LocalDate dateOfBirth;
-    Set<String> roles;
+    @ManyToMany
+    Set<Role> roles;
 }

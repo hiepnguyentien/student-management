@@ -17,5 +17,6 @@ public interface LecturerMapper {
     @Mapping(source = "managementClass.managementClassId", target = "managementClassId")
     LecturerDTO toLecturerDTO(Lecturer lecturer);
 
+    @Mapping(target = "roles", ignore = true)
     void updateLecturer(@MappingTarget Lecturer lecturer, UpdateLecturerDTO request);
 }

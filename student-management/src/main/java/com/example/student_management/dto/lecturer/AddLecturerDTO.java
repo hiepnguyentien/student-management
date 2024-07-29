@@ -23,12 +23,14 @@ public class AddLecturerDTO {
     @NotNull(message = "PASSWORD_BLANK")
     String password;
     @Email(message = "INVALID_EMAIL")
-    String email;
+    String email;   
     @Size(min = 10, max = 10, message = "INVALID_PHONE_NUMBER")
     String phoneNumber;
     String address;
     String gender;
+    @NotNull(message = "DATE_OF_BIRTH_BLANK")
     LocalDate dateOfBirth;
+    @NotNull(message = "FACULTY_BLANK")
     Long facultyId;
     Long managementClassId;
 }

@@ -3,8 +3,10 @@ package com.example.student_management.mapper;
 import com.example.student_management.dto.lecturer.AddLecturerDTO;
 import com.example.student_management.dto.lecturer.LecturerDTO;
 import com.example.student_management.dto.lecturer.UpdateLecturerDTO;
+import com.example.student_management.dto.role.RoleResponse;
 import com.example.student_management.model.Lecturer;
 import com.example.student_management.model.ManagementClass;
+import com.example.student_management.model.Role;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import javax.annotation.processing.Generated;
@@ -59,10 +61,7 @@ public class LecturerMapperImpl implements LecturerMapper {
         lecturerDTO.gender( lecturer.getGender() );
         lecturerDTO.dateOfBirth( lecturer.getDateOfBirth() );
         lecturerDTO.facultyId( lecturer.getFacultyId() );
-        Set<String> set = lecturer.getRoles();
-        if ( set != null ) {
-            lecturerDTO.roles( new LinkedHashSet<String>( set ) );
-        }
+        lecturerDTO.roles( roleSetToRoleResponseSet( lecturer.getRoles() ) );
 
         return lecturerDTO.build();
     }
@@ -110,5 +109,31 @@ public class LecturerMapperImpl implements LecturerMapper {
             return null;
         }
         return managementClassId;
+    }
+
+    protected RoleResponse roleToRoleResponse(Role role) {
+        if ( role == null ) {
+            return null;
+        }
+
+        RoleResponse.RoleResponseBuilder roleResponse = RoleResponse.builder();
+
+        roleResponse.name( role.getName() );
+        roleResponse.description( role.getDescription() );
+
+        return roleResponse.build();
+    }
+
+    protected Set<RoleResponse> roleSetToRoleResponseSet(Set<Role> set) {
+        if ( set == null ) {
+            return null;
+        }
+
+        Set<RoleResponse> set1 = new LinkedHashSet<RoleResponse>( Math.max( (int) ( set.size() / .75f ) + 1, 16 ) );
+        for ( Role role : set ) {
+            set1.add( roleToRoleResponse( role ) );
+        }
+
+        return set1;
     }
 }

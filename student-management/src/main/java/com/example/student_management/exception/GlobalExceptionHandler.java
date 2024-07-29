@@ -4,6 +4,7 @@ import com.example.student_management.dto.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -26,7 +27,7 @@ public class GlobalExceptionHandler {
         ApiResponse apiResponse = new ApiResponse();
 
         apiResponse.setCode(ErrorCode.UNCATEGORIZED_EXCEPTION.getCode());
-        apiResponse.setMessage(messageSource.getMessage(ErrorCode.UNCATEGORIZED_EXCEPTION.getMessageKey(), null, locale));
+        apiResponse.setMessage(messageSource.getMessage(ErrorCode.UNCATEGORIZED_EXCEPTION.getMessage(), null, locale));
         log.error(exception.getMessage(), exception);
 
         return ResponseEntity.badRequest().body(apiResponse);
@@ -39,11 +40,24 @@ public class GlobalExceptionHandler {
         ApiResponse apiResponse = new ApiResponse();
 
         apiResponse.setCode(errorCode.getCode());
-        apiResponse.setMessage(messageSource.getMessage(errorCode.getMessageKey(), null, locale));
+        apiResponse.setMessage(messageSource.getMessage(errorCode.getMessage(), null, locale));
         log.error(exception.getMessage(), exception);
         return ResponseEntity
+
                 .status(errorCode.getStatusCode())
                 .body(apiResponse);
+    }
+
+    @ExceptionHandler(value = AccessDeniedException.class)
+    ResponseEntity<ApiResponse> handlingAccessDeniedException(AccessDeniedException exception, Locale locale) {
+        ErrorCode errorCode = ErrorCode.UNAUTHORIZED;
+
+        return ResponseEntity.status(errorCode.getStatusCode()).body(
+                ApiResponse.builder()
+                        .code(errorCode.getCode())
+                        .message(errorCode.getMessage())
+                        .build()
+        );
     }
 
     @SuppressWarnings("rawtypes")
@@ -60,7 +74,7 @@ public class GlobalExceptionHandler {
 
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setCode(errorCode.getCode());
-        apiResponse.setMessage(messageSource.getMessage(errorCode.getMessageKey(), null, locale));
+        apiResponse.setMessage(messageSource.getMessage(errorCode.getMessage(), null, locale));
 
         return ResponseEntity.badRequest().body(apiResponse);
     }

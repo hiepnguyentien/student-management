@@ -1,5 +1,7 @@
 package com.example.student_management.dto.lecturer;
 
+import com.example.student_management.dto.role.RoleResponse;
+import com.example.student_management.model.Role;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -23,5 +25,5 @@ public class LecturerDTO {
     LocalDate dateOfBirth;
     Long facultyId;
     Long managementClassId;
-    Set<String> roles;
+    Set<RoleResponse> roles;
 }

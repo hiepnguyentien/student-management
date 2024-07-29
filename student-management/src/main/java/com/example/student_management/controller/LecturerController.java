@@ -1,10 +1,16 @@
 package com.example.student_management.controller;
 
 import com.example.student_management.dto.ApiResponse;
+import com.example.student_management.dto.authentication.AuthenticationRequest;
+import com.example.student_management.dto.authentication.AuthenticationResponse;
+import com.example.student_management.dto.authentication.IntrospectRequest;
+import com.example.student_management.dto.authentication.IntrospectResponse;
 import com.example.student_management.dto.lecturer.AddLecturerDTO;
 import com.example.student_management.dto.lecturer.LecturerDTO;
 import com.example.student_management.dto.lecturer.UpdateLecturerDTO;
+import com.example.student_management.service.implement.LecturerAuthenticationService;
 import com.example.student_management.service.implement.LecturerService;
+import com.nimbusds.jose.JOSEException;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +18,7 @@ import lombok.experimental.FieldDefaults;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Locale;
 
@@ -21,6 +28,7 @@ import java.util.Locale;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class LecturerController {
     LecturerService lecturerService;
+    LecturerAuthenticationService lecturerAuthenticationService;
 
     @GetMapping("/find-all")
     public List<LecturerDTO> findAll() {
@@ -88,5 +96,23 @@ public class LecturerController {
     public void deleteLecturer(@PathVariable Long id, @RequestParam(name = "lang", required = false) String lang) {
         Locale locale = lang != null ? new Locale(lang) : Locale.getDefault();
         lecturerService.deleteLecturer(id, locale);
+    }
+
+    @PostMapping("/auth/token")
+    ApiResponse<AuthenticationResponse> logIn(@RequestBody AuthenticationRequest authenticationRequest, @RequestParam(name = "lang", required = false) String lang) {
+        Locale locale = lang != null ? new Locale(lang) : Locale.getDefault();
+        var result = lecturerAuthenticationService.authenticate(authenticationRequest, locale);
+        return ApiResponse.<AuthenticationResponse>builder()
+                .result(result)
+                .build();
+    }
+
+    @PostMapping("/auth/introspect")
+    ApiResponse<IntrospectResponse> logIn(@RequestBody IntrospectRequest introspectRequest)
+            throws ParseException, JOSEException {
+        var result = lecturerAuthenticationService.introspect(introspectRequest);
+        return ApiResponse.<IntrospectResponse>builder()
+                .result(result)
+                .build();
     }
 }
