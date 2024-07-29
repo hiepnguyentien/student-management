@@ -29,8 +29,7 @@ VALUES
     (nextval('lecturer_sequence'), 'Hoàng Thị', 'Hoa', 'nữ', '1995-06-06', '9, Nguyễn Chí Thanh, Đống Đa', 'hoangthihoa@huce.edu.vn', '0932154876', 4, 'hoangthihoa', 'password5'),
     (nextval('lecturer_sequence'), 'Đặng Văn', 'Khoa', 'nam', '1996-07-07', '12, Trường Chinh, Thanh Xuân', 'dangvankhoa@huce.edu.vn', '0852145632', 1, 'dangvankhoa', 'password6'),
     (nextval('lecturer_sequence'), 'Mai Thị', 'Lan', 'nữ', '1997-08-08', '8, Lê Duẩn, Hoàn Kiếm', 'maithilan@huce.edu.vn', '0945632154', 3, 'maithilan', 'password7'),
-    (nextval('lecturer_sequence'), 'Nguyễn Thị', 'Nga', 'nữ', '1999-10-10', '15, Hoàng Quốc Việt, Cầu Giấy', 'nguyenthinga@huce.edu.vn', '0978654123', 3, 'nguyenthinga', 'password8'),
-    (nextval('lecturer_sequence'), 'admin', 'admin', 'nam', '1990-01-01', 'Nguyễn An Ninh, Tương Mai, Hoàng Mai', 'hiep9ams@gmail.com', '0379913071', 3, 'admin', '$2a$10$2mN7HMQAUmcGOUG1hDtT5ODuiEUqy328iAkj3OD/WXoIG6wTeSPku');
+    (nextval('lecturer_sequence'), 'Nguyễn Thị', 'Nga', 'nữ', '1999-10-10', '15, Hoàng Quốc Việt, Cầu Giấy', 'nguyenthinga@huce.edu.vn', '0978654123', 3, 'nguyenthinga', 'password8');
 
 
 INSERT INTO subject_class (subject_class_id, name, subject_id, lecturer_id)
@@ -104,17 +103,33 @@ VALUES
     (nextval('score_sequence'), 10, 9, 7.5, 8.0, 7.5, 1),
     (nextval('score_sequence'), 10, 1, 8.0, 8.5, 8.0, 2);
 
-        -- (1, 1, 0, 0, 0, 2, 'hoc lai lan 1'),
-        -- (2, 2, 0, 0, 0, 1, ''),
-        -- (2, 3, 0, 0, 0, 1, ''),
-        -- (2, 4, 0, 0, 0, 2, 'vi pham quy che'),
-        -- (2, 5, 0, 0, 0, 3, ''),
-        -- (5, 6, 0, 0, 0, 3, ''),
-        -- (7, 7, 0, 0, 0, 4, ''),
-        -- (10, 8, 0, 0, 0, 5, ''),
-        -- (4, 9, 0, 0, 0, 5, ''),
-        -- (8, 10, 0, 0, 0, 5, '');
+INSERT INTO permission (name, description) 
+VALUES
+    ('CREATE_STUDENT', 'Permission to create a new student record'),
+    ('FIND_ALL_STUDENT', 'Permission to read student records'),
+    ('UPDATE_STUDENT', 'Permission to update student records'),
+    ('DELETE_STUDENT', 'Permission to delete student records'),
+    ('CREATE_LECTURER', 'Permission to create a new teacher record'),
+    ('FIND_ALL_LECTURER', 'Permission to read teacher records'),
+    ('UPDATE_LECTURER', 'Permission to update teacher records'),
+    ('DELETE_LECTURER', 'Permission to delete teacher records'),
+    ('CREATE_SUBJECT_CLASS', 'Permission to create a new course'),
+    ('FIND_ALL_SUBJECT_CLASS', 'Permission to read course details'),
+    ('UPDATE_SUBJECT_CLASS', 'Permission to update course details'),
+    ('DELETE_SUBJECT_CLASS', 'Permission to delete a course'),
+    ('ENROLL_SUBJECT_CLASS', 'Permission to enroll in a course'),
+    ('CREATE_FACULTY', 'Permission to create a new assignment'),
+    ('FIND_ALL_FACULTY', 'Permission to read assignment details'),
+    ('UPDATE_FACULTY', 'Permission to update assignment details'),
+    ('DELETE_FACULTY', 'Permission to delete an assignment'),
+    ('MANAGE_PERMISSIONS', 'Permission to manage user permissions');
 
+
+INSERT INTO role (name, description) 
+VALUES
+    ('ADMIN', 'admin role'),
+    ('LECTURER', 'lecturer role'),
+    ('STUDENT', 'student role');
 
 INSERT INTO subject_faculty (faculty_id, subject_id) 
 VALUES  (1, 1),
