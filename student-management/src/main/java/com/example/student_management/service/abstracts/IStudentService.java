@@ -19,6 +19,8 @@ public interface IStudentService {
     List<StudentDTO> findStudentByManagementClassName(String name);
     
     List<StudentDTO> findStudentByManagementClassId(Long id, Locale locale);
+
+    StudentDTO getMyInfo(Locale locale);
     
     StudentDTO addNewStudent(AddStudentDTO student, Locale locale);
 

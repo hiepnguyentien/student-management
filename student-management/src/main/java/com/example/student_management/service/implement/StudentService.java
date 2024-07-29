@@ -113,6 +113,7 @@ public class StudentService implements IStudentService {
                 .collect(Collectors.toList());
     }
 
+    @Override
     public StudentDTO getMyInfo(Locale locale){
         var context = SecurityContextHolder.getContext();
         String name = context.getAuthentication().getName();
