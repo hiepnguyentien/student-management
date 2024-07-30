@@ -1,6 +1,7 @@
 package com.example.student_management.dto.lecturer;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -33,4 +34,5 @@ public class AddLecturerDTO {
     @NotNull(message = "FACULTY_BLANK")
     Long facultyId;
     Long managementClassId;
+    List<String> roles;
 }

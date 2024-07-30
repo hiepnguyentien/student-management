@@ -15,7 +15,6 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PUBLIC)
 public class UpdateLecturerDTO {
-    // Long id;
     @NotNull(message = "NAME_BLANK")
     String firstName;
     @NotNull(message = "NAME_BLANK")

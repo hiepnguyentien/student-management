@@ -11,7 +11,6 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PUBLIC)
 public class UpdateScoreDTO {
-    Long scoreId;
     Long studentId;
     Long subjectClassId;
     @DecimalMin(value = "0.0", inclusive = true)

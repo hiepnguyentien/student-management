@@ -1,5 +1,7 @@
 package com.example.student_management.dto.student;
 
+import com.example.student_management.validator.DobConstraint;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -29,6 +31,7 @@ public class AddStudentDTO {
     String address;
     String gender;
     @NotNull(message = "DATE_OF_BIRTH_BLANK")
+    @DobConstraint(min = 18, message = "INVALID_DATE_OF_BIRTH")
     LocalDate dateOfBirth;
     LocalDate enrollDate;
     Long managementClassId;

@@ -10,7 +10,6 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PUBLIC)
 public class UpdateManagementClassDTO {
-    Long managementClassId;
     @NotNull(message = "CLASS_NAME_BLANK")
     String name;
     @NotNull(message = "FACULTY_BLANK")

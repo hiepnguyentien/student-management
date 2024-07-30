@@ -8,6 +8,5 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PUBLIC)
 public class UpdateFacultyDTO {
-    Long facultyId;
     String facultyName;
 }

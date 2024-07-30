@@ -1,5 +1,6 @@
 package com.example.student_management.dto.student;
 
+import com.example.student_management.validator.DobConstraint;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -14,7 +15,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PUBLIC)
 public class UpdateStudentDTO {
-    Long studentId;
     @NotNull(message = "NAME_BLANK")
     String firstName;
     @NotNull(message = "NAME_BLANK")
@@ -30,6 +30,7 @@ public class UpdateStudentDTO {
     String address;
     String gender;
     @NotNull(message = "DATE_OF_BIRTH_BLANK")
+    @DobConstraint(min = 18, message = "INVALID_DATE_OF_BIRTH")
     LocalDate dateOfBirth;
     LocalDate enrollDate;
     Long managementClassId;
