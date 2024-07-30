@@ -19,8 +19,9 @@ public enum ErrorCode {
     NAME_BLANK(1005, "name.blank", HttpStatus.BAD_REQUEST),
     DATE_OF_BIRTH_BLANK(1006, "date.of.birth.blank", HttpStatus.BAD_REQUEST),
     DATE_OF_BIRTH_IS_AFTER_NOW(1007, "date.of.birth.is.after.now", HttpStatus.BAD_REQUEST),
-    USER_NAME_BLANK(1008, "user.name.blank", HttpStatus.BAD_REQUEST),
-    PASSWORD_BLANK(1009, "password.blank", HttpStatus.BAD_REQUEST),
+    INVALID_DATE_OF_BIRTH(1008, "invalid.date.of.birth", HttpStatus.BAD_REQUEST),
+    USER_NAME_BLANK(1009, "user.name.blank", HttpStatus.BAD_REQUEST),
+    PASSWORD_BLANK(1010, "password.blank", HttpStatus.BAD_REQUEST),
 
     STUDENT_NOT_FOUND(2001, "student.not.found", HttpStatus.NOT_FOUND),
 
