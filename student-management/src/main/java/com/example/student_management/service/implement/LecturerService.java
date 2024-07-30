@@ -144,6 +144,15 @@ public class LecturerService implements ILecturerService {
         return lecturerMapper.toLecturerDTO(lecturer);
     }
 
+//    @Transactional
+//    public void addRoleToLecturer(Long lecturerId, String roleName) {
+//        if (lecturerRepository.existsById(lecturerId) && roleRepository.existsById(roleName)) {
+//            lecturerRepository.insertLecturerRole(lecturerId, roleName);
+//        } else {
+//            throw new RuntimeException("Lecturer or Role not found");
+//        }
+//    }
+
     @Override
     @Transactional
     public void deleteLecturer(Long id, Locale locale) {
