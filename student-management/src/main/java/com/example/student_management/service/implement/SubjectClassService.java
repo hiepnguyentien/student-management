@@ -54,7 +54,7 @@ public class SubjectClassService implements ISubjectClassService {
     @Override
     @Transactional
     public SubjectClassDTO updateSubjectClass(Long id, UpdateSubjectClassDTO updateSubjectClassDTO, Locale locale) {
-        SubjectClass subjectClass = subjectClassRepository.findById(updateSubjectClassDTO.getId())
+        SubjectClass subjectClass = subjectClassRepository.findById(id)
         .orElseThrow(() -> new AppException(ErrorCode.SUBJECT_CLASS_NOT_FOUND, messageSource, locale));
 
         subjectClassMapper.updateSubjectClass(subjectClass, updateSubjectClassDTO);
