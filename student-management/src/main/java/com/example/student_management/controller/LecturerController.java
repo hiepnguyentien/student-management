@@ -1,10 +1,7 @@
 package com.example.student_management.controller;
 
 import com.example.student_management.dto.ApiResponse;
-import com.example.student_management.dto.authentication.AuthenticationRequest;
-import com.example.student_management.dto.authentication.AuthenticationResponse;
-import com.example.student_management.dto.authentication.IntrospectRequest;
-import com.example.student_management.dto.authentication.IntrospectResponse;
+import com.example.student_management.dto.authentication.*;
 import com.example.student_management.dto.lecturer.AddLecturerDTO;
 import com.example.student_management.dto.lecturer.LecturerDTO;
 import com.example.student_management.dto.lecturer.UpdateLecturerDTO;
@@ -112,6 +109,23 @@ public class LecturerController {
             throws ParseException, JOSEException {
         var result = lecturerAuthenticationService.introspect(introspectRequest);
         return ApiResponse.<IntrospectResponse>builder()
+                .result(result)
+                .build();
+    }
+
+    @PostMapping("/auth/logout")
+    ApiResponse<Void> logout(@RequestBody LogoutRequest introspectRequest)
+        throws ParseException, JOSEException {
+        lecturerAuthenticationService.logout(introspectRequest);
+        return ApiResponse.<Void>builder()
+                .build();
+    }
+
+    @PostMapping("/auth/refresh")
+    ApiResponse<AuthenticationResponse> authenticate(@RequestBody RefreshRequest request)
+            throws ParseException, JOSEException {
+        var result = lecturerAuthenticationService.refreshToken(request);
+        return ApiResponse.<AuthenticationResponse>builder()
                 .result(result)
                 .build();
     }
