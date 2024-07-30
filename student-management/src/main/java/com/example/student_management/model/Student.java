@@ -4,7 +4,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
+import com.example.student_management.validator.DobConstraint;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -45,12 +47,15 @@ public class Student {
     @Column(name = "email", nullable = false, columnDefinition = "TEXT", unique = true)
     String email;
     @Column(name = "phone_number", nullable = false, unique = true)
+    @Size(max = 10, min = 10, message = "INVALID_PHONE_NUMBER")
     String phoneNumber;
     @Column(name = "gender")
     String gender;
     @Column(name = "date_of_birth", nullable = false)
+    @DobConstraint(min = 17, message = "INVALID_DATE_OF_BIRTH")
     LocalDate dateOfBirth;
     Set<String> roles;
+
     public int getBatch() {
         if (enrollDate != null) {
             return enrollDate.getYear() - 1965;
