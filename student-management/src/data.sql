@@ -131,10 +131,6 @@ VALUES
     ('LECTURER', 'lecturer role'),
     ('STUDENT', 'student role');
 
-INSERT INTO lecturer_roles(lecturer_lecturer_id, roles_name)
-VALUES
-    (1, "ADMIN");
-
 INSERT INTO subject_faculty (faculty_id, subject_id) 
 VALUES  (1, 1),
         (1, 2),
@@ -158,3 +154,7 @@ VALUES  (1, 1),
         (4, 7),
         (4, 8),
         (4, 10);
+        
+INSERT INTO lecturer_roles(lecturer_lecturer_id, roles_name)
+VALUES
+    (1, "ADMIN");
