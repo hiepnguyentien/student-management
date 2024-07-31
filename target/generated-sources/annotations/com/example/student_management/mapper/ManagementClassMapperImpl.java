@@ -53,7 +53,6 @@ public class ManagementClassMapperImpl implements ManagementClassMapper {
             return;
         }
 
-        managementClass.setManagementClassId( request.getManagementClassId() );
         managementClass.setName( request.getName() );
     }
 

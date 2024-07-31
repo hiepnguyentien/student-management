@@ -73,7 +73,6 @@ public class StudentMapperImpl implements StudentMapper {
             return;
         }
 
-        student.setStudentId( request.getStudentId() );
         student.setEnrollDate( request.getEnrollDate() );
         student.setFirstName( request.getFirstName() );
         student.setLastName( request.getLastName() );

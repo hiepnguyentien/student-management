@@ -63,7 +63,6 @@ public class ScoreMapperImpl implements ScoreMapper {
             return;
         }
 
-        score.setScoreId( request.getScoreId() );
         score.setAttendanceScore( request.getAttendanceScore() );
         score.setMidTermScore( request.getMidTermScore() );
         score.setEndTermScore( request.getEndTermScore() );

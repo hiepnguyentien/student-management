@@ -47,7 +47,6 @@ public class FacultyMapperImpl implements FacultyMapper {
             return;
         }
 
-        faculty.setFacultyId( request.getFacultyId() );
         faculty.setFacultyName( request.getFacultyName() );
     }
 }
