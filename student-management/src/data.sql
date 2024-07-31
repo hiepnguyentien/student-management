@@ -125,13 +125,6 @@ VALUES
     ('DELETE_FACULTY', 'Permission to delete an assignment'),
     ('MANAGE_PERMISSIONS', 'Permission to manage user permissions');
 
-
-INSERT INTO role (name, description) 
-VALUES
-    ('ADMIN', 'admin role'),
-    ('LECTURER', 'lecturer role'),
-    ('STUDENT', 'student role');
-
 INSERT INTO subject_faculty (faculty_id, subject_id) 
 VALUES  (1, 1),
         (1, 2),
@@ -155,3 +148,9 @@ VALUES  (1, 1),
         (4, 7),
         (4, 8),
         (4, 10);
+
+INSERT INTO role (name, description) 
+VALUES
+    ('ADMIN', 'admin role'),
+    ('LECTURER', 'lecturer role'),
+    ('STUDENT', 'student role');
