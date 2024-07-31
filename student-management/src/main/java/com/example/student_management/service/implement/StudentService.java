@@ -47,6 +47,7 @@ public class StudentService implements IStudentService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public StudentDTO addNewStudent(AddStudentDTO addStudentDTO, Locale locale) {
         if (studentRepository.existsByEmail(addStudentDTO.getEmail())) {
             throw new AppException(ErrorCode.EMAIL_EXISTED, messageSource, locale);
@@ -75,6 +76,7 @@ public class StudentService implements IStudentService {
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('LECTURER', 'ADMIN')")
     public List<StudentDTO> findStudentByName(String name) {
         return studentRepository.findAll().stream()
                 .filter(student -> student.getFirstName().contains(name) || student.getLastName().contains(name))
@@ -83,7 +85,7 @@ public class StudentService implements IStudentService {
     }
 
     @Override
-    @PostAuthorize("returnObject.username == authentication.name")
+    @PreAuthorize("hasRole('LECTURER')")
     public StudentDTO findStudentById(Long id, Locale locale) {
         return studentRepository.findById(id)
                 .map(studentMapper::toStudentDTO)
@@ -91,6 +93,7 @@ public class StudentService implements IStudentService {
     }
 
     @Override
+    @PreAuthorize("hasRole('LECTURER')")
     public List<StudentDTO> findStudentByManagementClassName(String name) {
         return studentRepository.findAll().stream()
                 .filter(student -> student.getManagementClass().getName().contains(name))
@@ -99,6 +102,7 @@ public class StudentService implements IStudentService {
     }
 
     @Override
+    @PreAuthorize("hasRole('LECTURER')")
     public List<StudentDTO> findStudentByManagementClassId(Long id, Locale locale) {
         boolean exists = studentRepository.findAll().stream()
                 .anyMatch(student -> student.getManagementClass().getManagementClassId().equals(id));
@@ -114,6 +118,7 @@ public class StudentService implements IStudentService {
     }
 
     @Override
+    @PostAuthorize("returnObject.username == authentication.name")
     public StudentDTO getMyInfo(Locale locale){
         var context = SecurityContextHolder.getContext();
         String name = context.getAuthentication().getName();
@@ -126,6 +131,7 @@ public class StudentService implements IStudentService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public StudentDTO updateStudent(Long studentId, UpdateStudentDTO input, Locale locale) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new AppException(ErrorCode.STUDENT_NOT_FOUND, messageSource, locale));
@@ -138,6 +144,7 @@ public class StudentService implements IStudentService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteStudent(Long id, Locale locale) {
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.STUDENT_NOT_FOUND, messageSource, locale));

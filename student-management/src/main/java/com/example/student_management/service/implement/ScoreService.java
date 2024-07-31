@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.AccessLevel;
 import org.springframework.context.MessageSource;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,6 +33,7 @@ public class ScoreService implements IScoreService {
     MessageSource messageSource;
 
     @Override
+    @PreAuthorize("hasAnyRole('LECTURER', 'STUDENT')")
     public List<ScoreDTO> getScoreByStudentId(Long id, Locale locale) {
         boolean exist = scoreRepository.findAll().stream()
                 .anyMatch(s -> s.getStudent().getStudentId().equals(id));
@@ -47,6 +49,7 @@ public class ScoreService implements IScoreService {
     }
 
     @Override
+    @PreAuthorize("hasRole('LECTURER')")
     public List<ScoreDTO> getScoreBySubjectClassId(Long id, Locale locale) {
         boolean exist = scoreRepository.findAll().stream()
                 .anyMatch(s -> s.getSubjectClass().getSubjectClassId().equals(id));
@@ -62,6 +65,7 @@ public class ScoreService implements IScoreService {
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('LECTURER', 'STUDENT')")
     public ScoreDTO getScoreBySubjectIdViaStudent(Long subjectClassId, Long studentId, Locale locale) {
         boolean existSubjectClass = scoreRepository.findAll().stream()
                 .anyMatch(s -> s.getSubjectClass().getSubjectClassId().equals(subjectClassId));
@@ -84,6 +88,7 @@ public class ScoreService implements IScoreService {
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('LECTURER', 'STUDENT')")
     public List<ScoreDTO> getScoreBySemesterViaStudent(Long studentId, Integer semester, Locale locale) {
         boolean existStudent = scoreRepository.findAll().stream()
                 .anyMatch(s -> s.getStudent().getStudentId().equals(studentId));
@@ -104,6 +109,7 @@ public class ScoreService implements IScoreService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('LECTURER')")
     public ScoreDTO updateScoreViaStudentAndSubjectClassId(Long scoreId, UpdateScoreDTO updateScoreDTO, Locale locale) {
         boolean existSubjectClass = scoreRepository.findAll().stream()
                 .anyMatch(s -> s.getSubjectClass().getSubjectClassId().equals(updateScoreDTO.getSubjectClassId()));
@@ -127,6 +133,7 @@ public class ScoreService implements IScoreService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('LECTURER')")
     public ScoreDTO addScoreViaStudentAndSubjectClassId(AddScoreDTO addScoreDTO, Locale locale) {
         boolean existSubjectClass = scoreRepository.findAll().stream()
                 .anyMatch(s -> s.getSubjectClass()
@@ -157,6 +164,7 @@ public class ScoreService implements IScoreService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('LECTURER')")
     public void deleteScore(Long studentId, Long subjectClassId, Locale locale) {
         boolean existSubjectClass = scoreRepository.findAll().stream()
                 .anyMatch(s -> s.getSubjectClass().getSubjectClassId().equals(subjectClassId));

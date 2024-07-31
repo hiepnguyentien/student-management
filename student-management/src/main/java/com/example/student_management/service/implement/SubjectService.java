@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.AccessLevel;
 import org.springframework.context.MessageSource;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class SubjectService implements ISubjectService {
     MessageSource messageSource;
 
     @Override
+    @PreAuthorize("hasAnyRole('ADMIN', 'LECTURER', 'STUDENT')")
     public List<SubjectDTO> findAll() {
         return subjectRepository.findAll().stream()
                 .map(subjectMapper::toSubjectDTO)
@@ -37,6 +39,7 @@ public class SubjectService implements ISubjectService {
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('ADMIN', 'LECTURER', 'STUDENT')")
     public List<SubjectDTO> findSubjectByName(String name) {
         return subjectRepository.findAll().stream()
                 .filter(subject -> subject.getName().contains(name))
@@ -45,6 +48,7 @@ public class SubjectService implements ISubjectService {
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('ADMIN', 'LECTURER', 'STUDENT')")
     public SubjectDTO findSubjectById(Long id, Locale locale) {
         return subjectRepository.findById(id)
                 .map(subjectMapper::toSubjectDTO)
@@ -53,6 +57,7 @@ public class SubjectService implements ISubjectService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public SubjectDTO addSubject(AddSubjectDTO subjectDTO, Locale locale) {
         Subject subject = subjectMapper.toSubject(subjectDTO);
         subjectRepository.save(subject);
@@ -61,6 +66,7 @@ public class SubjectService implements ISubjectService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public SubjectDTO updateSubject(Long id, UpdateSubjectDTO subjectDTO, Locale locale) {
         Subject subject = subjectRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.SUBJECT_NOT_FOUND, messageSource, locale));
@@ -71,6 +77,7 @@ public class SubjectService implements ISubjectService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteSubject(Long id, Locale locale) {
         Subject subject = subjectRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.SUBJECT_NOT_FOUND, messageSource, locale));

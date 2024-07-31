@@ -16,6 +16,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.context.MessageSource;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -54,6 +55,7 @@ public class FacultyService implements IFacultyService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public FacultyDTO addNew(AddNewFacultyDTO addNewFacultyDTO) {
         Faculty faculty = facultyMapper.toFaculty(addNewFacultyDTO);
         facultyRepository.save(faculty);
@@ -62,6 +64,7 @@ public class FacultyService implements IFacultyService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public FacultyDTO update(Long id, UpdateFacultyDTO updateFacultyDTO, Locale locale) {
         Faculty faculty = facultyRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.FACULTY_NOT_FOUND, messageSource, locale));
@@ -72,6 +75,7 @@ public class FacultyService implements IFacultyService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public void delete(Long id, Locale locale) {
         Faculty faculty = facultyRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.FACULTY_NOT_FOUND, messageSource, locale));

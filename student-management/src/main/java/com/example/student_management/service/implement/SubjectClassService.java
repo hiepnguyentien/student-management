@@ -16,6 +16,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.AccessLevel;
 
 import org.springframework.context.MessageSource;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,6 +32,7 @@ public class SubjectClassService implements ISubjectClassService {
     MessageSource messageSource;
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public List<SubjectClassDTO> findAll() {
         return subjectClassRepository.findAll()
         .stream().map(subjectClassMapper::toSubjectClassDTO)
@@ -38,6 +40,7 @@ public class SubjectClassService implements ISubjectClassService {
     }
 
     @Override
+    @PreAuthorize("hasRole('LECTURER')")
     public SubjectClassDTO findById(Long id, Locale locale) {
         return subjectClassRepository.findById(id)
         .map(subjectClassMapper::toSubjectClassDTO)
@@ -45,6 +48,7 @@ public class SubjectClassService implements ISubjectClassService {
     }
 
     @Override
+    @PreAuthorize("hasRole('LECTURER')")
     public List<SubjectClassDTO> findByName(String name) {
         return subjectClassRepository.findAll()
         .stream().map(subjectClassMapper::toSubjectClassDTO).filter(s -> s.getName().contains(name))
@@ -53,6 +57,7 @@ public class SubjectClassService implements ISubjectClassService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public SubjectClassDTO updateSubjectClass(Long id, UpdateSubjectClassDTO updateSubjectClassDTO, Locale locale) {
         SubjectClass subjectClass = subjectClassRepository.findById(id)
         .orElseThrow(() -> new AppException(ErrorCode.SUBJECT_CLASS_NOT_FOUND, messageSource, locale));
@@ -64,6 +69,7 @@ public class SubjectClassService implements ISubjectClassService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public SubjectClassDTO addSubjectClass(AddSubjectClassDTO addSubjectClassDTO) {
         boolean existSubject = subjectClassRepository.findAll().stream()
         .anyMatch(s -> s.getSubject().getSubjectId().equals(addSubjectClassDTO.getSubjectId()));
@@ -84,6 +90,7 @@ public class SubjectClassService implements ISubjectClassService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public void delete(Long id, Locale locale) {
         SubjectClass subjectClass = subjectClassRepository.findById(id)
         .orElseThrow(() -> new AppException(ErrorCode.SUBJECT_CLASS_NOT_FOUND, messageSource, locale));

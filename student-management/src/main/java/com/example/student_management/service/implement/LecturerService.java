@@ -42,6 +42,7 @@ public class LecturerService implements ILecturerService {
     private final RoleMapper roleMapper;
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public List<LecturerDTO> findAll() {
         return lecturerRepository.findAll().stream()
                 .map(lecturerMapper::toLecturerDTO)
@@ -49,12 +50,14 @@ public class LecturerService implements ILecturerService {
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('ADMIN', 'LECTURER', 'STUDENT')")
     public LecturerDTO findLecturerById(Long id, Locale locale) {
         return lecturerMapper.toLecturerDTO(lecturerRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.LECTURER_NOT_FOUND, messageSource, locale)));
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('ADMIN', 'LECTURER', 'STUDENT')")
     public List<LecturerDTO> findLecturerByName(String name) {
         return lecturerRepository.findAll()
                 .stream()
@@ -64,6 +67,7 @@ public class LecturerService implements ILecturerService {
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('ADMIN', 'LECTURER', 'STUDENT')")
     public List<LecturerDTO> findLecturerByFacultyId(Long id, Locale locale) {
         boolean isExist = lecturerRepository.findAll().stream()
                 .anyMatch(lecturer -> lecturer.getFacultyId().equals(id));
@@ -79,6 +83,7 @@ public class LecturerService implements ILecturerService {
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('ADMIN', 'LECTURER', 'STUDENT')")
     public LecturerDTO findLecturerByManagementClassId(Long id, Locale locale) {
         boolean isExist = lecturerRepository.findAll().stream()
                 .anyMatch(lecturer -> lecturer.getManagementClass().getManagementClassId().equals(id));
@@ -125,6 +130,7 @@ public class LecturerService implements ILecturerService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public LecturerDTO addLecturer(AddLecturerDTO addLecturerDTO, Locale locale) {
         if (lecturerRepository.existsByEmail(addLecturerDTO.getEmail())) {
             throw new AppException(ErrorCode.EMAIL_EXISTED, messageSource, locale);
@@ -155,6 +161,7 @@ public class LecturerService implements ILecturerService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteLecturer(Long id, Locale locale) {
         Lecturer lecturer = lecturerRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.LECTURER_NOT_FOUND, messageSource, locale));
