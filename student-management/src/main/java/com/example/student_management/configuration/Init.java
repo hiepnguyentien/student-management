@@ -1,9 +1,11 @@
 package com.example.student_management.configuration;
 
-import com.example.student_management.enums.Role;
+import com.example.student_management.constant.PredefinedRole;
+import com.example.student_management.model.Role;
 import com.example.student_management.model.Lecturer;
 import com.example.student_management.model.ManagementClass;
 import com.example.student_management.repository.LecturerRepository;
+import com.example.student_management.repository.RoleRepository;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -24,14 +26,20 @@ import java.util.HashSet;
 public class Init implements CommandLineRunner {
     PasswordEncoder passwordEncoder;
     LecturerRepository lecturerRepository;
+    RoleRepository roleRepository;
 
     @Override
     public void run(String... args) throws Exception {
         if (lecturerRepository.count() == 0) {
             ManagementClass managementClass = new ManagementClass();
             managementClass.setManagementClassId(9L);
-            var roles = new HashSet<String>();
-               roles.add(Role.ADMIN.name());
+            Role adminRole = roleRepository.save(Role.builder()
+                        .name(PredefinedRole.ADMIN_ROLE)
+                        .description("Admin role")
+                        .build());
+            
+            var roles = new HashSet<Role>();
+               roles.add(adminRole);
         
             Lecturer adminLecturer = Lecturer.builder()
                     .firstName("admin")
@@ -45,10 +53,12 @@ public class Init implements CommandLineRunner {
                     .dateOfBirth(LocalDate.of(1990, 1, 1))
                     .facultyId(1L)
                     .managementClass(managementClass)
-//                    .roles(roles)
+                    .roles(roles)
                     .build();
         
             lecturerRepository.save(adminLecturer);
+
+
         }
     }
 }
