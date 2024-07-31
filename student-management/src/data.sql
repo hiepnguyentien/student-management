@@ -64,7 +64,8 @@ VALUES
     (nextval('management_class_sequence'),8, '66KT2', 3),
     (nextval('management_class_sequence'),7, '66KT5', 3),
     (nextval('management_class_sequence'),2, '66XD1', 2),
-    (nextval('management_class_sequence'),4, '66XD5', 2);
+    (nextval('management_class_sequence'),4, '66XD5', 2),
+    (nextval('management_class_sequence'),null, '66XD12', 2);
 
 INSERT INTO student (student_id, first_name, last_name, gender, date_of_birth, address, email, phone_number, enroll_date, management_class_id, username, password)
 VALUES
@@ -154,7 +155,3 @@ VALUES  (1, 1),
         (4, 7),
         (4, 8),
         (4, 10);
-        
-INSERT INTO lecturer_roles(lecturer_lecturer_id, roles_name)
-VALUES
-    (1, "ADMIN");
