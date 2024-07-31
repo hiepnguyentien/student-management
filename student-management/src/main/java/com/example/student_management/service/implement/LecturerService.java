@@ -1,15 +1,15 @@
 package com.example.student_management.service.implement;
 
+import com.example.student_management.constant.PredefinedRole;
 import com.example.student_management.dto.lecturer.AddLecturerDTO;
 import com.example.student_management.dto.lecturer.LecturerDTO;
 import com.example.student_management.dto.lecturer.UpdateLecturerDTO;
-import com.example.student_management.enums.Role;
+import com.example.student_management.model.Role;
 import com.example.student_management.exception.AppException;
 import com.example.student_management.exception.ErrorCode;
 import com.example.student_management.mapper.LecturerMapper;
 import com.example.student_management.mapper.RoleMapper;
 import com.example.student_management.model.Lecturer;
-import com.example.student_management.model.Student;
 import com.example.student_management.repository.LecturerRepository;
 import com.example.student_management.repository.RoleRepository;
 import com.example.student_management.service.abstracts.ILecturerService;
@@ -102,7 +102,6 @@ public class LecturerService implements ILecturerService {
     @Override
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
-//    @PreAuthorize("hasAuthority('FIND_ALL_STUDENT')")
     public LecturerDTO updateLecturer(Long id, UpdateLecturerDTO updateLecturerDTO, Locale locale) {
         Lecturer lecturer = lecturerRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.LECTURER_NOT_FOUND, messageSource, locale));
@@ -141,23 +140,14 @@ public class LecturerService implements ILecturerService {
         Lecturer lecturer = lecturerMapper.toLecturer(addLecturerDTO);
         lecturer.setPassword(passwordEncoder.encode(addLecturerDTO.getPassword()));
 
-        HashSet<String> roles = new HashSet<>();
-        roles.add(Role.LECTURER.name());
+        HashSet<Role> roles = new HashSet<>();
+        roleRepository.findById(PredefinedRole.LECTURER_ROLE).ifPresent(roles::add);
 
-//        lecturer.setRoles(roles);
+        lecturer.setRoles(roles);
 
         lecturerRepository.save(lecturer);
         return lecturerMapper.toLecturerDTO(lecturer);
     }
-
-//    @Transactional
-//    public void addRoleToLecturer(Long lecturerId, String roleName) {
-//        if (lecturerRepository.existsById(lecturerId) && roleRepository.existsById(roleName)) {
-//            lecturerRepository.insertLecturerRole(lecturerId, roleName);
-//        } else {
-//            throw new RuntimeException("Lecturer or Role not found");
-//        }
-//    }
 
     @Override
     @Transactional

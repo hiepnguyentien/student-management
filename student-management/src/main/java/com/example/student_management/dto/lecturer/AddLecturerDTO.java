@@ -34,5 +34,5 @@ public class AddLecturerDTO {
     @NotNull(message = "FACULTY_BLANK")
     Long facultyId;
     Long managementClassId;
-    List<String> roles;
+//    List<String> roles;
 }

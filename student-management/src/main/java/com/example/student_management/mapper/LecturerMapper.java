@@ -12,7 +12,7 @@ import com.example.student_management.model.Lecturer;
 @Mapper(componentModel = "spring")
 public interface LecturerMapper {
     @Mapping(source = "managementClassId", target = "managementClass.managementClassId")
-    @Mapping(target = "roles", ignore = true)
+//    @Mapping(target = "roles", ignore = true)
     Lecturer toLecturer(AddLecturerDTO request);
 
     @Mapping(source = "managementClass.managementClassId", target = "managementClassId")
