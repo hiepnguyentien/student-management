@@ -26,9 +26,9 @@ import javax.crypto.spec.SecretKeySpec;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private final String[] PUBLIC_ENDPOINTS = {"/student", "/auth/token",
+    private final String[] PUBLIC_ENDPOINTS = {"/faculty/name", "/auth/token",
             "/auth/introspect", "/lecturer/auth/token", "/lecturer/auth/logout",
-            "/lecturer/auth/refresh"};
+            "/lecturer/auth/refresh", "/faculty/find-all", "faculty/id"};
 
     @Autowired
     private CustomJwtDecoder customJwtDecoder;
