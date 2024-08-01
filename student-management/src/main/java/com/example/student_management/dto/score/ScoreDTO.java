@@ -1,6 +1,6 @@
 package com.example.student_management.dto.score;
 
-import com.example.student_management.model.Grade;
+import com.example.student_management.enums.Grade;
 
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;

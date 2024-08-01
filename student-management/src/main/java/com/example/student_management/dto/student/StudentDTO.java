@@ -22,5 +22,5 @@ public class StudentDTO {
      Integer batch;
      LocalDate dateOfBirth;
      Long managementClassId;
-     Set<String> roles;
+     String role;
 }
