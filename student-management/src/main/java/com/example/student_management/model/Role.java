@@ -20,4 +20,7 @@ public class Role {
 
     @ManyToMany
     Set<Permission> permissions;
+
+    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
+    Set<Student> students;
 }

@@ -13,7 +13,7 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "management_class")
 @Entity(name = "management_class")
-public class ManagementClass {
+public class    ManagementClass {
     @Id
     @SequenceGenerator(name = "management_class_sequence", sequenceName = "management_class_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "management_class_sequence")

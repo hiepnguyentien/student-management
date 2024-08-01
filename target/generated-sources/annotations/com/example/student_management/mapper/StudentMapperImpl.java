@@ -4,9 +4,8 @@ import com.example.student_management.dto.student.AddStudentDTO;
 import com.example.student_management.dto.student.StudentDTO;
 import com.example.student_management.dto.student.UpdateStudentDTO;
 import com.example.student_management.model.ManagementClass;
+import com.example.student_management.model.Role;
 import com.example.student_management.model.Student;
-import java.util.LinkedHashSet;
-import java.util.Set;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
@@ -49,6 +48,7 @@ public class StudentMapperImpl implements StudentMapper {
         StudentDTO.StudentDTOBuilder studentDTO = StudentDTO.builder();
 
         studentDTO.managementClassId( studentManagementClassManagementClassId( student ) );
+        studentDTO.role( studentRoleName( student ) );
         studentDTO.studentId( student.getStudentId() );
         studentDTO.firstName( student.getFirstName() );
         studentDTO.lastName( student.getLastName() );
@@ -59,10 +59,6 @@ public class StudentMapperImpl implements StudentMapper {
         studentDTO.gender( student.getGender() );
         studentDTO.batch( student.getBatch() );
         studentDTO.dateOfBirth( student.getDateOfBirth() );
-        Set<String> set = student.getRoles();
-        if ( set != null ) {
-            studentDTO.roles( new LinkedHashSet<String>( set ) );
-        }
 
         return studentDTO.build();
     }
@@ -110,5 +106,20 @@ public class StudentMapperImpl implements StudentMapper {
             return null;
         }
         return managementClassId;
+    }
+
+    private String studentRoleName(Student student) {
+        if ( student == null ) {
+            return null;
+        }
+        Role role = student.getRole();
+        if ( role == null ) {
+            return null;
+        }
+        String name = role.getName();
+        if ( name == null ) {
+            return null;
+        }
+        return name;
     }
 }

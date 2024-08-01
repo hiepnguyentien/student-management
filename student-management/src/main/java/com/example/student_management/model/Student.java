@@ -54,7 +54,9 @@ public class Student {
     @Column(name = "date_of_birth", nullable = false)
     @DobConstraint(min = 17, message = "INVALID_DATE_OF_BIRTH")
     LocalDate dateOfBirth;
-    Set<String> roles;
+    @ManyToOne
+    @JoinColumn(name = "role", nullable = false)
+    Role role;
 
     public int getBatch() {
         if (enrollDate != null) {

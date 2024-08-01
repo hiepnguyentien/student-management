@@ -47,5 +47,10 @@ public class Lecturer {
     @Column(name = "date_of_birth", nullable = false)
     LocalDate dateOfBirth;
     @ManyToMany
+    @JoinTable(
+            name = "lecturer_roles",
+            joinColumns = @JoinColumn(name = "lecturer_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_name")
+    )
     Set<Role> roles;
 }

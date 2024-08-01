@@ -1,5 +1,6 @@
 package com.example.student_management.model;
 
+import com.example.student_management.enums.Grade;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
