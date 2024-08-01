@@ -1,6 +1,6 @@
 package com.example.student_management.enums;
 
-public enum Role {
+public enum Roles {
     LECTURER,
     STUDENT,
     ADMIN
