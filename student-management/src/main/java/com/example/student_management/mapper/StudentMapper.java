@@ -14,6 +14,7 @@ public interface StudentMapper {
     Student toStudent(AddStudentDTO request);
 
     @Mapping(source = "managementClass.managementClassId", target = "managementClassId")
+    @Mapping(source = "role.name", target = "role")
     StudentDTO toStudentDTO(Student student);
 
     void updateStudent(@MappingTarget Student student, UpdateStudentDTO request);
