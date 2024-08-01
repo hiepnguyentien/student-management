@@ -3,11 +3,13 @@ package com.example.student_management.service.implement;
 import com.example.student_management.dto.student.AddStudentDTO;
 import com.example.student_management.dto.student.StudentDTO;
 import com.example.student_management.dto.student.UpdateStudentDTO;
-import com.example.student_management.enums.Role;
+import com.example.student_management.enums.Roles;
 import com.example.student_management.exception.AppException;
 import com.example.student_management.exception.ErrorCode;
 import com.example.student_management.mapper.StudentMapper;
+import com.example.student_management.model.Role;
 import com.example.student_management.model.Student;
+import com.example.student_management.repository.RoleRepository;
 import com.example.student_management.repository.StudentRepository;
 import com.example.student_management.service.abstracts.IStudentService;
 
@@ -24,7 +26,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -36,9 +37,11 @@ public class StudentService implements IStudentService {
     StudentRepository studentRepository;
     StudentMapper studentMapper;
     MessageSource messageSource;
+    RoleRepository roleRepository;
 
     @Override
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('FIND_ALL_STUDENT')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public List<StudentDTO> findAll() {
         return studentRepository.findAll().stream()
                 .map(studentMapper::toStudentDTO)
@@ -47,7 +50,8 @@ public class StudentService implements IStudentService {
 
     @Override
     @Transactional
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADD_STUDENT')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public StudentDTO addNewStudent(AddStudentDTO addStudentDTO, Locale locale) {
         if (studentRepository.existsByEmail(addStudentDTO.getEmail())) {
             throw new AppException(ErrorCode.EMAIL_EXISTED, messageSource, locale);
@@ -66,17 +70,16 @@ public class StudentService implements IStudentService {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         student.setPassword(passwordEncoder.encode(addStudentDTO.getPassword()));
 
-        HashSet<String> roles = new HashSet<>();
-        roles.add(Role.STUDENT.name());
-
-        student.setRoles(roles);
+        Role studentRole = roleRepository.findByName(Roles.STUDENT.name());
+        student.setRole(studentRole);
 
         studentRepository.save(student);
         return studentMapper.toStudentDTO(student);
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('LECTURER', 'ADMIN')")
+    @PreAuthorize("hasAuthority('FIND_STUDENT_BY_NAME')")
+//    @PreAuthorize("hasAnyRole('ADMIN', 'LECTURER')")
     public List<StudentDTO> findStudentByName(String name) {
         return studentRepository.findAll().stream()
                 .filter(student -> student.getFirstName().contains(name) || student.getLastName().contains(name))
@@ -85,7 +88,8 @@ public class StudentService implements IStudentService {
     }
 
     @Override
-    @PreAuthorize("hasRole('LECTURER')")
+    @PreAuthorize("hasAuthority('FIND_STUDENT_BY_ID')")
+//    @PreAuthorize("hasRole('LECTURER')")
     public StudentDTO findStudentById(Long id, Locale locale) {
         return studentRepository.findById(id)
                 .map(studentMapper::toStudentDTO)
@@ -93,7 +97,8 @@ public class StudentService implements IStudentService {
     }
 
     @Override
-    @PreAuthorize("hasRole('LECTURER')")
+    @PreAuthorize("hasAuthority('FIND_STUDENT_BY_MANAGEMENT_CLASS_NAME')")
+//    @PreAuthorize("hasRole('LECTURER')")
     public List<StudentDTO> findStudentByManagementClassName(String name) {
         return studentRepository.findAll().stream()
                 .filter(student -> student.getManagementClass().getName().contains(name))
@@ -102,7 +107,8 @@ public class StudentService implements IStudentService {
     }
 
     @Override
-    @PreAuthorize("hasRole('LECTURER')")
+    @PreAuthorize("hasAuthority('FIND_STUDENT_BY_MANAGEMENT_CLASS_ID')")
+//    @PreAuthorize("hasRole('LECTURER')")
     public List<StudentDTO> findStudentByManagementClassId(Long id, Locale locale) {
         boolean exists = studentRepository.findAll().stream()
                 .anyMatch(student -> student.getManagementClass().getManagementClassId().equals(id));
@@ -131,7 +137,8 @@ public class StudentService implements IStudentService {
 
     @Override
     @Transactional
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('UPDATE_STUDENT')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public StudentDTO updateStudent(Long studentId, UpdateStudentDTO input, Locale locale) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new AppException(ErrorCode.STUDENT_NOT_FOUND, messageSource, locale));
@@ -144,7 +151,8 @@ public class StudentService implements IStudentService {
 
     @Override
     @Transactional
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('DELETE_STUDENT')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public void deleteStudent(Long id, Locale locale) {
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.STUDENT_NOT_FOUND, messageSource, locale));

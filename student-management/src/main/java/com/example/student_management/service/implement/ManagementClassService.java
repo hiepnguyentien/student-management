@@ -26,7 +26,8 @@ public class ManagementClassService implements IManagementClassService {
     MessageSource messageSource;
 
     @Override
-    @PreAuthorize("hasAnyRole('ADMIN', 'LECTURER', 'STUDENT')")
+//    @PreAuthorize("hasAnyRole('ADMIN', 'LECTURER', 'STUDENT')")
+    @PreAuthorize("hasAuthority('FIND_MANAGEMENT_CLASS_BY_ID')")
     public ManagementClassDTO findManagementClassById(Long id, Locale locale) {
         return managementClassRepository.findById(id)
                 .map(managementClassMapper::toManagementClassDTO)

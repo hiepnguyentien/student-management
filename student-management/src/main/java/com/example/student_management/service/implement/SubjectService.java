@@ -31,7 +31,8 @@ public class SubjectService implements ISubjectService {
     MessageSource messageSource;
 
     @Override
-    @PreAuthorize("hasAnyRole('ADMIN', 'LECTURER', 'STUDENT')")
+//    @PreAuthorize("hasAnyRole('ADMIN', 'LECTURER', 'STUDENT')")
+    @PreAuthorize("hasAuthority('FIND_ALL_SUBJECT')")
     public List<SubjectDTO> findAll() {
         return subjectRepository.findAll().stream()
                 .map(subjectMapper::toSubjectDTO)
@@ -39,7 +40,8 @@ public class SubjectService implements ISubjectService {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('ADMIN', 'LECTURER', 'STUDENT')")
+    @PreAuthorize("hasAuthority('FIND_SUBJECT_BY_NAME')")
+//    @PreAuthorize("hasAnyRole('ADMIN', 'LECTURER', 'STUDENT')")
     public List<SubjectDTO> findSubjectByName(String name) {
         return subjectRepository.findAll().stream()
                 .filter(subject -> subject.getName().contains(name))
@@ -48,7 +50,8 @@ public class SubjectService implements ISubjectService {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('ADMIN', 'LECTURER', 'STUDENT')")
+    @PreAuthorize("hasAuthority('FIND_SUBJECT_BY_ID')")
+//    @PreAuthorize("hasAnyRole('ADMIN', 'LECTURER', 'STUDENT')")
     public SubjectDTO findSubjectById(Long id, Locale locale) {
         return subjectRepository.findById(id)
                 .map(subjectMapper::toSubjectDTO)
@@ -57,7 +60,8 @@ public class SubjectService implements ISubjectService {
 
     @Override
     @Transactional
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADD_SUBJECT')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public SubjectDTO addSubject(AddSubjectDTO subjectDTO, Locale locale) {
         Subject subject = subjectMapper.toSubject(subjectDTO);
         subjectRepository.save(subject);
@@ -66,7 +70,8 @@ public class SubjectService implements ISubjectService {
 
     @Override
     @Transactional
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('UPDATE_SUBJECT')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public SubjectDTO updateSubject(Long id, UpdateSubjectDTO subjectDTO, Locale locale) {
         Subject subject = subjectRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.SUBJECT_NOT_FOUND, messageSource, locale));
@@ -77,7 +82,8 @@ public class SubjectService implements ISubjectService {
 
     @Override
     @Transactional
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('DELETE_SUBJECT')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public void deleteSubject(Long id, Locale locale) {
         Subject subject = subjectRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.SUBJECT_NOT_FOUND, messageSource, locale));

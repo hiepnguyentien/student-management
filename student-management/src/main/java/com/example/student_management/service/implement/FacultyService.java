@@ -55,7 +55,8 @@ public class FacultyService implements IFacultyService {
 
     @Override
     @Transactional
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('CREATE_FACULTY')")
     public FacultyDTO addNew(AddNewFacultyDTO addNewFacultyDTO) {
         Faculty faculty = facultyMapper.toFaculty(addNewFacultyDTO);
         facultyRepository.save(faculty);
@@ -64,7 +65,8 @@ public class FacultyService implements IFacultyService {
 
     @Override
     @Transactional
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('UPDATE_FACULTY')")
     public FacultyDTO update(Long id, UpdateFacultyDTO updateFacultyDTO, Locale locale) {
         Faculty faculty = facultyRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.FACULTY_NOT_FOUND, messageSource, locale));
@@ -75,7 +77,8 @@ public class FacultyService implements IFacultyService {
 
     @Override
     @Transactional
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('DELETE_FACULTY')")
     public void delete(Long id, Locale locale) {
         Faculty faculty = facultyRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.FACULTY_NOT_FOUND, messageSource, locale));
