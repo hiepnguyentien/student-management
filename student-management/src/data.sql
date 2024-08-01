@@ -1,6 +1,61 @@
 -- -- Active: 1720150088783@@127.0.0.1@5432@student@public
 -- use student;
 
+INSERT INTO permission (name, description)
+VALUES
+    ('CREATE_PERMISSIONS', 'Create permissions'),
+    ('FIND_ALL_PERMISSIONS', 'Find all permissions'),
+    ('DELETE_PERMISSIONS', 'Delete permissions'),
+    ('CREATE_FACULTY', 'Create faculty'),
+    ('UPDATE_FACULTY', 'Update faculty'),
+    ('DELETE_FACULTY', 'Delete faculty'),
+    ('FIND_ALL_LECTURER', 'Find all lecturers'),
+    ('FIND_LECTURER_BY_ID', 'Find lecturer by ID'),
+    ('FIND_LECTURER_BY_NAME', 'Find lecturer by name'),
+    ('FIND_LECTURER_BY_FACULTY_ID', 'Find lecturer by faculty ID'),
+    ('FIND_LECTURER_BY_MANAGEMENT_CLASS_ID', 'Find lecturer by management class ID'),
+    ('UPDATE_LECTURER', 'Update lecturer'),
+    ('ADD_LECTURER', 'Add lecturer'),
+    ('DELETE_LECTURER', 'Delete lecturer'),
+    ('FIND_MANAGEMENT_CLASS_BY_ID', 'Find management class by ID'),
+    ('CREATE_ROLE', 'Create role'),
+    ('FIND_ALL_ROLE', 'Find all roles'),
+    ('DELETE_ROLE', 'Delete role'),
+    ('FIND_ALL_STUDENT', 'Find all students'),
+    ('ADD_STUDENT', 'Add student'),
+    ('FIND_STUDENT_BY_NAME', 'Find student by name'),
+    ('FIND_STUDENT_BY_ID', 'Find student by ID'),
+    ('FIND_STUDENT_BY_MANAGEMENT_CLASS_NAME', 'Find student by management class name'),
+    ('FIND_STUDENT_BY_MANAGEMENT_CLASS_ID', 'Find student by management class ID'),
+    ('UPDATE_STUDENT', 'Update student'),
+    ('DELETE_STUDENT', 'Delete student'),
+    ('FIND_ALL_SUBJECT_CLASS', 'Find all subject classes'),
+    ('FIND_SUBJECT_CLASS_BY_ID', 'Find subject class by ID'),
+    ('FIND_SUBJECT_CLASS_BY_NAME', 'Find subject class by name'),
+    ('UPDATE_SUBJECT_CLASS', 'Update subject class'),
+    ('ADD_SUBJECT_CLASS', 'Add subject class'),
+    ('DELETE_SUBJECT_CLASS', 'Delete subject class'),
+    ('FIND_ALL_SUBJECT', 'Find all subjects'),
+    ('FIND_SUBJECT_BY_NAME', 'Find subject by name'),
+    ('FIND_SUBJECT_BY_ID', 'Find subject by ID'),
+    ('ADD_SUBJECT', 'Add subject'),
+    ('UPDATE_SUBJECT', 'Update subject'),
+    ('DELETE_SUBJECT', 'Delete subject'),
+    ('GET_SCORE_BY_STUDENT_ID', 'Get score by student ID'),
+    ('GET_SCORE_BY_SUBJECT_CLASS_ID', 'Get score by subject class ID'),
+    ('GET_SCORE_BY_STUDENT_ID_AND_SUBJECT_CLASS_ID', 'Get score by student ID and subject class ID'),
+    ('GET_SCORE_BY_STUDENT_ID_AND_SEMESTER', 'Get score by student ID and semester'),
+    ('UPDATE_SCORE_BY_STUDENT_ID_AND_SUBJECT_CLASS_ID', 'Update score by student ID and subject class ID'),
+    ('ADD_SCORE_BY_STUDENT_ID_AND_SUBJECT_CLASS_ID', 'Add score by student ID and subject class ID'),
+    ('DELETE_SCORE_BY_STUDENT_ID_AND_SUBJECT_CLASS_ID', 'Delete score by student ID and subject class ID');
+
+
+INSERT INTO role (name, description) 
+VALUES
+    -- ('ADMIN', 'admin role'),
+    ('LECTURER', 'lecturer role'),
+    ('STUDENT', 'student role');
+
 INSERT INTO faculty (faculty_id, faculty_name) VALUES
     (nextval('faculty_sequence'), 'Công Nghệ Thông Tin'),
     (nextval('faculty_sequence'), 'Xây Dựng'),
@@ -67,18 +122,18 @@ VALUES
     (nextval('management_class_sequence'),4, '66XD5', 2),
     (nextval('management_class_sequence'),null, '66XD12', 2);
 
-INSERT INTO student (student_id, first_name, last_name, gender, date_of_birth, address, email, phone_number, enroll_date, management_class_id, username, password)
+INSERT INTO student (student_id, first_name, last_name, gender, date_of_birth, address, email, phone_number, enroll_date, management_class_id, username, password, role)
 VALUES
-    (nextval('student_sequence'),'Hoàng Quang', 'Sinh', 'nam', '1990-01-01', '1, 3, Quang Trung, Hà Đông', 'hoangquangsinh@huce.edu.vn', '0123456789', '2021-01-01', 1, 'hoangquangsinh', 'password1'),
-    (nextval('student_sequence'),'Nguyễn Văn', ' An', 'nam', '1992-05-10', '1, Thành Công, Quang Trung, Hà Đông', 'nguyenvanan1@huce.edu.vn', '0987654321', '2022-01-03', 1, 'nguyenvanan1', 'password2'),
-    (nextval('student_sequence'),'Lê Thị', ' Hương', 'nữ', '1991-07-15', '1, Nguyễn Trãi, Thanh Xuân', 'lethihuong@huce.edu.vn', '0123412345', '2022-09-01', 2, 'lethihuong', 'password3'),
-    (nextval('student_sequence'),'Trần Văn', ' Quân', 'nam', '1990-09-20', '2, Hoàng Diệu, Ba Đình', 'tranvanquan@huce.edu.vn', '0567891234', '2022-01-02', 2, 'tranvanquan', 'password4'),
-    (nextval('student_sequence'),'Phạm Thị', ' Mai', 'nữ', '1993-03-05', '5, Trường Chinh, Hai Bà Trưng', 'phamthimai@huce.edu.vn', '0932145678', '2023-01-03', 2, 'phamthimai', 'password5'),
-    (nextval('student_sequence'),'Đỗ Quốc', ' Bảo', 'nam', '1992-11-18', '7, Lê Duẩn, Hoàn Kiếm', 'doquocbao@huce.edu.vn', '0978654321', '2021-01-01', 3, 'doquocbao', 'password6'),
-    (nextval('student_sequence'),'Nguyễn Thị', ' Hạnh', 'nữ', '1990-06-30', '10, Lý Thường Kiệt, Đống Đa', 'nguyenthihanh@huce.edu.vn', '0123678901', '2021-12-29', 3, 'nguyenthihanh', 'password7'),
-    (nextval('student_sequence'),'Trương Minh', ' Đức', 'nam', '1991-04-25', '15, Huỳnh Thúc Kháng, Đống Đa', 'truongminhduc@huce.edu.vn', '0987123456', '2022-05-13', 4, 'truongminhduc', 'password8'),
-    (nextval('student_sequence'),'Lê Thị', ' Ngọc', 'nữ', '1993-08-12', '20, Phạm Hùng, Cầu Giấy', 'lethingoc@huce.edu.vn', '0956789123', '2022-09-18', 4, 'lethingoc', 'password9'),
-    (nextval('student_sequence'),'Vũ Văn', ' Tuấn', 'nam', '1991-02-15', '25, Trần Phú, Hà Đông', 'vuvantuan@huce.edu.vn', '0912345678', '2021-10-08', 4, 'vuvantuan', 'password10');
+    (nextval('student_sequence'),'Hoàng Quang', 'Sinh', 'nam', '1990-01-01', '1, 3, Quang Trung, Hà Đông', 'hoangquangsinh@huce.edu.vn', '0123456789', '2021-01-01', 1, 'hoangquangsinh', 'password1', 'STUDENT'),
+    (nextval('student_sequence'),'Nguyễn Văn', ' An', 'nam', '1992-05-10', '1, Thành Công, Quang Trung, Hà Đông', 'nguyenvanan1@huce.edu.vn', '0987654321', '2022-01-03', 1, 'nguyenvanan1', 'password2', 'STUDENT'),
+    (nextval('student_sequence'),'Lê Thị', ' Hương', 'nữ', '1991-07-15', '1, Nguyễn Trãi, Thanh Xuân', 'lethihuong@huce.edu.vn', '0123412345', '2022-09-01', 2, 'lethihuong', 'password3', 'STUDENT'),
+    (nextval('student_sequence'),'Trần Văn', ' Quân', 'nam', '1990-09-20', '2, Hoàng Diệu, Ba Đình', 'tranvanquan@huce.edu.vn', '0567891234', '2022-01-02', 2, 'tranvanquan', 'password4', 'STUDENT'),
+    (nextval('student_sequence'),'Phạm Thị', ' Mai', 'nữ', '1993-03-05', '5, Trường Chinh, Hai Bà Trưng', 'phamthimai@huce.edu.vn', '0932145678', '2023-01-03', 2, 'phamthimai', 'password5', 'STUDENT'),
+    (nextval('student_sequence'),'Đỗ Quốc', ' Bảo', 'nam', '1992-11-18', '7, Lê Duẩn, Hoàn Kiếm', 'doquocbao@huce.edu.vn', '0978654321', '2021-01-01', 3, 'doquocbao', 'password6', 'STUDENT'),
+    (nextval('student_sequence'),'Nguyễn Thị', ' Hạnh', 'nữ', '1990-06-30', '10, Lý Thường Kiệt, Đống Đa', 'nguyenthihanh@huce.edu.vn', '0123678901', '2021-12-29', 3, 'nguyenthihanh', 'password7', 'STUDENT'),
+    (nextval('student_sequence'),'Trương Minh', ' Đức', 'nam', '1991-04-25', '15, Huỳnh Thúc Kháng, Đống Đa', 'truongminhduc@huce.edu.vn', '0987123456', '2022-05-13', 4, 'truongminhduc', 'password8', 'STUDENT'),
+    (nextval('student_sequence'),'Lê Thị', ' Ngọc', 'nữ', '1993-08-12', '20, Phạm Hùng, Cầu Giấy', 'lethingoc@huce.edu.vn', '0956789123', '2022-09-18', 4, 'lethingoc', 'password9', 'STUDENT'),
+    (nextval('student_sequence'),'Vũ Văn', ' Tuấn', 'nam', '1991-02-15', '25, Trần Phú, Hà Đông', 'vuvantuan@huce.edu.vn', '0912345678', '2021-10-08', 4, 'vuvantuan', 'password10', 'STUDENT');
 
 
 INSERT INTO score (score_id, student_id, subject_class_id, attendance_score, mid_term_score, end_term_score, semester)
@@ -104,26 +159,7 @@ VALUES
     (nextval('score_sequence'), 10, 9, 7.5, 8.0, 7.5, 1),
     (nextval('score_sequence'), 10, 1, 8.0, 8.5, 8.0, 2);
 
-INSERT INTO permission (name, description) 
-VALUES
-    ('CREATE_STUDENT', 'Permission to create a new student record'),
-    ('FIND_ALL_STUDENT', 'Permission to read student records'),
-    ('UPDATE_STUDENT', 'Permission to update student records'),
-    ('DELETE_STUDENT', 'Permission to delete student records'),
-    ('CREATE_LECTURER', 'Permission to create a new teacher record'),
-    ('FIND_ALL_LECTURER', 'Permission to read teacher records'),
-    ('UPDATE_LECTURER', 'Permission to update teacher records'),
-    ('DELETE_LECTURER', 'Permission to delete teacher records'),
-    ('CREATE_SUBJECT_CLASS', 'Permission to create a new course'),
-    ('FIND_ALL_SUBJECT_CLASS', 'Permission to read course details'),
-    ('UPDATE_SUBJECT_CLASS', 'Permission to update course details'),
-    ('DELETE_SUBJECT_CLASS', 'Permission to delete a course'),
-    ('ENROLL_SUBJECT_CLASS', 'Permission to enroll in a course'),
-    ('CREATE_FACULTY', 'Permission to create a new assignment'),
-    ('FIND_ALL_FACULTY', 'Permission to read assignment details'),
-    ('UPDATE_FACULTY', 'Permission to update assignment details'),
-    ('DELETE_FACULTY', 'Permission to delete an assignment'),
-    ('MANAGE_PERMISSIONS', 'Permission to manage user permissions');
+
 
 INSERT INTO subject_faculty (faculty_id, subject_id) 
 VALUES  (1, 1),
@@ -149,8 +185,83 @@ VALUES  (1, 1),
         (4, 8),
         (4, 10);
 
-INSERT INTO role (name, description) 
+
+
+INSERT INTO lecturer_roles (lecturer_id, role_name)
 VALUES
-    ('ADMIN', 'admin role'),
-    ('LECTURER', 'lecturer role'),
-    ('STUDENT', 'student role');
+    (2, 'LECTURER'),
+    (3, 'LECTURER'),
+    (4, 'LECTURER'),
+    (5, 'LECTURER'),
+    (6, 'LECTURER'),
+    (7, 'LECTURER'),
+    (8, 'LECTURER'),
+    (9, 'LECTURER');
+
+INSERT INTO role_permissions (role_name, permissions_name)
+VALUES
+    ('ADMIN', 'CREATE_PERMISSIONS'),
+    ('ADMIN', 'FIND_ALL_PERMISSIONS'),
+    ('ADMIN', 'DELETE_PERMISSIONS'),
+    ('ADMIN', 'CREATE_FACULTY'),
+    ('ADMIN', 'UPDATE_FACULTY'),
+    ('ADMIN', 'DELETE_FACULTY'),
+    ('ADMIN', 'FIND_ALL_LECTURER'),
+    ('ADMIN', 'FIND_LECTURER_BY_ID'),
+    ('ADMIN', 'FIND_LECTURER_BY_NAME'),
+    ('ADMIN', 'FIND_LECTURER_BY_FACULTY_ID'),
+    ('ADMIN', 'FIND_LECTURER_BY_MANAGEMENT_CLASS_ID'),
+    ('ADMIN', 'UPDATE_LECTURER'),
+    ('ADMIN', 'ADD_LECTURER'),
+    ('ADMIN', 'DELETE_LECTURER'),
+    ('ADMIN', 'FIND_MANAGEMENT_CLASS_BY_ID'),
+    ('ADMIN', 'CREATE_ROLE'),
+    ('ADMIN', 'FIND_ALL_ROLE'),
+    ('ADMIN', 'DELETE_ROLE'),
+    ('ADMIN', 'FIND_ALL_STUDENT'),
+    ('ADMIN', 'ADD_STUDENT'),
+    ('ADMIN', 'FIND_STUDENT_BY_ID'),
+    ('ADMIN', 'UPDATE_STUDENT'),
+    ('ADMIN', 'DELETE_STUDENT'),
+    ('ADMIN', 'FIND_ALL_SUBJECT_CLASS'),
+    ('ADMIN', 'UPDATE_SUBJECT_CLASS'),
+    ('ADMIN', 'ADD_SUBJECT_CLASS'),
+    ('ADMIN', 'DELETE_SUBJECT_CLASS'),
+    ('ADMIN', 'FIND_ALL_SUBJECT'),
+    ('ADMIN', 'FIND_SUBJECT_BY_NAME'),
+    ('ADMIN', 'FIND_SUBJECT_BY_ID'),
+    ('ADMIN', 'ADD_SUBJECT'),
+    ('ADMIN', 'DELETE_SUBJECT'),
+    ('ADMIN', 'UPDATE_SUBJECT'),
+    ('LECTURER', 'FIND_LECTURER_BY_ID'),
+    ('LECTURER', 'FIND_LECTURER_BY_NAME'),
+    ('LECTURER', 'FIND_LECTURER_BY_FACULTY_ID'),
+    ('LECTURER', 'FIND_LECTURER_BY_MANAGEMENT_CLASS_ID'),
+    ('LECTURER', 'FIND_MANAGEMENT_CLASS_BY_ID'),
+    ('LECTURER', 'GET_SCORE_BY_STUDENT_ID'),
+    ('LECTURER', 'GET_SCORE_BY_SUBJECT_CLASS_ID'),
+    ('LECTURER', 'GET_SCORE_BY_STUDENT_ID_AND_SUBJECT_CLASS_ID'),
+    ('LECTURER', 'GET_SCORE_BY_STUDENT_ID_AND_SEMESTER'),
+    ('LECTURER', 'UPDATE_SCORE_BY_STUDENT_ID_AND_SUBJECT_CLASS_ID'),
+    ('LECTURER', 'ADD_SCORE_BY_STUDENT_ID_AND_SUBJECT_CLASS_ID'),
+    ('LECTURER', 'DELETE_SCORE_BY_STUDENT_ID_AND_SUBJECT_CLASS_ID'),
+    ('LECTURER', 'FIND_STUDENT_BY_NAME'),
+    ('LECTURER', 'FIND_STUDENT_BY_ID'),
+    ('LECTURER', 'FIND_STUDENT_BY_MANAGEMENT_CLASS_NAME'),
+    ('LECTURER', 'FIND_STUDENT_BY_MANAGEMENT_CLASS_ID'),
+    ('LECTURER', 'FIND_SUBJECT_CLASS_BY_ID'),
+    ('LECTURER', 'FIND_SUBJECT_CLASS_BY_NAME'),
+    ('LECTURER', 'FIND_ALL_SUBJECT'),
+    ('LECTURER', 'FIND_SUBJECT_BY_NAME'),
+    ('LECTURER', 'FIND_SUBJECT_BY_ID'),
+    ('STUDENT', 'FIND_LECTURER_BY_ID'),
+    ('STUDENT', 'FIND_LECTURER_BY_NAME'),
+    ('STUDENT', 'FIND_LECTURER_BY_FACULTY_ID'),
+    ('STUDENT', 'FIND_LECTURER_BY_MANAGEMENT_CLASS_ID'),
+    ('STUDENT', 'FIND_MANAGEMENT_CLASS_BY_ID'),
+    ('STUDENT', 'GET_SCORE_BY_STUDENT_ID'),
+    ('STUDENT', 'GET_SCORE_BY_STUDENT_ID_AND_SUBJECT_CLASS_ID'),
+    ('STUDENT', 'GET_SCORE_BY_STUDENT_ID_AND_SEMESTER'),
+    ('STUDENT', 'FIND_ALL_SUBJECT'),
+    ('STUDENT', 'FIND_SUBJECT_BY_NAME'),
+    ('STUDENT', 'FIND_SUBJECT_BY_ID');
