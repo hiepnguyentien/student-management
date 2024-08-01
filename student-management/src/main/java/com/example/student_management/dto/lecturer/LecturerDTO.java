@@ -25,5 +25,5 @@ public class LecturerDTO {
     LocalDate dateOfBirth;
     Long facultyId;
     Long managementClassId;
-    Set<RoleResponse> roles;
+//    Set<RoleResponse> roles;
 }
