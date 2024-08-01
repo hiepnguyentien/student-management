@@ -12,7 +12,7 @@ public interface IScoreService {
 
     public List<ScoreDTO> getScoreBySubjectClassId(Long id, Locale locale);
 
-    public ScoreDTO getScoreBySubjectIdViaStudent(Long subjectClassId, Long studentId, Locale locale);
+    public ScoreDTO getScoreBySubjectClassIdViaStudent(Long subjectClassId, Long studentId, Locale locale);
 
     public List<ScoreDTO> getScoreBySemesterViaStudent(Long studentId, Integer semester, Locale locale);
 

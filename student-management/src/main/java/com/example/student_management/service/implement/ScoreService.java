@@ -33,7 +33,8 @@ public class ScoreService implements IScoreService {
     MessageSource messageSource;
 
     @Override
-    @PreAuthorize("hasAnyRole('LECTURER', 'STUDENT')")
+    @PreAuthorize("hasAuthority('GET_SCORE_BY_STUDENT_ID')")
+//    @PreAuthorize("hasAnyRole('LECTURER', 'STUDENT')")
     public List<ScoreDTO> getScoreByStudentId(Long id, Locale locale) {
         boolean exist = scoreRepository.findAll().stream()
                 .anyMatch(s -> s.getStudent().getStudentId().equals(id));
@@ -49,7 +50,8 @@ public class ScoreService implements IScoreService {
     }
 
     @Override
-    @PreAuthorize("hasRole('LECTURER')")
+    @PreAuthorize("hasAuthority('GET_SCORE_BY_SUBJECT_CLASS_ID')")
+//    @PreAuthorize("hasRole('LECTURER')")
     public List<ScoreDTO> getScoreBySubjectClassId(Long id, Locale locale) {
         boolean exist = scoreRepository.findAll().stream()
                 .anyMatch(s -> s.getSubjectClass().getSubjectClassId().equals(id));
@@ -65,8 +67,9 @@ public class ScoreService implements IScoreService {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('LECTURER', 'STUDENT')")
-    public ScoreDTO getScoreBySubjectIdViaStudent(Long subjectClassId, Long studentId, Locale locale) {
+    @PreAuthorize("hasAuthority('GET_SCORE_BY_STUDENT_ID_AND_SUBJECT_CLASS_ID')")
+//    @PreAuthorize("hasAnyRole('LECTURER', 'STUDENT')")
+    public ScoreDTO getScoreBySubjectClassIdViaStudent(Long subjectClassId, Long studentId, Locale locale) {
         boolean existSubjectClass = scoreRepository.findAll().stream()
                 .anyMatch(s -> s.getSubjectClass().getSubjectClassId().equals(subjectClassId));
 
@@ -88,7 +91,8 @@ public class ScoreService implements IScoreService {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('LECTURER', 'STUDENT')")
+    @PreAuthorize("hasAuthority('GET_SCORE_BY_STUDENT_ID_AND_SEMESTER')")
+//    @PreAuthorize("hasAnyRole('LECTURER', 'STUDENT')")
     public List<ScoreDTO> getScoreBySemesterViaStudent(Long studentId, Integer semester, Locale locale) {
         boolean existStudent = scoreRepository.findAll().stream()
                 .anyMatch(s -> s.getStudent().getStudentId().equals(studentId));
@@ -109,7 +113,8 @@ public class ScoreService implements IScoreService {
 
     @Override
     @Transactional
-    @PreAuthorize("hasRole('LECTURER')")
+    @PreAuthorize("hasAuthority('UPDATE_SCORE_BY_STUDENT_ID_AND_SUBJECT_CLASS_ID')")
+//    @PreAuthorize("hasRole('LECTURER')")
     public ScoreDTO updateScoreViaStudentAndSubjectClassId(Long scoreId, UpdateScoreDTO updateScoreDTO, Locale locale) {
         boolean existSubjectClass = scoreRepository.findAll().stream()
                 .anyMatch(s -> s.getSubjectClass().getSubjectClassId().equals(updateScoreDTO.getSubjectClassId()));
@@ -133,7 +138,8 @@ public class ScoreService implements IScoreService {
 
     @Override
     @Transactional
-    @PreAuthorize("hasRole('LECTURER')")
+    @PreAuthorize("hasAuthority('ADD_SCORE_BY_STUDENT_ID_AND_SUBJECT_CLASS_ID')")
+//    @PreAuthorize("hasRole('LECTURER')")
     public ScoreDTO addScoreViaStudentAndSubjectClassId(AddScoreDTO addScoreDTO, Locale locale) {
         boolean existSubjectClass = scoreRepository.findAll().stream()
                 .anyMatch(s -> s.getSubjectClass()
@@ -164,7 +170,8 @@ public class ScoreService implements IScoreService {
 
     @Override
     @Transactional
-    @PreAuthorize("hasRole('LECTURER')")
+    @PreAuthorize("hasAuthority('DELETE_SCORE_BY_STUDENT_ID_AND_SUBJECT_CLASS_ID')")
+//    @PreAuthorize("hasRole('LECTURER')")
     public void deleteScore(Long studentId, Long subjectClassId, Locale locale) {
         boolean existSubjectClass = scoreRepository.findAll().stream()
                 .anyMatch(s -> s.getSubjectClass().getSubjectClassId().equals(subjectClassId));

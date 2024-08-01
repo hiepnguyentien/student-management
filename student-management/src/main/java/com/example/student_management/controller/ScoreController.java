@@ -48,7 +48,7 @@ public class ScoreController {
             @PathVariable Long studentId,
             @RequestParam(name = "lang", required = false) String lang){
         Locale locale = lang != null ? new Locale(lang) : Locale.getDefault();
-        return scoreService.getScoreBySubjectIdViaStudent(subjectClassId, studentId, locale);
+        return scoreService.getScoreBySubjectClassIdViaStudent(subjectClassId, studentId, locale);
     }
 
     @GetMapping("/semester/{semester}/student/{studentId}")
